@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.140.2">
+
+
+<title>Using bnns for TMLE - bnns Tutorials</title>
+<meta property="og:title" content="Using bnns for TMLE - bnns Tutorials">
+
+
+  <link href='//localhost:4321/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/swarnendu-stat/bnns">GitHub</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">5 min read</span>
+    
+
+    <h1 class="article-title">Using bnns for TMLE</h1>
+
+    
+    <span class="article-date">2025-01-15</span>
+    
+
+    <div class="article-content">
+      
+      <h1 id="introduction">Introduction</h1>
+<p>This document demonstrates how to use the <strong><code>bnns</code></strong> package with <strong>TMLE</strong> for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the <strong>Average Treatment Effect (ATE)</strong>. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms.</p>
+<hr>
+<h1 id="simulating-data">Simulating Data</h1>
+<p>We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.</p>
+<pre><code class="language-r">library(bnns)
+
+# Set a random seed for reproducibility
+set.seed(123)
+
+# Simulate data
+n &lt;- 100  # Number of samples
+p &lt;- 10    # Number of covariates
+X &lt;- as.data.frame(matrix(runif(n * p, -1, 1), nrow = n, ncol = p))
+colnames(X) &lt;- paste0(&quot;X&quot;, 1:p)
+
+# Treatment mechanism (propensity score)
+ps &lt;- plogis(-2 * X$X1 + 1.5 * X$X2^2 - 0.5 * sin(pi * X$X3))
+A &lt;- rbinom(n, 1, ps)  # Treatment assignment
+
+# Outcome mechanism
+p_Y &lt;- plogis(-1 + 2 * A + 3 * X$X1 * A - 2 * X$X2^2 * A + 1.5 * sin(pi * X$X3))
+Y &lt;- rbinom(n, 1, p_Y)  # Binary outcome
+
+# Combine into a single dataset
+sim_data &lt;- cbind.data.frame(Y, A, X)
+
+# True ATE for comparison
+true_ate &lt;- mean(plogis(-1 + 2 * 1 + 3 * X$X1 * 1 - 2 * X$X2^2 * 1 + 1.5 * sin(pi * X$X3))) -
+  mean(plogis(-1 + 2 * 0 + 3 * X$X1 * 0 - 2 * X$X2^2 * 0 + 1.5 * sin(pi * X$X3)))
+true_ate
+#&gt; [1] 0.2632973
+</code></pre>
+<hr>
+<h1 id="applying-tmle-with-bnns">Applying TMLE with <code>bnns</code></h1>
+<h2 id="step-1-install-and-load-required-packages">Step 1: Install and Load Required Packages</h2>
+<p>Ensure that the <strong><code>bnns</code></strong> and <strong><code>tmle</code></strong> packages are installed.</p>
+<pre><code class="language-r"># Install ggplot2 and bnns from CRAN
+install.packages(&quot;ggplot2&quot;)
+install.packages(&quot;bnns&quot;)
+</code></pre>
+<h2 id="step-2-tmle-implementation">Step 2: TMLE Implementation</h2>
+<p>We use <code>tmle</code> to estimate the ATE. Both the treatment mechanism (<code>g</code>) and the outcome mechanism (<code>Q</code>) are modeled using Bayesian Neural Networks via the <code>bnns</code> package.</p>
+<pre><code class="language-r">### Step 1: Estimate Q
+Q &lt;- bnns(Y ~ -1 + ., data = sim_data, L = 2, nodes = c(2, 2), act_fn = c(2, 2), out_act_fn = 2)
+
+Q_A &lt;- predict(Q) # obtain predictions for everyone using the treatment they actually received
+sim_data_1 &lt;- sim_data |&gt; transform(A = 1)  # data set where everyone received treatment
+Q_1 &lt;- predict(Q, newdata = sim_data_1) # predict on that everyone-exposed data set
+sim_data_0 &lt;- sim_data |&gt; transform(A = 0) # data set where no one received treatment
+Q_0 &lt;- predict(Q, newdata = sim_data_0)
+dat_tmle &lt;- lapply(1:dim(Q_A)[2], function(i) data.frame(Y = sim_data$Y, A = sim_data$A, Q_A = Q_A[,i], Q_0 = Q_0[,i], Q_1 = Q_1[,i]))
+
+### Step 2: Estimate g and compute H(A,W)
+g &lt;- bnns(A ~ -1 + . - Y, data = sim_data, L = 2, nodes = c(2, 2), act_fn = c(2, 2), out_act_fn = 2)
+
+g_w &lt;- predict(g) # Pr(A=1|W)
+H_1 &lt;- 1/g_w
+H_0 &lt;- -1/(1-g_w) # Pr(A=0|W) is 1-Pr(A=1|W)
+dat_tmle &lt;- # add clever covariate data to dat_tmle
+  lapply(1:dim(Q_A)[2], function(i) dat_tmle[[i]] |&gt;
+           cbind(
+             H_1 = H_1[,i],
+             H_0 = H_0[,i]) |&gt;
+           transform(H_A = ifelse(A == 1, H_1, # if A is 1 (treated), assign H_1
+                               H_0))  # if A is 0 (not treated), assign H_0
+  )
+
+### Step 3: Estimate fluctuation parameter
+tmle_ate_list &lt;- lapply(1:dim(Q_A)[2], function(i){
+  glm_fit &lt;- glm(Y ~ -1 + offset(qlogis(Q_A)) + H_A, data=dat_tmle[[i]], family=binomial) # fixed intercept logistic regression
+  eps &lt;- coef(glm_fit) # save the only coefficient, called epsilon in TMLE lit
+  
+  ### Step 4: Update Q's
+  Q_A_update &lt;- plogis(qlogis(Q_A) + eps*dat_tmle[[i]]$H_A) # updated expected outcome given treatment actually received
+  Q_1_update &lt;- plogis(qlogis(Q_1) + eps*dat_tmle[[i]]$H_1) # updated expected outcome for everyone receiving treatment
+  Q_0_update &lt;- plogis(qlogis(Q_0) + eps*dat_tmle[[i]]$H_0) # updated expected outcome for everyone not receiving treatment
+  
+  ### Step 5: Compute ATE
+  tmle_ate &lt;- mean(Q_1_update - Q_0_update) # mean diff in updated expected outcome estimates  
+  return(tmle_ate)
+})
+
+tmle_ate &lt;- unlist(tmle_ate_list)
+median(tmle_ate)
+#&gt; [1] 0.1800247
+</code></pre>
+<hr>
+<h1 id="comparing-tmle-to-traditional-methods">Comparing TMLE to Traditional Methods</h1>
+<p>To highlight the benefits of TMLE, compare it to other methods such as:</p>
+<ol>
+<li><strong>IPTW (Inverse Probability of Treatment Weighting)</strong></li>
+<li><strong>Naive Comparison (Unadjusted Difference in Means)</strong></li>
+</ol>
+<pre><code class="language-r"># IPTW
+ps_model &lt;- glm(A ~ X1 + X2 + X3, data = sim_data, family = binomial)
+ps_pred &lt;- predict(ps_model, type = &quot;response&quot;)
+iptw_weights &lt;- ifelse(sim_data$A == 1, 1 / ps_pred, 1 / (1 - ps_pred))
+iptw_ate &lt;- mean(iptw_weights * sim_data$Y * sim_data$A) -
+  mean(iptw_weights * sim_data$Y * (1 - sim_data$A))
+
+# Naive Comparison
+naive_ate &lt;- mean(sim_data$Y[sim_data$A == 1]) - mean(sim_data$Y[sim_data$A == 0])
+
+# Summary of Results
+results &lt;- data.frame(
+  Method = c(&quot;True ATE&quot;, &quot;TMLE&quot;, &quot;IPTW&quot;, &quot;Naive&quot;),
+  Estimate = c(true_ate, median(tmle_ate), iptw_ate, naive_ate)
+)
+results
+#&gt;     Method   Estimate
+#&gt; 1 True ATE 0.26329728
+#&gt; 2     TMLE 0.18002474
+#&gt; 3     IPTW 0.05393034
+#&gt; 4    Naive 0.17279412
+</code></pre>
+<hr>
+<h1 id="visualizing-results">Visualizing Results</h1>
+<p>Plot the estimates from different methods to compare their performance.</p>
+<pre><code class="language-r">library(ggplot2)
+
+ggplot(results, aes(x = Method, y = Estimate, fill = Method)) +
+  geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;) +
+  geom_hline(yintercept = true_ate, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
+  labs(
+    title = &quot;Comparison of ATE Estimates&quot;,
+    y = &quot;ATE Estimate&quot;,
+    x = &quot;Method&quot;
+  ) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)
+</code></pre>
+<img src="/2025/01/15/using-bnns-for-tmle/index_files/figure-html/visualization-1.png" width="672" />
+<hr>
+<h1 id="summary">Summary</h1>
+<p>This tutorial demonstrates how to use the <strong><code>bnns</code></strong> package for TMLE to estimate the Average Treatment Effect (ATE). By leveraging the flexibility of Bayesian Neural Networks, TMLE can handle complex data structures and improve accuracy compared to traditional methods. Use this workflow for applications in clinical trials, epidemiology, and other domains requiring robust causal inference.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
