@@ -3,7 +3,7 @@ title: "Using bnns for TMLE"
 author: "Swarnendu Chatterjee"
 date: 2025-01-15
 categories: ["R"]
-tags: ["bnns", "neural network", "Bayesian"]
+tags: ["bnns", "neural network", "Bayesian", "tmle"]
 ---
 
 ```{r, include = FALSE}
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-This document demonstrates how to use the **`bnns`** package with **TMLE** for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the **Average Treatment Effect (ATE)**. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms.
+This document demonstrates how to use the **`bnns`** package with **TMLE** for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the **Average Treatment Effect (ATE)**. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this ![tmle tutorial](https://www.khstats.com/blog/tmle/tutorial).
 
 ---
 
@@ -30,25 +30,25 @@ library(bnns)
 set.seed(123)
 
 # Simulate data
-n <- 100  # Number of samples
-p <- 10    # Number of covariates
-X <- as.data.frame(matrix(runif(n * p, -1, 1), nrow = n, ncol = p))
-colnames(X) <- paste0("X", 1:p)
+n <- 1000  # Number of samples
+X1 <- rnorm(n)
+X2 <- rnorm(n)
+U <- rbinom(n, 1, 0.5)  # Unmeasured confounder
 
-# Treatment mechanism (propensity score)
-ps <- plogis(-2 * X$X1 + 1.5 * X$X2^2 - 0.5 * sin(pi * X$X3))
+# Treatment mechanism (biased by U)
+ps <- plogis(0.5 * X1 - 0.5 * X2 + 0.8 * U)
 A <- rbinom(n, 1, ps)  # Treatment assignment
 
-# Outcome mechanism
-p_Y <- plogis(-1 + 2 * A + 3 * X$X1 * A - 2 * X$X2^2 * A + 1.5 * sin(pi * X$X3))
-Y <- rbinom(n, 1, p_Y)  # Binary outcome
+# Outcome mechanism (non-linear and confounded by U)
+Y_prob <- plogis(1 + 2 * X1^2 - 1.5 * X2 + 1.2 * A + 1.5 * U)
+Y <- rbinom(n, 1, Y_prob)
 
-# Combine into a single dataset
-sim_data <- cbind.data.frame(Y, A, X)
+# Combine into a dataset
+sim_data <- data.frame(Y, A, X1, X2)
 
 # True ATE for comparison
-true_ate <- mean(plogis(-1 + 2 * 1 + 3 * X$X1 * 1 - 2 * X$X2^2 * 1 + 1.5 * sin(pi * X$X3))) -
-  mean(plogis(-1 + 2 * 0 + 3 * X$X1 * 0 - 2 * X$X2^2 * 0 + 1.5 * sin(pi * X$X3)))
+true_ate <- mean(plogis(1 + 2 * X1^2 - 1.5 * X2 + 1.2 * 1 + 1.5 * U)) -
+  mean(plogis(1 + 2 * X1^2 - 1.5 * X2 + 1.2 * 0 + 1.5 * U))
 true_ate
 ```
 
@@ -102,9 +102,9 @@ tmle_ate_list <- lapply(1:dim(Q_A)[2], function(i){
   eps <- coef(glm_fit) # save the only coefficient, called epsilon in TMLE lit
   
   ### Step 4: Update Q's
-  Q_A_update <- plogis(qlogis(Q_A) + eps*dat_tmle[[i]]$H_A) # updated expected outcome given treatment actually received
-  Q_1_update <- plogis(qlogis(Q_1) + eps*dat_tmle[[i]]$H_1) # updated expected outcome for everyone receiving treatment
-  Q_0_update <- plogis(qlogis(Q_0) + eps*dat_tmle[[i]]$H_0) # updated expected outcome for everyone not receiving treatment
+  Q_A_update <- with(dat_tmle[[i]], plogis(qlogis(Q_A) + eps*H_A)) # updated expected outcome given treatment actually received
+  Q_1_update <- with(dat_tmle[[i]], plogis(qlogis(Q_1) + eps*H_1)) # updated expected outcome for everyone receiving treatment
+  Q_0_update <- with(dat_tmle[[i]], plogis(qlogis(Q_0) + eps*H_0)) # updated expected outcome for everyone not receiving treatment
   
   ### Step 5: Compute ATE
   tmle_ate <- mean(Q_1_update - Q_0_update) # mean diff in updated expected outcome estimates  
@@ -126,21 +126,35 @@ To highlight the benefits of TMLE, compare it to other methods such as:
 
 ```{r comparison}
 # IPTW
-ps_model <- glm(A ~ X1 + X2 + X3, data = sim_data, family = binomial)
-ps_pred <- predict(ps_model, type = "response")
-iptw_weights <- ifelse(sim_data$A == 1, 1 / ps_pred, 1 / (1 - ps_pred))
-iptw_ate <- mean(iptw_weights * sim_data$Y * sim_data$A) -
-  mean(iptw_weights * sim_data$Y * (1 - sim_data$A))
+# ps_model <- glm(A ~ .-Y, data = sim_data, family = binomial)
+# ps_pred <- predict(ps_model, type = "response")
+# iptw_weights <- ifelse(sim_data$A == 1, 1 / ps_pred, 1 / (1 - ps_pred))
+# iptw_ate <- mean(iptw_weights * sim_data$Y * sim_data$A) -
+#   mean(iptw_weights * sim_data$Y * (1 - sim_data$A))
+
+library(tmle)
+freq_tmle <- tmle(
+  Y = sim_data$Y, A = sim_data$A, 
+  W = sim_data[, c("X1", "X2")], 
+  Q.SL.library = c("SL.glm", "SL.ranger"),
+  g.SL.library = c("SL.glm", "SL.ranger")
+)
+
+# Results
+freq_tmle_ate <- freq_tmle$estimates$ATE$psi
 
 # Naive Comparison
 naive_ate <- mean(sim_data$Y[sim_data$A == 1]) - mean(sim_data$Y[sim_data$A == 0])
 
 # Summary of Results
 results <- data.frame(
-  Method = c("True ATE", "TMLE", "IPTW", "Naive"),
-  Estimate = c(true_ate, median(tmle_ate), iptw_ate, naive_ate)
+  Method = c("True ATE", "BNN_TMLE", "Freq_TMLE", "Naive"),
+  Estimate = c(true_ate, median(tmle_ate), freq_tmle_ate, naive_ate),
+  CI_low = c(true_ate, quantile(tmle_ate, probs = c(0.025)), freq_tmle$estimates$ATE$CI[1], naive_ate),
+  CI_high = c(true_ate, quantile(tmle_ate, probs = c(0.975)), freq_tmle$estimates$ATE$CI[2], naive_ate)
 )
 results
+
 ```
 
 ---
@@ -152,9 +166,10 @@ Plot the estimates from different methods to compare their performance.
 ```{r visualization}
 library(ggplot2)
 
-ggplot(results, aes(x = Method, y = Estimate, fill = Method)) +
+ggplot(results, aes(x = forcats::fct_reorder(Method, Estimate), y = Estimate, fill = Method)) +
   geom_bar(stat = "identity", color = "black") +
   geom_hline(yintercept = true_ate, linetype = "dashed", color = "red") +
+  geom_errorbar(mapping = aes(ymin = CI_low, ymax = CI_high)) +
   labs(
     title = "Comparison of ATE Estimates",
     y = "ATE Estimate",

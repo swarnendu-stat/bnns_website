@@ -29,5 +29,12 @@
       <guid>//localhost:4321/tags/neural-network/</guid>
       <description></description>
     </item>
+    <item>
+      <title>Tmle</title>
+      <link>//localhost:4321/tags/tmle/</link>
+      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>//localhost:4321/tags/tmle/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>
