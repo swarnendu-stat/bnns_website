@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dplyr on Statistically Speaking: An R Journey</title>
+    <link>//localhost:4321/tags/dplyr/</link>
+    <description>Recent content in Dplyr on Statistically Speaking: An R Journey</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 17 Jan 2025 22:32:22 +0530</lastBuildDate>
+    <atom:link href="//localhost:4321/tags/dplyr/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Power of Base R: A Performance Comparison with dplyr</title>
+      <link>//localhost:4321/post/2025/01/17/power-of-base-r/</link>
+      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
+      <guid>//localhost:4321/post/2025/01/17/power-of-base-r/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&#xA;  Introduction&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#introduction&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;While dplyr is renowned for its intuitive syntax and efficiency,&lt;/li&gt;&#xA;&lt;li&gt;base R functions can sometimes outperform it, particularly in large simulations.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-iris-dataset&#34;&gt;&#xA;  The Iris Dataset&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#the-iris-dataset&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;The &lt;strong&gt;iris&lt;/strong&gt; dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

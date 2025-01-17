@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tmle on bnns Tutorials</title>
+    <title>Tmle on Statistically Speaking: An R Journey</title>
     <link>//localhost:4321/tags/tmle/</link>
-    <description>Recent content in Tmle on bnns Tutorials</description>
+    <description>Recent content in Tmle on Statistically Speaking: An R Journey</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 15 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jan 2025 23:24:25 +0530</lastBuildDate>
     <atom:link href="//localhost:4321/tags/tmle/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using bnns for TMLE</title>
-      <link>//localhost:4321/2025/01/15/using-bnns-for-tmle/</link>
-      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>//localhost:4321/2025/01/15/using-bnns-for-tmle/</guid>
-      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;This document demonstrates how to use the &lt;strong&gt;&lt;code&gt;bnns&lt;/code&gt;&lt;/strong&gt; package with &lt;strong&gt;TMLE&lt;/strong&gt; for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the &lt;strong&gt;Average Treatment Effect (ATE)&lt;/strong&gt;. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this &lt;img src=&#34;https://www.khstats.com/blog/tmle/tutorial&#34; alt=&#34;tmle tutorial&#34;&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;simulating-data&#34;&gt;Simulating Data&lt;/h1&gt;&#xA;&lt;p&gt;We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.&lt;/p&gt;</description>
+      <link>//localhost:4321/post/2025/01/17/bnns-for-tmle/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
+      <guid>//localhost:4321/post/2025/01/17/bnns-for-tmle/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;&#xA;  Introduction&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#introduction&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;This document demonstrates how to use the &lt;strong&gt;&lt;code&gt;bnns&lt;/code&gt;&lt;/strong&gt; package with &lt;strong&gt;TMLE&lt;/strong&gt; for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the &lt;strong&gt;Average Treatment Effect (ATE)&lt;/strong&gt;. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this &lt;a href=&#34;https://www.khstats.com/blog/tmle/tutorial&#34;&gt;tmle tutorial&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;simulating-data&#34;&gt;&#xA;  Simulating Data&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#simulating-data&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

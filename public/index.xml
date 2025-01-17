@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>bnns Tutorials</title>
+    <title>Welcome on Statistically Speaking: An R Journey</title>
     <link>//localhost:4321/</link>
-    <description>Recent content on bnns Tutorials</description>
+    <description>Recent content in Welcome on Statistically Speaking: An R Journey</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 15 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jan 2025 23:24:25 +0530</lastBuildDate>
     <atom:link href="//localhost:4321/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using bnns for TMLE</title>
-      <link>//localhost:4321/2025/01/15/using-bnns-for-tmle/</link>
-      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>//localhost:4321/2025/01/15/using-bnns-for-tmle/</guid>
-      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;This document demonstrates how to use the &lt;strong&gt;&lt;code&gt;bnns&lt;/code&gt;&lt;/strong&gt; package with &lt;strong&gt;TMLE&lt;/strong&gt; for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the &lt;strong&gt;Average Treatment Effect (ATE)&lt;/strong&gt;. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this &lt;img src=&#34;https://www.khstats.com/blog/tmle/tutorial&#34; alt=&#34;tmle tutorial&#34;&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;simulating-data&#34;&gt;Simulating Data&lt;/h1&gt;&#xA;&lt;p&gt;We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.&lt;/p&gt;</description>
+      <link>//localhost:4321/post/2025/01/17/bnns-for-tmle/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
+      <guid>//localhost:4321/post/2025/01/17/bnns-for-tmle/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&#xA;  Introduction&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#introduction&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;This document demonstrates how to use the &lt;a href=&#34;https://cran.r-project.org/package=bnns&#34;&gt;bnns&lt;/a&gt; package with &lt;strong&gt;TMLE&lt;/strong&gt; for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the &lt;strong&gt;Average Treatment Effect (ATE)&lt;/strong&gt;. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this &lt;a href=&#34;https://www.khstats.com/blog/tmle/tutorial&#34;&gt;tmle tutorial&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;simulating-data&#34;&gt;&#xA;  Simulating Data&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#simulating-data&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Power of Base R: A Performance Comparison with dplyr</title>
+      <link>//localhost:4321/post/2025/01/17/power-of-base-r/</link>
+      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
+      <guid>//localhost:4321/post/2025/01/17/power-of-base-r/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&#xA;  Introduction&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#introduction&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;While dplyr is renowned for its intuitive syntax and efficiency,&lt;/li&gt;&#xA;&lt;li&gt;base R functions can sometimes outperform it, particularly in large simulations.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-iris-dataset&#34;&gt;&#xA;  The Iris Dataset&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#the-iris-dataset&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;The &lt;strong&gt;iris&lt;/strong&gt; dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.&lt;/p&gt;</description>
     </item>
     <item>
       <title>About</title>
       <link>//localhost:4321/about/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      <pubDate>Fri, 17 Jan 2025 00:00:00 +0530</pubDate>
       <guid>//localhost:4321/about/</guid>
-      <description>&lt;p&gt;This is a &amp;ldquo;hello world&amp;rdquo; example website for the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;&lt;strong&gt;blogdown&lt;/strong&gt;&lt;/a&gt; package. The theme was forked from &lt;a href=&#34;https://github.com/jrutheiser/hugo-lithium-theme&#34;&gt;@jrutheiser/hugo-lithium-theme&lt;/a&gt; and modified by &lt;a href=&#34;https://github.com/yihui/hugo-lithium&#34;&gt;Yihui Xie&lt;/a&gt;.&lt;/p&gt;</description>
+      <description>&lt;h2 id=&#34;about-me&#34;&gt;&#xA;  About Me&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#about-me&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Welcome to my blog!&lt;/p&gt;&#xA;&lt;p&gt;I’m an experienced statistician and an avid &lt;code&gt;R&lt;/code&gt; enthusiast. Over the years, &lt;code&gt;R&lt;/code&gt; has become an integral part of my professional and personal toolkit. Whether it’s performing advanced statistical modeling, developing data visualizations, or exploring machine learning algorithms, I believe &lt;code&gt;R&lt;/code&gt; empowers users to push the boundaries of data analysis.&lt;/p&gt;&#xA;&lt;p&gt;This blog is my humble attempt to share what I’ve learned and continue to learn. Here, you’ll find tutorials, tips, and insights about:&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
