@@ -2,34 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>//localhost:4321/categories/bayesian-methods/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/tags/bayesian-neural-networks/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/categories/biostatistics/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/post/2025/04/18/bnns-binary-classification/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/categories/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/tags/clinical-trials/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/categories/machine-learning/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/post/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/tags/r/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/tags/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
+    <loc>//localhost:4321/</loc>
+    <lastmod>2025-04-18T22:21:00+05:30</lastmod>
+  </url><url>
     <loc>//localhost:4321/tags/bayesian/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
     <loc>//localhost:4321/tags/bnns/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
-    <loc>//localhost:4321/categories/</loc>
-    <lastmod>2025-01-17T23:24:25+05:30</lastmod>
-  </url><url>
     <loc>//localhost:4321/tags/neural-network/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
-    <loc>//localhost:4321/post/</loc>
-    <lastmod>2025-01-17T23:24:25+05:30</lastmod>
-  </url><url>
     <loc>//localhost:4321/categories/r/</loc>
-    <lastmod>2025-01-17T23:24:25+05:30</lastmod>
-  </url><url>
-    <loc>//localhost:4321/tags/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
     <loc>//localhost:4321/tags/tmle/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
     <loc>//localhost:4321/post/2025/01/17/bnns-for-tmle/</loc>
-    <lastmod>2025-01-17T23:24:25+05:30</lastmod>
-  </url><url>
-    <loc>//localhost:4321/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
     <loc>//localhost:4321/tags/base-r/</loc>
@@ -39,9 +60,6 @@
     <lastmod>2025-01-17T22:32:22+05:30</lastmod>
   </url><url>
     <loc>//localhost:4321/post/2025/01/17/power-of-base-r/</loc>
-    <lastmod>2025-01-17T22:32:22+05:30</lastmod>
-  </url><url>
-    <loc>//localhost:4321/tags/r/</loc>
     <lastmod>2025-01-17T22:32:22+05:30</lastmod>
   </url><url>
     <loc>//localhost:4321/tags/tidyverse/</loc>

@@ -32,3 +32,4 @@ As a statistician and R enthusiast, I created this blog to simplify R concepts, 
 - Browse Posts
   - [Power of Base R](/post/2025/01/17/power-of-base-R/)
   - [Using bnns for TMLE](/post/2025/01/17/bnns-for-tmle/)
+  - [bnns for binary classification](/post/2025/04/18/bnns-binary-classification/)

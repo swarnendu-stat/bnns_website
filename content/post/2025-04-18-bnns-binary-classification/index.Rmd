@@ -1,0 +1,151 @@
+---
+title: "BNNs in Binary Classification: A Bayesian Take on Clinical Prediction"
+author: "Swarnendu Chatterjee"
+date: "2025-04-18T22:21:00+0530"
+slug: bnns-binary-classification
+categories: ["Biostatistics", "Machine Learning", "Bayesian Methods"]
+tags: ["R", "Bayesian Neural Networks", "Clinical Trials"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+```
+
+## 🔍 Can Bayesian Neural Nets Classify Better Than Your Favorite Models?
+
+We often talk about uncertainty in models, but how often do we actually quantify it?\
+Enter `bnns`, an R package that lets you fit **Bayesian Neural Networks** (BNNs) with the elegance of `glm()` and the insight of a statistician.
+
+In this post, we’ll walk through a real-world binary classification example: predicting respiratory status using clinical trial data. Then, we’ll pit our BNN against the classic logistic regression and the ever-popular random forest.
+
+Let the models battle it out—Bayesian style.
+
+### 🧪 The Data: Clean, Clinical, and Real
+
+We use the `respiratory` dataset from the `HSAUR3` package, focusing on patients from **month 4**. The binary outcome is whether the patient's status is "good". Simple, interpretable, and grounded in reality—just how statisticians like it.
+
+```{r data}
+library(bnns)
+library(HSAUR3)
+library(rsample)
+library(ggplot2)
+library(randomForest)
+
+set.seed(123)
+trial_data <- HSAUR3::respiratory |>
+  subset(month == 4, select = - c(subject, month)) |>
+  transform(status = ifelse(status == "good", 1, 0))
+
+trial_data_split <- initial_split(trial_data, strata = status, prop = 0.8)
+
+trial_data_train <- training(trial_data_split)
+trial_data_test <- testing(trial_data_split)
+```
+
+We stratify by outcome during data splitting to ensure balance. BNNs appreciate thoughtful input.
+
+### 🧠 Building the BNN: No Black Box Here
+
+```{r bnns}
+bnn_model <- bnns(
+  status ~ .,
+  data = trial_data_train,
+  L = 3,
+  nodes = c(64, 4, 4),
+  act_fn = rep(4, 3),
+  out_act_fn = 2,
+  iter = 1e3,
+  warmup = 2e2,
+  chains = 2,
+  prior_weights = list(dist = "normal", params = list(mean = 0, sd = 1)),
+  prior_bias = list(dist = "normal", params = list(mean = 0, sd = 10)),
+  prior_sigma = list(dist = "half_normal", params = list(mean = 0, sd = 1))
+)
+```
+
+With just a few lines, we’ve defined a three-layer BNN with fully Bayesian uncertainty on weights, biases, and the residual scale. And no, you don’t need a PhD in Stan to do this—`bnns` handles the machinery under the hood.
+
+### 🔮 Predictions with a Side of Uncertainty
+
+Unlike point estimates from GLMs or RFs, BNNs give us full **posterior distributions** for predictions. We grab medians and 95% credible intervals—because what’s a prediction without a little humility?
+
+```{r pred}
+pred <- predict(bnn_model, newdata = trial_data_test)
+pred_y <- apply(pred, MARGIN = 1, median, na.rm = TRUE)
+pred_quantiles <- apply(pred, MARGIN = 1, function(x)quantile(x, probs = c(0.025, 0.975), na.rm = TRUE), simplify = FALSE) |>
+  do.call(args = _, what = rbind)
+measure_bin(trial_data_test$status, pred)
+```
+
+We then evaluate performance using `measure_bin()`, our in-house accuracy function.
+
+### 📊 The Plot Thickens
+
+We visualize predictions with credible intervals to see where the model hesitates—and that’s the beauty of Bayesian models. They don’t bluff.
+
+```{r plot}
+plot_data <- data.frame(
+  Actual = trial_data_test$status,
+  Predicted = pred_y,
+  Lower = pred_quantiles[,1],
+  Upper = pred_quantiles[,2]
+) |>
+  transform(width = Upper - Lower) |>
+  dplyr::arrange(width)
+
+head(plot_data, 5)
+```
+
+BNN predictions with 95% credible intervals for test observations. While most intervals are reasonably narrow, wider intervals reflect situations where the model senses ambiguity — not a bug, but a valuable signal.
+
+Let’s look at a sample of confident predictions with interpretable intervals.
+
+```{r sample_plot}
+ggplot(head(plot_data, 5), aes(x = Actual, y = Predicted)) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = Lower, ymax = Upper), width = 0.05, color = "steelblue") +
+  labs(title = "BNN Predictions for Patient Status",
+    subtitle = "Error bars show 95% credible intervals",
+    x = "Test Set Patient Status",
+    y = "Predicted Patient Status"
+  ) +
+  theme_minimal()
+```
+
+Unlike black-box predictions, BNNs offer a quantified view of uncertainty — a key advantage in high-stakes decision-making.
+
+### 🥊 The Showdown: GLM vs RF vs BNN
+
+```{r compare}
+glm_model <- glm(status ~ .,
+                 data = trial_data_train)
+glm_pred <- predict(glm_model, trial_data_test)
+measure_bin(trial_data_test$status, glm_pred)
+
+rf_model <- randomForest(factor(status) ~ .,
+                 data = trial_data_train)
+rf_pred <- predict(rf_model, trial_data_test, type = "prob")[,2]
+measure_bin(trial_data_test$status, rf_pred)
+```
+
+We compare three models:
+
+-   **GLM:** The old reliable.
+-   **Random Forest:** The default go-to.
+-   **BNN:** The fresh Bayesian face in town.
+
+BNNs didn’t just hold their own—they brought nuance. They’re not just saying “yes” or “no”, they’re saying “probably yes, and here’s how sure I am.”
+
+### 💡 Why Use `bnns`?
+
+-   **Uncertainty built-in**: Every prediction comes with a measure of confidence.
+-   **Flexible priors**: Tailor regularization like a true Bayesian.
+-   **Transparent**: Uses `rstan` under the hood, no magic involved.
+-   **Light syntax**: As easy as `glm()`, but smarter.
+
+### 🚀 Final Thoughts
+
+In clinical settings, decisions aren’t just about accuracy—they’re about **confidence**. That’s where BNNs shine. And with `bnns`, you don’t have to trade usability for rigor.
+
+Next time you're modeling binary outcomes, ask yourself:\
+\> *Do I just want a prediction, or do I want to understand the uncertainty behind it?*

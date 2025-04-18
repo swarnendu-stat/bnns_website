@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  🔍 Can Bayesian Neural Nets Classify Better Than Your Favorite Models?
+  #
+
+We often talk about uncertainty in models, but how often do we actually quantify it?
+Enter bnns, an R package that lets you fit Bayesian Neural Networks (BNNs) with the elegance of glm() and the insight of a statistician.
+In this post, we’ll walk through a real-world binary classification example: predicting respiratory status using clinical trial data. Then, we’ll pit our BNN against the classic logistic regression and the ever-popular random forest.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="//localhost:4321/post/2025/04/18/bnns-binary-classification/">
+  <meta property="og:site_name" content="Statistically Speaking: An R Journey">
+  <meta property="og:title" content="BNNs in Binary Classification: A Bayesian Take on Clinical Prediction">
+  <meta property="og:description" content="🔍 Can Bayesian Neural Nets Classify Better Than Your Favorite Models? # We often talk about uncertainty in models, but how often do we actually quantify it?
+Enter bnns, an R package that lets you fit Bayesian Neural Networks (BNNs) with the elegance of glm() and the insight of a statistician.
+In this post, we’ll walk through a real-world binary classification example: predicting respiratory status using clinical trial data. Then, we’ll pit our BNN against the classic logistic regression and the ever-popular random forest.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2025-04-18T22:21:00+05:30">
+    <meta property="article:modified_time" content="2025-04-18T22:21:00+05:30">
+    <meta property="article:tag" content="R">
+    <meta property="article:tag" content="Bayesian Neural Networks">
+    <meta property="article:tag" content="Clinical Trials">
+<title>BNNs in Binary Classification: A Bayesian Take on Clinical Prediction | Statistically Speaking: An R Journey</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="//localhost:4321/post/2025/04/18/bnns-binary-classification/">
+<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.475895479bb8b0ebd13a12306e9c920010f63424916c99572ed5dbebdd6d8fe0.js" integrity="sha256-R1iVR5u4sOvROhIwbpySABD2NCSRbJlXLtXb691tj&#43;A=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Statistically Speaking: An R Journey</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>BNNs in Binary Classification: A Bayesian Take on Clinical Prediction</h3>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#-can-bayesian-neural-nets-classify-better-than-your-favorite-models">🔍 Can Bayesian Neural Nets Classify Better Than Your Favorite Models?</a>
+      <ul>
+        <li><a href="#-the-data-clean-clinical-and-real">🧪 The Data: Clean, Clinical, and Real</a></li>
+        <li><a href="#-building-the-bnn-no-black-box-here">🧠 Building the BNN: No Black Box Here</a></li>
+        <li><a href="#-predictions-with-a-side-of-uncertainty">🔮 Predictions with a Side of Uncertainty</a></li>
+        <li><a href="#-the-plot-thickens">📊 The Plot Thickens</a></li>
+        <li><a href="#-the-showdown-glm-vs-rf-vs-bnn">🥊 The Showdown: GLM vs RF vs BNN</a></li>
+        <li><a href="#-why-use-bnns">💡 Why Use <code>bnns</code>?</a></li>
+        <li><a href="#-final-thoughts">🚀 Final Thoughts</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h2 id="-can-bayesian-neural-nets-classify-better-than-your-favorite-models">
+  🔍 Can Bayesian Neural Nets Classify Better Than Your Favorite Models?
+  <a class="anchor" href="#-can-bayesian-neural-nets-classify-better-than-your-favorite-models">#</a>
+</h2>
+<p>We often talk about uncertainty in models, but how often do we actually quantify it?<br>
+Enter <code>bnns</code>, an R package that lets you fit <strong>Bayesian Neural Networks</strong> (BNNs) with the elegance of <code>glm()</code> and the insight of a statistician.</p>
+<p>In this post, we’ll walk through a real-world binary classification example: predicting respiratory status using clinical trial data. Then, we’ll pit our BNN against the classic logistic regression and the ever-popular random forest.</p>
+<p>Let the models battle it out—Bayesian style.</p>
+<h3 id="-the-data-clean-clinical-and-real">
+  🧪 The Data: Clean, Clinical, and Real
+  <a class="anchor" href="#-the-data-clean-clinical-and-real">#</a>
+</h3>
+<p>We use the <code>respiratory</code> dataset from the <code>HSAUR3</code> package, focusing on patients from <strong>month 4</strong>. The binary outcome is whether the patient&rsquo;s status is &ldquo;good&rdquo;. Simple, interpretable, and grounded in reality—just how statisticians like it.</p>
+<pre><code class="language-r">library(bnns)
+library(HSAUR3)
+</code></pre>
+<pre><code>Warning: package 'HSAUR3' was built under R version 4.4.3
+</code></pre>
+<pre><code class="language-r">library(rsample)
+library(ggplot2)
+library(randomForest)
+</code></pre>
+<pre><code>randomForest 4.7-1.2
+</code></pre>
+<pre><code>Type rfNews() to see new features/changes/bug fixes.
+</code></pre>
+<pre><code>
+Attaching package: 'randomForest'
+</code></pre>
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    margin
+</code></pre>
+<pre><code class="language-r">set.seed(123)
+trial_data &lt;- HSAUR3::respiratory |&gt;
+  subset(month == 4, select = - c(subject, month)) |&gt;
+  transform(status = ifelse(status == &quot;good&quot;, 1, 0))
+
+trial_data_split &lt;- initial_split(trial_data, strata = status, prop = 0.8)
+
+trial_data_train &lt;- training(trial_data_split)
+trial_data_test &lt;- testing(trial_data_split)
+</code></pre>
+<p>We stratify by outcome during data splitting to ensure balance. BNNs appreciate thoughtful input.</p>
+<h3 id="-building-the-bnn-no-black-box-here">
+  🧠 Building the BNN: No Black Box Here
+  <a class="anchor" href="#-building-the-bnn-no-black-box-here">#</a>
+</h3>
+<pre><code class="language-r">bnn_model &lt;- bnns(
+  status ~ .,
+  data = trial_data_train,
+  L = 3,
+  nodes = c(64, 4, 4),
+  act_fn = rep(4, 3),
+  out_act_fn = 2,
+  iter = 1e3,
+  warmup = 2e2,
+  chains = 2,
+  prior_weights = list(dist = &quot;normal&quot;, params = list(mean = 0, sd = 1)),
+  prior_bias = list(dist = &quot;normal&quot;, params = list(mean = 0, sd = 10)),
+  prior_sigma = list(dist = &quot;half_normal&quot;, params = list(mean = 0, sd = 1))
+)
+</code></pre>
+<p>With just a few lines, we’ve defined a three-layer BNN with fully Bayesian uncertainty on weights, biases, and the residual scale. And no, you don’t need a PhD in Stan to do this—<code>bnns</code> handles the machinery under the hood.</p>
+<h3 id="-predictions-with-a-side-of-uncertainty">
+  🔮 Predictions with a Side of Uncertainty
+  <a class="anchor" href="#-predictions-with-a-side-of-uncertainty">#</a>
+</h3>
+<p>Unlike point estimates from GLMs or RFs, BNNs give us full <strong>posterior distributions</strong> for predictions. We grab medians and 95% credible intervals—because what’s a prediction without a little humility?</p>
+<pre><code class="language-r">pred &lt;- predict(bnn_model, newdata = trial_data_test)
+pred_y &lt;- apply(pred, MARGIN = 1, median, na.rm = TRUE)
+pred_quantiles &lt;- apply(pred, MARGIN = 1, function(x)quantile(x, probs = c(0.025, 0.975), na.rm = TRUE), simplify = FALSE) |&gt;
+  do.call(args = _, what = rbind)
+measure_bin(trial_data_test$status, pred)
+</code></pre>
+<pre><code>Setting levels: control = 0, case = 1
+</code></pre>
+<pre><code>Setting direction: controls &lt; cases
+</code></pre>
+<pre><code>$conf_mat
+   pred_label
+obs  0  1
+  0  1 10
+  1  0 12
+
+$accuracy
+[1] 0.5652174
+
+$ROC
+
+Call:
+roc.default(response = obs, predictor = pred)
+
+Data: pred in 11 controls (obs 0) &lt; 12 cases (obs 1).
+Area under the curve: 0.7879
+
+$AUC
+[1] 0.7878788
+</code></pre>
+<p>We then evaluate performance using <code>measure_bin()</code>, our in-house accuracy function.</p>
+<h3 id="-the-plot-thickens">
+  📊 The Plot Thickens
+  <a class="anchor" href="#-the-plot-thickens">#</a>
+</h3>
+<p>We visualize predictions with credible intervals to see where the model hesitates—and that’s the beauty of Bayesian models. They don’t bluff.</p>
+<pre><code class="language-r">plot_data &lt;- data.frame(
+  Actual = trial_data_test$status,
+  Predicted = pred_y,
+  Lower = pred_quantiles[,1],
+  Upper = pred_quantiles[,2]
+) |&gt;
+  transform(width = Upper - Lower) |&gt;
+  dplyr::arrange(width)
+
+head(plot_data, 5)
+</code></pre>
+<pre><code>  Actual Predicted     Lower     Upper     width
+1      1 0.5185122 0.3228013 0.6419848 0.3191835
+2      0 0.5218692 0.3315534 0.6607562 0.3292028
+3      1 0.5217615 0.2956351 0.6571779 0.3615428
+4      1 0.5222414 0.2957324 0.6613963 0.3656639
+5      0 0.5159739 0.2793451 0.6482355 0.3688903
+</code></pre>
+<p>BNN predictions with 95% credible intervals for test observations. While most intervals are reasonably narrow, wider intervals reflect situations where the model senses ambiguity — not a bug, but a valuable signal.</p>
+<p>Let’s look at a sample of confident predictions with interpretable intervals.</p>
+<pre><code class="language-r">ggplot(head(plot_data, 5), aes(x = Actual, y = Predicted)) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = Lower, ymax = Upper), width = 0.05, color = &quot;steelblue&quot;) +
+  labs(title = &quot;BNN Predictions for Patient Status&quot;,
+    subtitle = &quot;Error bars show 95% credible intervals&quot;,
+    x = &quot;Test Set Patient Status&quot;,
+    y = &quot;Predicted Patient Status&quot;
+  ) +
+  theme_minimal()
+</code></pre>
+<img src="/post/2025/04/18/bnns-binary-classification/index_files/figure-html/sample_plot-1.png" width="672" />
+<p>Unlike black-box predictions, BNNs offer a quantified view of uncertainty — a key advantage in high-stakes decision-making.</p>
+<h3 id="-the-showdown-glm-vs-rf-vs-bnn">
+  🥊 The Showdown: GLM vs RF vs BNN
+  <a class="anchor" href="#-the-showdown-glm-vs-rf-vs-bnn">#</a>
+</h3>
+<pre><code class="language-r">glm_model &lt;- glm(status ~ .,
+                 data = trial_data_train)
+glm_pred &lt;- predict(glm_model, trial_data_test)
+measure_bin(trial_data_test$status, glm_pred)
+</code></pre>
+<pre><code>Setting levels: control = 0, case = 1
+</code></pre>
+<pre><code>Setting direction: controls &lt; cases
+</code></pre>
+<pre><code>$conf_mat
+   pred_label
+obs  0  1
+  0  5  6
+  1  2 10
+
+$accuracy
+[1] 0.6521739
+
+$ROC
+
+Call:
+roc.default(response = obs, predictor = pred)
+
+Data: pred in 11 controls (obs 0) &lt; 12 cases (obs 1).
+Area under the curve: 0.7121
+
+$AUC
+[1] 0.7121212
+</code></pre>
+<pre><code class="language-r">rf_model &lt;- randomForest(factor(status) ~ .,
+                 data = trial_data_train)
+rf_pred &lt;- predict(rf_model, trial_data_test, type = &quot;prob&quot;)[,2]
+measure_bin(trial_data_test$status, rf_pred)
+</code></pre>
+<pre><code>Setting levels: control = 0, case = 1
+Setting direction: controls &lt; cases
+</code></pre>
+<pre><code>$conf_mat
+   pred_label
+obs 0 1
+  0 8 3
+  1 4 8
+
+$accuracy
+[1] 0.6956522
+
+$ROC
+
+Call:
+roc.default(response = obs, predictor = pred)
+
+Data: pred in 11 controls (obs 0) &lt; 12 cases (obs 1).
+Area under the curve: 0.7841
+
+$AUC
+[1] 0.7840909
+</code></pre>
+<p>We compare three models:</p>
+<ul>
+<li><strong>GLM:</strong> The old reliable.</li>
+<li><strong>Random Forest:</strong> The default go-to.</li>
+<li><strong>BNN:</strong> The fresh Bayesian face in town.</li>
+</ul>
+<p>BNNs didn’t just hold their own—they brought nuance. They’re not just saying “yes” or “no”, they’re saying “probably yes, and here’s how sure I am.”</p>
+<h3 id="-why-use-bnns">
+  💡 Why Use <code>bnns</code>?
+  <a class="anchor" href="#-why-use-bnns">#</a>
+</h3>
+<ul>
+<li><strong>Uncertainty built-in</strong>: Every prediction comes with a measure of confidence.</li>
+<li><strong>Flexible priors</strong>: Tailor regularization like a true Bayesian.</li>
+<li><strong>Transparent</strong>: Uses <code>rstan</code> under the hood, no magic involved.</li>
+<li><strong>Light syntax</strong>: As easy as <code>glm()</code>, but smarter.</li>
+</ul>
+<h3 id="-final-thoughts">
+  🚀 Final Thoughts
+  <a class="anchor" href="#-final-thoughts">#</a>
+</h3>
+<p>In clinical settings, decisions aren’t just about accuracy—they’re about <strong>confidence</strong>. That’s where BNNs shine. And with <code>bnns</code>, you don’t have to trade usability for rigor.</p>
+<p>Next time you&rsquo;re modeling binary outcomes, ask yourself:<br>
+&gt; <em>Do I just want a prediction, or do I want to understand the uncertainty behind it?</em></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#-can-bayesian-neural-nets-classify-better-than-your-favorite-models">🔍 Can Bayesian Neural Nets Classify Better Than Your Favorite Models?</a>
+      <ul>
+        <li><a href="#-the-data-clean-clinical-and-real">🧪 The Data: Clean, Clinical, and Real</a></li>
+        <li><a href="#-building-the-bnn-no-black-box-here">🧠 Building the BNN: No Black Box Here</a></li>
+        <li><a href="#-predictions-with-a-side-of-uncertainty">🔮 Predictions with a Side of Uncertainty</a></li>
+        <li><a href="#-the-plot-thickens">📊 The Plot Thickens</a></li>
+        <li><a href="#-the-showdown-glm-vs-rf-vs-bnn">🥊 The Showdown: GLM vs RF vs BNN</a></li>
+        <li><a href="#-why-use-bnns">💡 Why Use <code>bnns</code>?</a></li>
+        <li><a href="#-final-thoughts">🚀 Final Thoughts</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
