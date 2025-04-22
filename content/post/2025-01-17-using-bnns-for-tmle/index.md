@@ -113,7 +113,7 @@ tmle_ate_list <- lapply(1:dim(Q_A)[2], function(i){
 
 tmle_ate <- unlist(tmle_ate_list)
 median(tmle_ate)
-#> [1] 0.08951223
+#> [1] 0.08956612
 ```
 
 ---
@@ -174,7 +174,7 @@ results <- data.frame(
 results
 #>      Method   Estimate     CI_low    CI_high
 #> 1  True ATE 0.07431068 0.07431068 0.07431068
-#> 2  BNN_TMLE 0.08951223 0.08370999 0.09612099
+#> 2  BNN_TMLE 0.08956612 0.08372502 0.09625603
 #> 3 Freq_TMLE 0.09309979 0.05910546 0.12709413
 #> 4     Naive 0.12824940 0.12824940 0.12824940
 ```

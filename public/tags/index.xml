@@ -2,80 +2,80 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Statistically Speaking: An R Journey</title>
-    <link>//localhost:4321/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Statistically Speaking: An R Journey</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <lastBuildDate>Fri, 18 Apr 2025 22:21:00 +0530</lastBuildDate>
-    <atom:link href="//localhost:4321/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bayesian Neural Networks</title>
-      <link>//localhost:4321/tags/bayesian-neural-networks/</link>
+      <link>/tags/bayesian-neural-networks/</link>
       <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      <guid>//localhost:4321/tags/bayesian-neural-networks/</guid>
+      <guid>/tags/bayesian-neural-networks/</guid>
       <description></description>
     </item>
     <item>
       <title>Clinical Trials</title>
-      <link>//localhost:4321/tags/clinical-trials/</link>
+      <link>/tags/clinical-trials/</link>
       <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      <guid>//localhost:4321/tags/clinical-trials/</guid>
+      <guid>/tags/clinical-trials/</guid>
       <description></description>
     </item>
     <item>
       <title>R</title>
-      <link>//localhost:4321/tags/r/</link>
+      <link>/tags/r/</link>
       <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      <guid>//localhost:4321/tags/r/</guid>
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     <item>
       <title>Bayesian</title>
-      <link>//localhost:4321/tags/bayesian/</link>
+      <link>/tags/bayesian/</link>
       <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      <guid>//localhost:4321/tags/bayesian/</guid>
+      <guid>/tags/bayesian/</guid>
       <description></description>
     </item>
     <item>
       <title>Bnns</title>
-      <link>//localhost:4321/tags/bnns/</link>
+      <link>/tags/bnns/</link>
       <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      <guid>//localhost:4321/tags/bnns/</guid>
+      <guid>/tags/bnns/</guid>
       <description></description>
     </item>
     <item>
       <title>Neural Network</title>
-      <link>//localhost:4321/tags/neural-network/</link>
+      <link>/tags/neural-network/</link>
       <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      <guid>//localhost:4321/tags/neural-network/</guid>
+      <guid>/tags/neural-network/</guid>
       <description></description>
     </item>
     <item>
       <title>Tmle</title>
-      <link>//localhost:4321/tags/tmle/</link>
+      <link>/tags/tmle/</link>
       <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      <guid>//localhost:4321/tags/tmle/</guid>
+      <guid>/tags/tmle/</guid>
       <description></description>
     </item>
     <item>
       <title>Base R</title>
-      <link>//localhost:4321/tags/base-r/</link>
+      <link>/tags/base-r/</link>
       <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
-      <guid>//localhost:4321/tags/base-r/</guid>
+      <guid>/tags/base-r/</guid>
       <description></description>
     </item>
     <item>
       <title>Dplyr</title>
-      <link>//localhost:4321/tags/dplyr/</link>
+      <link>/tags/dplyr/</link>
       <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
-      <guid>//localhost:4321/tags/dplyr/</guid>
+      <guid>/tags/dplyr/</guid>
       <description></description>
     </item>
     <item>
       <title>Tidyverse</title>
-      <link>//localhost:4321/tags/tidyverse/</link>
+      <link>/tags/tidyverse/</link>
       <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
-      <guid>//localhost:4321/tags/tidyverse/</guid>
+      <guid>/tags/tidyverse/</guid>
       <description></description>
     </item>
   </channel>

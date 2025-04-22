@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Statistically Speaking: An R Journey</title>
-    <link>//localhost:4321/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on Statistically Speaking: An R Journey</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <lastBuildDate>Fri, 18 Apr 2025 22:21:00 +0530</lastBuildDate>
-    <atom:link href="//localhost:4321/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bayesian Methods</title>
-      <link>//localhost:4321/categories/bayesian-methods/</link>
+      <link>/categories/bayesian-methods/</link>
       <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      <guid>//localhost:4321/categories/bayesian-methods/</guid>
+      <guid>/categories/bayesian-methods/</guid>
       <description></description>
     </item>
     <item>
       <title>Biostatistics</title>
-      <link>//localhost:4321/categories/biostatistics/</link>
+      <link>/categories/biostatistics/</link>
       <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      <guid>//localhost:4321/categories/biostatistics/</guid>
+      <guid>/categories/biostatistics/</guid>
       <description></description>
     </item>
     <item>
       <title>Machine Learning</title>
-      <link>//localhost:4321/categories/machine-learning/</link>
+      <link>/categories/machine-learning/</link>
       <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      <guid>//localhost:4321/categories/machine-learning/</guid>
+      <guid>/categories/machine-learning/</guid>
       <description></description>
     </item>
     <item>
       <title>R</title>
-      <link>//localhost:4321/categories/r/</link>
+      <link>/categories/r/</link>
       <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      <guid>//localhost:4321/categories/r/</guid>
+      <guid>/categories/r/</guid>
       <description></description>
     </item>
   </channel>

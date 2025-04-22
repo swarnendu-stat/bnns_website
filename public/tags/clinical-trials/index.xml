@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Clinical Trials on Statistically Speaking: An R Journey</title>
-    <link>//localhost:4321/tags/clinical-trials/</link>
+    <link>/tags/clinical-trials/</link>
     <description>Recent content in Clinical Trials on Statistically Speaking: An R Journey</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <lastBuildDate>Fri, 18 Apr 2025 22:21:00 +0530</lastBuildDate>
-    <atom:link href="//localhost:4321/tags/clinical-trials/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/tags/clinical-trials/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>BNNs in Binary Classification: A Bayesian Take on Clinical Prediction</title>
-      <link>//localhost:4321/post/2025/04/18/bnns-binary-classification/</link>
+      <title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
+      <link>/post/2025/04/18/bnns-binary-classification/</link>
       <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      <guid>//localhost:4321/post/2025/04/18/bnns-binary-classification/</guid>
-      <description>&lt;h2 id=&#34;-can-bayesian-neural-nets-classify-better-than-your-favorite-models&#34;&gt;&#xA;  🔍 Can Bayesian Neural Nets Classify Better Than Your Favorite Models?&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#-can-bayesian-neural-nets-classify-better-than-your-favorite-models&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;We often talk about uncertainty in models, but how often do we actually quantify it?&lt;br&gt;&#xA;Enter &lt;code&gt;bnns&lt;/code&gt;, an R package that lets you fit &lt;strong&gt;Bayesian Neural Networks&lt;/strong&gt; (BNNs) with the elegance of &lt;code&gt;glm()&lt;/code&gt; and the insight of a statistician.&lt;/p&gt;&#xA;&lt;p&gt;In this post, we’ll walk through a real-world binary classification example: predicting respiratory status using clinical trial data. Then, we’ll pit our BNN against the classic logistic regression and the ever-popular random forest.&lt;/p&gt;</description>
+      <guid>/post/2025/04/18/bnns-binary-classification/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;em&gt;In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;-the-problem&#34;&gt;&#xA;  🔍 The Problem&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#-the-problem&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Diabetes prediction models abound, but they often give us &lt;strong&gt;just a number&lt;/strong&gt;. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&amp;rsquo;s a 73% chance someone has diabetes.&lt;/p&gt;&#xA;&lt;p&gt;But what if we asked:&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;em&gt;&amp;ldquo;How sure are we about that 73%?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

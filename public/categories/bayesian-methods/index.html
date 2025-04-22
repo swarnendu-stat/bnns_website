@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+<head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="//localhost:4321/categories/bayesian-methods/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="/categories/bayesian-methods/">
   <meta property="og:site_name" content="Statistically Speaking: An R Journey">
   <meta property="og:title" content="Bayesian Methods">
   <meta property="og:description" content="A website built through Hugo and blogdown.">
@@ -15,11 +15,11 @@
 <title>Bayesian Methods | Statistically Speaking: An R Journey</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="//localhost:4321/categories/bayesian-methods/">
-<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+<link rel="canonical" href="/categories/bayesian-methods/">
+<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" >
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.475895479bb8b0ebd13a12306e9c920010f63424916c99572ed5dbebdd6d8fe0.js" integrity="sha256-R1iVR5u4sOvROhIwbpySABD2NCSRbJlXLtXb691tj&#43;A=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="//localhost:4321/categories/bayesian-methods/index.xml" title="Statistically Speaking: An R Journey" />
+  <script defer src="/en.search.min.1f67a41afe9b5758d8861474614b2c1781fb058c64c23e1416ac15e8345336f4.js" ></script>
+<link rel="alternate" type="application/rss+xml" href="/categories/bayesian-methods/index.xml" title="Statistically Speaking: An R Journey" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -211,7 +211,7 @@ https://github.com/alex-shpak/hugo-book
   
   <article class="markdown book-post">
     <h2>
-      <a href="/post/2025/04/18/bnns-binary-classification/">BNNs in Binary Classification: A Bayesian Take on Clinical Prediction</a>
+      <a href="/post/2025/04/18/bnns-binary-classification/">Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</a>
     </h2>
     
   <div class="flex align-center text-small book-post-date">
@@ -240,13 +240,18 @@ https://github.com/alex-shpak/hugo-book
   
 
 
-    <p><h2 id="-can-bayesian-neural-nets-classify-better-than-your-favorite-models">
-  🔍 Can Bayesian Neural Nets Classify Better Than Your Favorite Models?
-  <a class="anchor" href="#-can-bayesian-neural-nets-classify-better-than-your-favorite-models">#</a>
+    <p><blockquote>
+<p><em>In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.</em></p>
+</blockquote>
+<hr>
+<h2 id="-the-problem">
+  🔍 The Problem
+  <a class="anchor" href="#-the-problem">#</a>
 </h2>
-<p>We often talk about uncertainty in models, but how often do we actually quantify it?<br>
-Enter <code>bnns</code>, an R package that lets you fit <strong>Bayesian Neural Networks</strong> (BNNs) with the elegance of <code>glm()</code> and the insight of a statistician.</p>
-<p>In this post, we’ll walk through a real-world binary classification example: predicting respiratory status using clinical trial data. Then, we’ll pit our BNN against the classic logistic regression and the ever-popular random forest.</p>
+<p>Diabetes prediction models abound, but they often give us <strong>just a number</strong>. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.</p>
+<p>But what if we asked:</p>
+<blockquote>
+<p><em>&ldquo;How sure are we about that 73%?&rdquo;</em></p>
         <a href="/post/2025/04/18/bnns-binary-classification/">...</a>
       
     </p>
