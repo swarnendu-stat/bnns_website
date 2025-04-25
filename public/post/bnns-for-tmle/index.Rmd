@@ -64,8 +64,8 @@ Ensure that the **`bnns`** and **`tmle`** packages are installed.
 
 ```{r install-packages, eval=FALSE}
 # Install ggplot2 and bnns from CRAN
-install.packages("ggplot2")
-install.packages("bnns")
+# install.packages("ggplot2")
+# install.packages("bnns")
 ```
 
 ### Step 2: TMLE Implementation
@@ -127,13 +127,6 @@ To highlight the benefits of TMLE, compare it to other methods such as:
 2. **Naive Comparison (Unadjusted Difference in Means)**
 
 ```{r comparison}
-# IPTW
-# ps_model <- glm(A ~ .-Y, data = sim_data, family = binomial)
-# ps_pred <- predict(ps_model, type = "response")
-# iptw_weights <- ifelse(sim_data$A == 1, 1 / ps_pred, 1 / (1 - ps_pred))
-# iptw_ate <- mean(iptw_weights * sim_data$Y * sim_data$A) -
-#   mean(iptw_weights * sim_data$Y * (1 - sim_data$A))
-
 library(tmle)
 freq_tmle <- tmle(
   Y = sim_data$Y, A = sim_data$A, 

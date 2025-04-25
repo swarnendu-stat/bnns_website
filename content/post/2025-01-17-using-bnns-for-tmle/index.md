@@ -62,8 +62,8 @@ Ensure that the **`bnns`** and **`tmle`** packages are installed.
 
 ``` r
 # Install ggplot2 and bnns from CRAN
-install.packages("ggplot2")
-install.packages("bnns")
+# install.packages("ggplot2")
+# install.packages("bnns")
 ```
 
 ### Step 2: TMLE Implementation
@@ -114,7 +114,7 @@ tmle_ate_list <- lapply(1:dim(Q_A)[2], function(i){
 
 tmle_ate <- unlist(tmle_ate_list)
 median(tmle_ate)
-#> [1] 0.08957689
+#> [1] 0.08954665
 ```
 
 ---
@@ -128,13 +128,6 @@ To highlight the benefits of TMLE, compare it to other methods such as:
 
 
 ``` r
-# IPTW
-# ps_model <- glm(A ~ .-Y, data = sim_data, family = binomial)
-# ps_pred <- predict(ps_model, type = "response")
-# iptw_weights <- ifelse(sim_data$A == 1, 1 / ps_pred, 1 / (1 - ps_pred))
-# iptw_ate <- mean(iptw_weights * sim_data$Y * sim_data$A) -
-#   mean(iptw_weights * sim_data$Y * (1 - sim_data$A))
-
 library(tmle)
 #> Loading required package: glmnet
 #> Loading required package: Matrix
@@ -158,49 +151,6 @@ freq_tmle <- tmle(
   g.SL.library = c("SL.glm", "SL.ranger")
 )
 #> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
-#> Loading required namespace: ranger
-#> Error : loading required package (ranger) failed
 
 # Results
 freq_tmle_ate <- freq_tmle$estimates$ATE$psi
@@ -218,8 +168,8 @@ results <- data.frame(
 results
 #>      Method   Estimate     CI_low    CI_high
 #> 1  True ATE 0.07431068 0.07431068 0.07431068
-#> 2  BNN_TMLE 0.08957689 0.08349883 0.09569561
-#> 3 Freq_TMLE 0.08813580 0.05292755 0.12334406
+#> 2  BNN_TMLE 0.08954665 0.08369176 0.09577273
+#> 3 Freq_TMLE 0.09309979 0.05910546 0.12709413
 #> 4     Naive 0.12824940 0.12824940 0.12824940
 ```
 
