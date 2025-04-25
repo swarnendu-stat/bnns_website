@@ -1,409 +1,179 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="/tags/bayesian-neural-networks/">
-  <meta property="og:site_name" content="Statistically Speaking: An R Journey">
-  <meta property="og:title" content="Bayesian Neural Networks">
-  <meta property="og:description" content="A website built through Hugo and blogdown.">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:type" content="website">
-<title>Bayesian Neural Networks | Statistically Speaking: An R Journey</title>
-<link rel="icon" href="/favicon.png" >
-<link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="/tags/bayesian-neural-networks/">
-<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" >
-  <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.1f67a41afe9b5758d8861474614b2c1781fb058c64c23e1416ac15e8345336f4.js" ></script>
-<link rel="alternate" type="application/rss+xml" href="/tags/bayesian-neural-networks/index.xml" title="Statistically Speaking: An R Journey" />
-<!--
-Made with Book Theme
-https://github.com/alex-shpak/hugo-book
--->
-  
-</head>
-<body dir="ltr">
-  <input type="checkbox" class="hidden toggle" id="menu-control" />
-  <input type="checkbox" class="hidden toggle" id="toc-control" />
-  <main class="container flex">
-    <aside class="book-menu">
-      <div class="book-menu-content">
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Biostat, Bayes & Blogdown   ✨Statistically Speaking 📍 India ">
+<title>Tag: Bayesian Neural Networks - </title>
+
+<link rel='canonical' href='/tags/bayesian-neural-networks/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Tag: Bayesian Neural Networks - ">
+<meta property='og:description' content="Biostat, Bayes & Blogdown   ✨Statistically Speaking 📍 India ">
+<meta property='og:url' content='/tags/bayesian-neural-networks/'>
+<meta property='og:site_name' content=''>
+<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2025-04-18T22:21:00&#43;05:30 '/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
+<meta name="twitter:site" content="@https://x.com/SwarnenduStat">
+    <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="Tag: Bayesian Neural Networks - ">
+<meta name="twitter:description" content="Biostat, Bayes & Blogdown   ✨Statistically Speaking 📍 India "><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="application/rss&#43;xml" href="/tags/bayesian-neural-networks/index.xml">
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+
+    </head>
+    <body class="">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
         
-  <nav>
-<h2 class="book-brand">
-  <a class="flex align-center" href="/"><span>Statistically Speaking: An R Journey</span>
-  </a>
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_a76b8da90d73b17e.jpg" width="300"
+                            height="293" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🌱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/"></a></h1>
+            <h2 class="site-description">Biostat, Bayes &amp; Blogdown  
+✨Statistically Speaking
+📍 India
 </h2>
-
-
-<div class="book-search hidden">
-  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
-  <div class="book-search-spinner hidden"></div>
-  <ul id="book-search-results"></ul>
-</div>
-<script>document.querySelector(".book-search").classList.remove("hidden")</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</nav>
-
-
-
-
-  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
-
-
- 
-      </div>
-    </aside>
-
-    <div class="book-page">
-      <header class="book-header">
+        </div>
+    </header><ol class="menu" id="main-menu">
         
-  <div class="flex align-center justify-between">
-  <label for="menu-control">
-    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
-  </label>
-
-  <h3>Bayesian Neural Networks</h3>
-
-  <label for="toc-control">
-    
-    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
-    
-  </label>
-</div>
-
-
-  
-  <aside class="hidden clearfix">
-    
-  <nav>
-  <ul>
-  
-    
-    <li class="book-section-flat">
-      <strong>Categories</strong>
-      <ul>
-      
-        <li class="flex justify-between">
-          <a href="/categories/bayesian-methods/">Bayesian Methods</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/categories/biostatistics/">Biostatistics</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/categories/machine-learning/">Machine Learning</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/categories/r/">R</a>
-          <span>2</span>
-        </li>
-      
-      </ul>
-    </li>
-    
-  
-    
-    <li class="book-section-flat">
-      <strong>Tags</strong>
-      <ul>
-      
-        <li class="flex justify-between">
-          <a href="/tags/bayesian-neural-networks/">Bayesian Neural Networks</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/clinical-trials/">Clinical Trials</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/r/">R</a>
-          <span>2</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/bayesian/">Bayesian</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/bnns/">Bnns</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/neural-network/">Neural Network</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/tmle/">Tmle</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/base-r/">Base R</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/dplyr/">Dplyr</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/tidyverse/">Tidyverse</a>
-          <span>1</span>
-        </li>
-      
-      </ul>
-    </li>
-    
-  
-  </ul>
-</nav>
-
-
-  </aside>
-  
- 
-      </header>
-
-      
-      
-  
-  <article class="markdown book-post">
-    <h2>
-      <a href="/post/2025/04/18/bnns-binary-classification/">Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</a>
-    </h2>
-    
-  <div class="flex align-center text-small book-post-date">
-    <img src="/svg/calendar.svg" class="book-icon " alt="" />
-    <span>April 18, 2025</span>
-  </div>
-
-
-
-  
-  <div class="text-small">
-    
-      <a href="/categories/biostatistics/">Biostatistics</a>, 
-      <a href="/categories/machine-learning/">Machine Learning</a>, 
-      <a href="/categories/bayesian-methods/">Bayesian Methods</a>
-  </div>
-  
-
-  
-  <div class="text-small">
-    
-      <a href="/tags/r/">R</a>, 
-      <a href="/tags/bayesian-neural-networks/">Bayesian Neural Networks</a>, 
-      <a href="/tags/clinical-trials/">Clinical Trials</a>
-  </div>
-  
-
-
-    <p><blockquote>
-<p><em>In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.</em></p>
-</blockquote>
-<hr>
-<h2 id="-the-problem">
-  🔍 The Problem
-  <a class="anchor" href="#-the-problem">#</a>
-</h2>
-<p>Diabetes prediction models abound, but they often give us <strong>just a number</strong>. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.</p>
-<p>But what if we asked:</p>
-<blockquote>
-<p><em>&ldquo;How sure are we about that 73%?&rdquo;</em></p>
-        <a href="/post/2025/04/18/bnns-binary-classification/">...</a>
-      
-    </p>
-  </article>
-  
-
-  
- 
-      
-
-      <footer class="book-footer">
         
-  <div class="flex flex-wrap justify-between">
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
 
 
 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
 
 
-</div>
 
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
 
+    
 
-  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+            <main class="main full-width">
+    <header>
+        <h3 class="section-title">
+            
+                Tags
+            
+        </h3>
 
-
- 
+        <div class="section-card">
+            <div class="section-details">
+                <h3 class="section-count">1 page</h3>
+                <h1 class="section-term">Bayesian Neural Networks</h1>
+                
+            </div>
+        </div>
+    </header>
+    
+    <section class="article-list--compact">
         
-      </footer>
-
-      
-  
- 
-
-      <label for="menu-control" class="hidden book-menu-overlay"></label>
-    </div>
-
-    
-    <aside class="book-toc">
-      <div class="book-toc-content">
+            <article>
+    <a href="/post/bnns-binary-classification/">
+        <div class="article-details">
+            <h2 class="article-title">Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</h2>
+            <footer class="article-time">
+                <time datetime='2025-04-18T22:21:00&#43;05:30'>Apr 18, 2025</time>
+            </footer>
+        </div>
+    </a>
+</article>
         
-  <nav>
-  <ul>
-  
+    </section>
+<footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 
+    </section>
     
-    <li class="book-section-flat">
-      <strong>Categories</strong>
-      <ul>
-      
-        <li class="flex justify-between">
-          <a href="/categories/bayesian-methods/">Bayesian Methods</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/categories/biostatistics/">Biostatistics</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/categories/machine-learning/">Machine Learning</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/categories/r/">R</a>
-          <span>2</span>
-        </li>
-      
-      </ul>
-    </li>
-    
-  
-    
-    <li class="book-section-flat">
-      <strong>Tags</strong>
-      <ul>
-      
-        <li class="flex justify-between">
-          <a href="/tags/bayesian-neural-networks/">Bayesian Neural Networks</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/clinical-trials/">Clinical Trials</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/r/">R</a>
-          <span>2</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/bayesian/">Bayesian</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/bnns/">Bnns</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/neural-network/">Neural Network</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/tmle/">Tmle</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/base-r/">Base R</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/dplyr/">Dplyr</a>
-          <span>1</span>
-        </li>
-      
-        <li class="flex justify-between">
-          <a href="/tags/tidyverse/">Tidyverse</a>
-          <span>1</span>
-        </li>
-      
-      </ul>
-    </li>
-    
-  
-  </ul>
-</nav>
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
 
- 
-      </div>
-    </aside>
-    
-  </main>
 
-  
-</body>
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,6 +2,106 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+    <priority>0.1</priority>
+  </url><url>
     <loc>/categories/bayesian-methods/</loc>
     <lastmod>2025-04-18T22:21:00+05:30</lastmod>
   </url><url>
@@ -23,7 +123,7 @@
     <loc>/post/</loc>
     <lastmod>2025-04-18T22:21:00+05:30</lastmod>
   </url><url>
-    <loc>/post/2025/04/18/bnns-binary-classification/</loc>
+    <loc>/post/bnns-binary-classification/</loc>
     <lastmod>2025-04-18T22:21:00+05:30</lastmod>
   </url><url>
     <loc>/tags/r/</loc>
@@ -35,10 +135,19 @@
     <loc>/</loc>
     <lastmod>2025-04-18T22:21:00+05:30</lastmod>
   </url><url>
+    <loc>/categories/bayesian/</loc>
+    <lastmod>2025-01-17T23:24:25+05:30</lastmod>
+  </url><url>
     <loc>/tags/bayesian/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
+    <loc>/categories/bnns/</loc>
+    <lastmod>2025-01-17T23:24:25+05:30</lastmod>
+  </url><url>
     <loc>/tags/bnns/</loc>
+    <lastmod>2025-01-17T23:24:25+05:30</lastmod>
+  </url><url>
+    <loc>/categories/neural-network/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
     <loc>/tags/neural-network/</loc>
@@ -47,19 +156,31 @@
     <loc>/categories/r/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
+    <loc>/categories/tmle/</loc>
+    <lastmod>2025-01-17T23:24:25+05:30</lastmod>
+  </url><url>
     <loc>/tags/tmle/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
-    <loc>/post/2025/01/17/bnns-for-tmle/</loc>
+    <loc>/post/bnns-for-tmle/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
+    <loc>/categories/base-r/</loc>
+    <lastmod>2025-01-17T22:32:22+05:30</lastmod>
+  </url><url>
     <loc>/tags/base-r/</loc>
+    <lastmod>2025-01-17T22:32:22+05:30</lastmod>
+  </url><url>
+    <loc>/categories/dplyr/</loc>
     <lastmod>2025-01-17T22:32:22+05:30</lastmod>
   </url><url>
     <loc>/tags/dplyr/</loc>
     <lastmod>2025-01-17T22:32:22+05:30</lastmod>
   </url><url>
-    <loc>/post/2025/01/17/power-of-base-r/</loc>
+    <loc>/post/power-of-base-r/</loc>
+    <lastmod>2025-01-17T22:32:22+05:30</lastmod>
+  </url><url>
+    <loc>/categories/tidyverse/</loc>
     <lastmod>2025-01-17T22:32:22+05:30</lastmod>
   </url><url>
     <loc>/tags/tidyverse/</loc>
@@ -67,5 +188,20 @@
   </url><url>
     <loc>/about/</loc>
     <lastmod>2025-01-17T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>/posts/about/</loc>
+    <lastmod>2025-01-17T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2025-01-17T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>/notes/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+  </url><url>
+    <loc>/search/</loc>
+    <lastmod>2010-06-08T08:06:25+06:00</lastmod>
+  </url><url>
+    <loc>/search/</loc>
+    <priority>0.1</priority>
   </url>
 </urlset>

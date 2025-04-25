@@ -1,172 +1,207 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="
-In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.
+<html lang="en">
+  <head>
+    <title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+<link rel="stylesheet" href="/styles/application.template.scss" integrity="" />
 
 
 
-  🔍 The Problem
-  #
 
-Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.
-But what if we asked:
 
-&ldquo;How sure are we about that 73%?&rdquo;">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="/post/2025/04/18/bnns-binary-classification/">
-  <meta property="og:site_name" content="Statistically Speaking: An R Journey">
-  <meta property="og:title" content="Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability">
-  <meta property="og:description" content="In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.
-🔍 The Problem # Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there’s a 73% chance someone has diabetes.
-But what if we asked:
-“How sure are we about that 73%?”">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2025-04-18T22:21:00+05:30">
-    <meta property="article:modified_time" content="2025-04-18T22:21:00+05:30">
-    <meta property="article:tag" content="R">
-    <meta property="article:tag" content="Bayesian Neural Networks">
-    <meta property="article:tag" content="Clinical Trials">
-<title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability | Statistically Speaking: An R Journey</title>
-<link rel="icon" href="/favicon.png" >
-<link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="/post/2025/04/18/bnns-binary-classification/">
-<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" >
-  <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.1f67a41afe9b5758d8861474614b2c1781fb058c64c23e1416ac15e8345336f4.js" ></script>
-<!--
-Made with Book Theme
-https://github.com/alex-shpak/hugo-book
--->
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Statistically Speaking: An R Journey"/>
+<meta property="og:type" content="website"/>
+<meta property="og:description" content=""/>
+<meta property="og:image" content="/">
+<meta property="og:url" content="/">
+
+    
+<meta name="description" content="Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability" />
+
+
+
+    
+
+
+
+
+
+    <script integrity="sha256-DO4ugzEwhTW1Id1UIWn0gUJWaebCYOypeTit6LW4QB4=">
+     let theme = localStorage.getItem('theme-scheme') || localStorage.getItem('darkmode:color-scheme') || 'light'
+if (theme === 'system') {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    theme = 'dark'
+  } else {
+    theme = 'light'
+  }
+}
+document.documentElement.setAttribute('data-theme', theme)
+
+    </script>
+    
+  </head>
+
+  <body class="type-post kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-</head>
-<body dir="ltr">
-  <input type="checkbox" class="hidden toggle" id="menu-control" />
-  <input type="checkbox" class="hidden toggle" id="toc-control" />
-  <main class="container flex">
-    <aside class="book-menu">
-      <div class="book-menu-content">
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      Statistically Speaking: An R Journey</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
         
-  <nav>
-<h2 class="book-brand">
-  <a class="flex align-center" href="/"><span>Statistically Speaking: An R Journey</span>
-  </a>
-</h2>
-
-
-<div class="book-search hidden">
-  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
-  <div class="book-search-spinner hidden"></div>
-  <ul id="book-search-results"></ul>
-</div>
-<script>document.querySelector(".book-search").classList.remove("hidden")</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  
 </nav>
 
 
 
+      
+      
+  <section class="sidebar-section" id="sidebar-section">
+    <div class="sidebar-holder">
+      <div class="sidebar" id="sidebar">
+        <form class="mx-auto" method="get" action="/search">
+          <input type="text" name="keyword" value="" placeholder="Search" data-search="" id="search-box" />
+        </form>
+        <div class="sidebar-tree">
+          <ul class="tree" id="tree">
+            <li id="list-heading"><a href="/posts/" data-filter="all">Posts</a></li>
+            <div class="subtree">
+                
 
-  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
-
-
- 
+            </div>
+          </ul>
+        </div>
       </div>
-    </aside>
+    </div>
+  </section>
 
-    <div class="book-page">
-      <header class="book-header">
+
+      
+      
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      
+      <div class="hero-area col-sm-12" id="hero-area" style='background-image: url(/images/default-hero.jpg);'>
+      </div>
+
+      
+      <div class="page-content">
         
-  <div class="flex align-center justify-between">
-  <label for="menu-control">
-    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
-  </label>
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/default-avatar_hu_af7c48c7ef93202f.png' alt="Author Image">
+          <h5 class="author-name"></h5>
+          <p class="text-muted">Friday, April 18, 2025</p>
+        </div>
+        
 
-  <h3>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</h3>
+        <div class="title">
+          <h1>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</h1>
+        </div>
 
-  <label for="toc-control">
-    
-    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
-    
-  </label>
-</div>
+        
 
-
-  
-  <aside class="hidden clearfix">
-    
-  
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#-the-problem">🔍 The Problem</a></li>
-    <li><a href="#-the-data">📊 The Data</a></li>
-    <li><a href="#-the-model">🧠 The Model</a></li>
-    <li><a href="#-the-prediction">🎯 The Prediction</a></li>
-    <li><a href="#-model-performance">📏 Model Performance</a></li>
-    <li><a href="#-visualizing-predictions">🔬 Visualizing Predictions</a></li>
-    <li><a href="#-why-use-bnns">🧠 Why Use <code>bnns</code>?</a></li>
-    <li><a href="#-final-thoughts">📣 Final Thoughts</a></li>
-  </ul>
-</nav>
-
-
-
-  </aside>
-  
- 
-      </header>
-
-      
-      
-  <article class="markdown book-article"><blockquote>
-<p><em>In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.</em></p>
-</blockquote>
+        
+        <div class="post-content" id="post-content">
+          <blockquote>
+<p><em>In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.</em></p></blockquote>
 <hr>
-<h2 id="-the-problem">
-  🔍 The Problem
-  <a class="anchor" href="#-the-problem">#</a>
-</h2>
+<h2 id="-the-problem">🔍 The Problem</h2>
 <p>Diabetes prediction models abound, but they often give us <strong>just a number</strong>. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.</p>
 <p>But what if we asked:</p>
 <blockquote>
-<p><em>&ldquo;How sure are we about that 73%?&rdquo;</em></p>
-</blockquote>
+<p><em>&ldquo;How sure are we about that 73%?&rdquo;</em></p></blockquote>
 <p>Enter <strong>Bayesian Neural Networks</strong> (<code>bnns</code>), where uncertainty isn’t a bug—it’s a feature.</p>
 <hr>
-<h2 id="-the-data">
-  📊 The Data
-  <a class="anchor" href="#-the-data">#</a>
-</h2>
+<h2 id="-the-data">📊 The Data</h2>
 <p>We used the <code>PimaIndiansDiabetes2</code> dataset from the <code>mlbench</code> package, containing clinical variables (e.g., glucose, BMI, insulin) and diabetes diagnosis. Missing values were removed, and outcomes were converted to binary.</p>
 <pre><code class="language-r">library(bnns)
 library(mlbench)
@@ -184,10 +219,7 @@ trial_data_train &lt;- training(trial_data_split)
 trial_data_test &lt;- testing(trial_data_split)
 </code></pre>
 <hr>
-<h2 id="-the-model">
-  🧠 The Model
-  <a class="anchor" href="#-the-model">#</a>
-</h2>
+<h2 id="-the-model">🧠 The Model</h2>
 <p>Our BNN has two hidden layers (24 and 12 nodes) and uses Cauchy priors to encourage sparsity. We used logistic output activation (<code>out_act_fn = 2</code>) for binary classification.</p>
 <pre><code class="language-r">bnn_model &lt;- bnns(
   diabetes ~ .,
@@ -205,10 +237,7 @@ trial_data_test &lt;- testing(trial_data_split)
 )
 </code></pre>
 <hr>
-<h2 id="-the-prediction">
-  🎯 The Prediction
-  <a class="anchor" href="#-the-prediction">#</a>
-</h2>
+<h2 id="-the-prediction">🎯 The Prediction</h2>
 <p>We predicted probabilities on the test set and extracted the <strong>posterior median</strong> and <strong>95% credible intervals</strong>.</p>
 <pre><code class="language-r">pred &lt;- predict(bnn_model, newdata = trial_data_test)
 pred_y &lt;- apply(pred, MARGIN = 1, median)
@@ -216,10 +245,7 @@ pred_quantiles &lt;- apply(pred, 1, function(x) quantile(x, probs = c(0.025, 0.9
   do.call(rbind, args = _)
 </code></pre>
 <hr>
-<h2 id="-model-performance">
-  📏 Model Performance
-  <a class="anchor" href="#-model-performance">#</a>
-</h2>
+<h2 id="-model-performance">📏 Model Performance</h2>
 <pre><code class="language-r">measure_bin(trial_data_test$diabetes, pred)
 </code></pre>
 <pre><code>Setting levels: control = 0, case = 1
@@ -248,10 +274,7 @@ $AUC
 </code></pre>
 <p>Performance was comparable to classical methods (AUC ~0.835), but with a massive advantage: <strong>uncertainty quantification</strong>.</p>
 <hr>
-<h2 id="-visualizing-predictions">
-  🔬 Visualizing Predictions
-  <a class="anchor" href="#-visualizing-predictions">#</a>
-</h2>
+<h2 id="-visualizing-predictions">🔬 Visualizing Predictions</h2>
 <pre><code class="language-r">plot_data &lt;- data.frame(
   Actual = trial_data_test$diabetes,
   Predicted = pred_y,
@@ -274,10 +297,7 @@ ggplot(plot_data, aes(x = Actual, y = Predicted)) +
 </code></pre>
 <img src="/post/2025/04/18/bnns-binary-classification/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 <hr>
-<h2 id="-why-use-bnns">
-  🧠 Why Use <code>bnns</code>?
-  <a class="anchor" href="#-why-use-bnns">#</a>
-</h2>
+<h2 id="-why-use-bnns">🧠 Why Use <code>bnns</code>?</h2>
 <ol>
 <li><strong>Non-linear modeling</strong>: Captures complex relationships among covariates without heavy pre-specification.</li>
 <li><strong>Credible intervals</strong>: Each prediction comes with its uncertainty.</li>
@@ -290,88 +310,184 @@ ggplot(plot_data, aes(x = Actual, y = Predicted)) +
 </li>
 </ol>
 <hr>
-<h2 id="-final-thoughts">
-  📣 Final Thoughts
-  <a class="anchor" href="#-final-thoughts">#</a>
-</h2>
+<h2 id="-final-thoughts">📣 Final Thoughts</h2>
 <p>Bayesian Neural Networks let us move beyond binary thinking and embrace <strong>informed uncertainty</strong>. When the stakes are high (think medicine, finance, or policy), <code>bnns</code> offers a probabilistic flashlight in the black box jungle.</p>
 <blockquote>
-<p><em>Ready to stop guessing your predictions? Start modeling your belief about your predictions.</em></p>
-</blockquote>
-<p>🔗 <a href="https://cran.r-project.org/package=bnns">Explore the <code>bnns</code> package</a></p>
-<p>💬 Like this blog? Share your thoughts and use-cases on <a href="https://www.linkedin.com/">LinkedIn</a> and tag <a href="https://www.linkedin.com/in/swarnendu-stat/">me</a>!</p>
+<p><em>Ready to stop guessing your predictions? Start modeling your belief about your predictions.</em></p></blockquote>
+<p>🔗 <a href="https://cran.r-project.org/package=bnns" target="_blank" rel="noopener">Explore the <code>bnns</code> package</a></p>
+<p>💬 Like this blog? Share your thoughts and use-cases on <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a> and tag <a href="https://www.linkedin.com/in/swarnendu-stat/" target="_blank" rel="noopener">me</a>!</p>
 <hr>
-</article>
- 
-      
 
-      <footer class="book-footer">
+        </div>
+
         
-  <div class="flex flex-wrap justify-between">
-
-
-
-
-
-</div>
-
-
-
-  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
-
-
- 
+        <div class="row ps-3 pe-3">
         
-      </footer>
+          <div class="col-md-6 share-buttons">
+          
+          </div>
+
+        
+        
+        </div>
+
+
 
       
-  
-  <div class="book-comments">
+      <hr />
+        
 
+
+
+
+
+
+
+
+
+
+
+
+<div class="row next-prev-navigator">
+  
+  
 </div>
-  
- 
 
-      <label for="menu-control" class="hidden book-menu-overlay"></label>
+      <hr />
+
+      
+      
+
+      
+      
+
+      </div>
+    </div>
+  </div>
+  
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+      
+  <section class="toc-section" id="toc-section">
+    
+  </section>
+
     </div>
 
     
-    <aside class="book-toc">
-      <div class="book-toc-content">
-        
-  
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#-the-problem">🔍 The Problem</a></li>
-    <li><a href="#-the-data">📊 The Data</a></li>
-    <li><a href="#-the-model">🧠 The Model</a></li>
-    <li><a href="#-the-prediction">🎯 The Prediction</a></li>
-    <li><a href="#-model-performance">📏 Model Performance</a></li>
-    <li><a href="#-visualizing-predictions">🔬 Visualizing Predictions</a></li>
-    <li><a href="#-why-use-bnns">🧠 Why Use <code>bnns</code>?</a></li>
-    <li><a href="#-final-thoughts">📣 Final Thoughts</a></li>
-  </ul>
-</nav>
-
-
- 
-      </div>
-    </aside>
     
-  </main>
+
+
+
+
+
+
+
+
+
+
+
 
   
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start">
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Navigation</h5>
+          
+        </div>
+        
+        
+        
+        
+          
+          <div class="col-md-4 col-sm-12">
+            <p>Stay up to date with email notification</p>
+            
+              <form method='post' action='https://blogtrottr.com'>
+              <div class="form-group">
+              <input type='email' class="form-control" name='btr_email' placeholder="Enter email"/><br />
+              <input type='hidden' name='btr_url' value='//index.xml' />
+              <input type='hidden' name='schedule_type' value='1' />
+              <small id="emailHelp" class="form-text text-muted">By entering your email address, you agree to receive the newsletter of this website.</small>
+              <button type="submit" class="btn btn-info"> Submit </button>
+              </div>
+              </form>
+            
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_b3360284c55cf72d.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2025 Copyright.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/scripts/application.js" integrity="" defer></script>
+
+
+    
+     
+
+    
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

@@ -3,8 +3,9 @@ title: "Power of Base R: A Performance Comparison with dplyr"
 author: "Swarnendu Chatterjee"
 date: "2025-01-17T22:32:22+0530"
 slug: "power-of-base-R"
-categories: ["R"]
+categories: ["R", "dplyr", "tidyverse", "base R"]
 tags: ["R", "dplyr", "tidyverse", "base R"]
+output: hugodown::md_document
 ---
 
 
@@ -65,10 +66,10 @@ mcb_filter
 
 ```
 Unit: microseconds
-   expr   min     lq     mean median     uq    max neval
- base_0  27.8  32.40  40.5975  37.40  47.70  273.3  1000
- base_1  37.8  46.70  57.1885  55.70  65.60  167.5  1000
-  dplyr 360.9 392.25 435.6562 405.75 432.65 4076.9  1000
+   expr   min     lq     mean median    uq    max neval
+ base_0  27.3  32.70  43.3981  38.20  50.2 1632.3  1000
+ base_1  37.4  46.65  59.6620  56.30  67.9 1762.0  1000
+  dplyr 365.0 406.55 444.7454 421.35 443.6 3155.3  1000
 ```
 
 ---
@@ -85,7 +86,7 @@ autoplot(mcb_filter) + ggtitle("Filter: Base R vs dplyr")
 agg_filter <- aggregate(time ~ expr, data = data.frame(mcb_filter), mean)$time
 ```
 
-So, base R code is on average 11 times **faster** than dplyr::filter. The absolute difference in 10k simulations is 3.950587 seconds.
+So, base R code is on average 10 times **faster** than dplyr::filter. The absolute difference in 10k simulations is 4.013473 seconds.
 
 ## 2. Select Columns
 
@@ -104,10 +105,10 @@ mcb_select
 
 ```
 Unit: microseconds
-   expr   min    lq     mean median     uq    max neval
- base_0   5.7   6.5  10.3490   9.10  10.40 1422.1  1000
- base_1  24.9  31.9  41.6527  41.70  47.60  341.7  1000
-  dplyr 409.0 441.9 483.2336 455.05 473.65 2125.1  1000
+   expr   min     lq     mean median    uq    max neval
+ base_0   5.7   6.80   9.2123   9.60  10.8   41.2  1000
+ base_1  25.2  31.85  42.6012  43.05  49.1  163.8  1000
+  dplyr 434.1 470.00 517.3763 483.65 505.2 2877.8  1000
 ```
 
 ---
@@ -124,7 +125,7 @@ autoplot(mcb_select) + ggtitle("Select: Base R vs dplyr")
 agg_select <- aggregate(time ~ expr, data = data.frame(mcb_select), mean)$time
 ```
 
-So, base R code is on average 47 times **faster** than dplyr::select. The absolute difference in 10k simulations is 4.728846 seconds.
+So, base R code is on average 56 times **faster** than dplyr::select. The absolute difference in 10k simulations is 5.08164 seconds.
 
 ## 3. Add/Modify Columns
 
@@ -143,10 +144,10 @@ mcb_mutate
 
 ```
 Unit: microseconds
-   expr   min     lq     mean median     uq    max neval
- base_0   3.2   4.20   6.4048   6.80   8.00   31.1  1000
- base_1  26.5  38.25  48.2512  47.95  56.65  133.4  1000
-  dplyr 368.3 393.20 428.1848 406.45 423.45 1933.3  1000
+   expr   min    lq     mean median     uq    max neval
+ base_0   3.0   4.0   6.2721    6.2   8.00   23.3  1000
+ base_1  26.9  38.6  49.7894   49.3  59.90  159.5  1000
+  dplyr 368.6 401.8 436.5808  416.6 433.35 2068.8  1000
 ```
 
 ---
@@ -163,7 +164,7 @@ autoplot(mcb_mutate) + ggtitle("Mutate: Base R vs dplyr")
 agg_mutate <- aggregate(time ~ expr, data = data.frame(mcb_mutate), mean)$time
 ```
 
-So, base R code is on average 67 times **faster** than dplyr::mutate. The absolute difference in 10k simulations is 4.2178 seconds.
+So, base R code is on average 70 times **faster** than dplyr::mutate. The absolute difference in 10k simulations is 4.303087 seconds.
 
 ## 4. Summarise Data
 
@@ -183,9 +184,9 @@ mcb_summarise
 
 ```
 Unit: microseconds
-   expr   min     lq     mean median    uq    max neval
- base_0 114.2 134.65 159.2314 167.05 176.3  652.6  1000
-  dplyr 610.1 658.20 708.2480 674.30 693.4 3743.6  1000
+   expr   min     lq     mean median     uq    max neval
+ base_0 114.6 134.50 164.4607  167.4 179.75 1637.3  1000
+  dplyr 607.5 660.35 709.8235  677.2 699.80 3643.8  1000
 ```
 
 ---
@@ -202,7 +203,7 @@ autoplot(mcb_summarise) + ggtitle("Summarise: Base R vs dplyr")
 agg_summarise <- aggregate(time ~ expr, data = data.frame(mcb_summarise), mean)$time
 ```
 
-So, base R code is on average 4 times **faster** than dplyr::summarise. The absolute difference in 10k simulations is 5.490166 seconds.
+So, base R code is on average 4 times **faster** than dplyr::summarise. The absolute difference in 10k simulations is 5.453628 seconds.
 
 ## 5. Grouped Summary
 
@@ -223,9 +224,9 @@ mcb_grp
 
 ```
 Unit: microseconds
-   expr    min      lq      mean  median     uq     max neval
- base_0  644.7  700.40  756.0318  732.20  749.7  2721.7  1000
-  dplyr 1974.1 2038.25 2166.2883 2062.65 2127.0 11647.2  1000
+   expr    min      lq      mean median   uq     max neval
+ base_0  673.9  724.25  822.9378  756.3  787 39185.9  1000
+  dplyr 2095.8 2181.25 2334.0126 2225.7 2296 14855.4  1000
 ```
 
 ---
@@ -242,7 +243,7 @@ autoplot(mcb_grp) + ggtitle("Grouped Summarise: Base R vs dplyr")
 agg_grp <- aggregate(time ~ expr, data = data.frame(mcb_grp), mean)$time
 ```
 
-So, base R code is on average 3 times **faster** than dplyr::grp. The absolute difference in 10k simulations is 14.102565 seconds.
+So, base R code is on average 3 times **faster** than dplyr::grp. The absolute difference in 10k simulations is 15.110748 seconds.
 
 ## 6. Sort Data
 
@@ -260,9 +261,9 @@ mcb_sort
 
 ```
 Unit: microseconds
-   expr    min     lq      mean  median     uq     max neval
- base_0   39.6   51.3   66.4787   72.05   76.2  1177.0  1000
-  dplyr 1290.4 1349.6 1461.4935 1364.75 1405.9 39121.2  1000
+   expr    min      lq     mean  median     uq    max neval
+ base_0   39.2   50.60   68.453   70.90   78.2 1642.0  1000
+  dplyr 1311.7 1374.85 1483.152 1403.75 1460.9 4921.1  1000
 ```
 
 ---
@@ -279,7 +280,7 @@ autoplot(mcb_sort) + ggtitle("Sort: Base R vs dplyr")
 agg_sort <- aggregate(time ~ expr, data = data.frame(mcb_sort), mean)$time
 ```
 
-So, base R code is on average 22 times **faster** than dplyr::arrange. The absolute difference in 10k simulations is 13.950148 seconds.
+So, base R code is on average 22 times **faster** than dplyr::arrange. The absolute difference in 10k simulations is 14.146992 seconds.
 
 ## 7. Join Data
 
@@ -299,9 +300,9 @@ mcb_join
 
 ```
 Unit: microseconds
-   expr   min    lq     mean median    uq     max neval
- base_0 254.7 299.6 349.5052 335.75 346.4 10593.6  1000
-  dplyr 625.5 660.9 710.3915 676.35 698.6  2619.2  1000
+   expr   min     lq     mean median     uq    max neval
+ base_0 256.0 303.55 350.0250 340.10 355.05 2151.8  1000
+  dplyr 694.1 736.25 806.4005 756.05 799.95 5727.6  1000
 ```
 
 ---
@@ -318,7 +319,7 @@ autoplot(mcb_join) + ggtitle("Join: Base R vs dplyr")
 agg_join <- aggregate(time ~ expr, data = data.frame(mcb_join), mean)$time
 ```
 
-So, base R code is on average 2 times **faster** than dplyr::left_join. The absolute difference in 10k simulations is 3.608863 seconds.
+So, base R code is on average 2 times **faster** than dplyr::left_join. The absolute difference in 10k simulations is 4.563755 seconds.
 
 ## 8. Group and Apply Function 1
 
@@ -338,9 +339,9 @@ mcb_grp_map
 
 ```
 Unit: microseconds
-   expr    min      lq      mean  median     uq    max neval
- base_0  775.7  839.55  912.2631  858.85  890.8 3862.9  1000
-  dplyr 2363.6 2443.75 2576.9940 2480.70 2560.0 4558.9  1000
+   expr    min      lq      mean  median      uq    max neval
+ base_0  761.6  850.80  950.6823  884.80  940.45 4405.0  1000
+  dplyr 2447.7 2543.05 2780.8759 2656.45 2811.50 5602.4  1000
 ```
 
 ---
@@ -357,7 +358,7 @@ autoplot(mcb_grp_map) + ggtitle("Group Map: Base R vs dplyr")
 agg_grp_map <- aggregate(time ~ expr, data = data.frame(mcb_grp_map), mean)$time
 ```
 
-So, base R code is on average 3 times **faster** than dplyr::group_map. The absolute difference in 10k simulations is 16.647309 seconds.
+So, base R code is on average 3 times **faster** than dplyr::group_map. The absolute difference in 10k simulations is 18.301936 seconds.
 
 ## 9. Group and Apply Function 2
 
@@ -379,9 +380,9 @@ mcb_grp_mod
 
 ```
 Unit: milliseconds
-   expr    min      lq     mean median      uq     max neval
- base_0 1.3825 1.49395 1.604264 1.5339 1.59905  6.1623  1000
-  dplyr 4.3550 4.52505 4.843361 4.6633 4.82740 42.1022  1000
+   expr    min      lq     mean  median      uq     max neval
+ base_0 1.4087 1.50025 1.594760 1.53825 1.59505  3.7525  1000
+  dplyr 4.5044 4.69865 5.065493 4.80680 5.03665 44.4467  1000
 ```
 
 ---
@@ -398,7 +399,7 @@ autoplot(mcb_grp_mod) + ggtitle("Group Modify: Base R vs dplyr")
 agg_grp_mod <- aggregate(time ~ expr, data = data.frame(mcb_grp_mod), mean)$time
 ```
 
-So, base R code is on average 3 times **faster** than dplyr::group_modify. The absolute difference in 10k simulations is 32.390974 seconds.
+So, base R code is on average 3 times **faster** than dplyr::group_modify. The absolute difference in 10k simulations is 34.707333 seconds.
 
 ## 10. Rowwise
 
@@ -429,7 +430,7 @@ autoplot(mcb_rowwise) + ggtitle("Rowwise: Base R vs dplyr")
 agg_rowwise <- aggregate(time ~ expr, data = data.frame(mcb_rowwise), mean)$time
 ```
 
-So, base R code is on average 3 times **faster** than dplyr::rowwise. The absolute difference in 10k simulations is 21.147045 seconds.
+So, base R code is on average 3 times **faster** than dplyr::rowwise. The absolute difference in 10k simulations is 22.976678 seconds.
 
 ## 11. Count Rows by Group
 
@@ -447,9 +448,9 @@ mcb_count
 
 ```
 Unit: microseconds
-   expr    min      lq      mean median      uq    max neval
- base_0   15.1   20.95   30.1702   35.8   38.00  115.8  1000
-  dplyr 1283.8 1324.15 1418.8261 1357.9 1406.35 3043.2  1000
+   expr    min      lq      mean median     uq    max neval
+ base_0   14.8   21.30   31.7192   36.6   38.8  176.9  1000
+  dplyr 1396.4 1454.55 1585.3359 1502.1 1578.7 4258.1  1000
 ```
 
 ---
@@ -466,7 +467,7 @@ autoplot(mcb_count) + ggtitle("Count: Base R vs dplyr")
 agg_count <- aggregate(time ~ expr, data = data.frame(mcb_count), mean)$time
 ```
 
-So, base R code is on average 47 times **faster** than dplyr::count. The absolute difference in 10k simulations is 13.886559 seconds.
+So, base R code is on average 50 times **faster** than dplyr::count. The absolute difference in 10k simulations is 15.536167 seconds.
 
 ## 12. Identify Distinct Rows
 
@@ -484,9 +485,9 @@ mcb_distinct
 
 ```
 Unit: microseconds
-   expr   min    lq     mean median     uq    max neval
- base_0 568.7 599.7 659.1403  615.2 646.40 3656.1  1000
-  dplyr 228.3 256.8 290.7550  270.5 284.05 1908.9  1000
+   expr   min     lq     mean median     uq     max neval
+ base_0 551.1 587.85 682.7063  608.1 638.45 39456.5  1000
+  dplyr 247.7 285.20 320.7242  298.1 315.30  2128.6  1000
 ```
 
 ---
@@ -503,11 +504,11 @@ autoplot(mcb_distinct) + ggtitle("Distinct: Base R vs dplyr")
 agg_distinct <- aggregate(time ~ expr, data = data.frame(mcb_distinct), mean)$time
 ```
 
-So, base R code is on average 2 times **slower** than dplyr::distinct. The absolute difference in 10k simulations is 3.683853 seconds. 
+So, base R code is on average 2 times **slower** than dplyr::distinct. The absolute difference in 10k simulations is 3.619821 seconds. 
 
 ## Summary
 
-Given that these functions are very commonly used, it is fair to assume that these functions are used at least 5 times in a standard simulation code. If that simulation is repeated for 10k times, then the total gain we have by using base R is at least 10.8697507 minutes.
+Given that these functions are very commonly used, it is fair to assume that these functions are used at least 5 times in a standard simulation code. If that simulation is repeated for 10k times, then the total gain we have by using base R is at least 11.7146347 minutes.
 
 ## Conclusion
 

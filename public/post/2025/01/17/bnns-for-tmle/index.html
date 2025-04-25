@@ -1,164 +1,200 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="
-  Introduction
-  #
+<html lang="en">
+  <head>
+    <title>Using bnns for TMLE</title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
+<link rel="stylesheet" href="/styles/application.template.scss" integrity="" />
 
 
-  Simulating Data
-  #
 
-We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="/post/2025/01/17/bnns-for-tmle/">
-  <meta property="og:site_name" content="Statistically Speaking: An R Journey">
-  <meta property="og:title" content="Using bnns for TMLE">
-  <meta property="og:description" content="Introduction # This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
-Simulating Data # We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2025-01-17T23:24:25+05:30">
-    <meta property="article:modified_time" content="2025-01-17T23:24:25+05:30">
-    <meta property="article:tag" content="Bnns">
-    <meta property="article:tag" content="Neural Network">
-    <meta property="article:tag" content="Bayesian">
-    <meta property="article:tag" content="Tmle">
-<title>Using bnns for TMLE | Statistically Speaking: An R Journey</title>
-<link rel="icon" href="/favicon.png" >
-<link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="/post/2025/01/17/bnns-for-tmle/">
-<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" >
-  <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.1f67a41afe9b5758d8861474614b2c1781fb058c64c23e1416ac15e8345336f4.js" ></script>
-<!--
-Made with Book Theme
-https://github.com/alex-shpak/hugo-book
--->
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Statistically Speaking: An R Journey"/>
+<meta property="og:type" content="website"/>
+<meta property="og:description" content=""/>
+<meta property="og:image" content="/">
+<meta property="og:url" content="/">
+
+    
+<meta name="description" content="Using bnns for TMLE" />
+
+
+
+    
+
+
+
+
+
+    <script integrity="sha256-DO4ugzEwhTW1Id1UIWn0gUJWaebCYOypeTit6LW4QB4=">
+     let theme = localStorage.getItem('theme-scheme') || localStorage.getItem('darkmode:color-scheme') || 'light'
+if (theme === 'system') {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    theme = 'dark'
+  } else {
+    theme = 'light'
+  }
+}
+document.documentElement.setAttribute('data-theme', theme)
+
+    </script>
+    
+  </head>
+
+  <body class="type-post kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-</head>
-<body dir="ltr">
-  <input type="checkbox" class="hidden toggle" id="menu-control" />
-  <input type="checkbox" class="hidden toggle" id="toc-control" />
-  <main class="container flex">
-    <aside class="book-menu">
-      <div class="book-menu-content">
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      Statistically Speaking: An R Journey</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
         
-  <nav>
-<h2 class="book-brand">
-  <a class="flex align-center" href="/"><span>Statistically Speaking: An R Journey</span>
-  </a>
-</h2>
-
-
-<div class="book-search hidden">
-  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
-  <div class="book-search-spinner hidden"></div>
-  <ul id="book-search-results"></ul>
-</div>
-<script>document.querySelector(".book-search").classList.remove("hidden")</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</nav>
-
-
-
-
-  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
-
-
- 
-      </div>
-    </aside>
-
-    <div class="book-page">
-      <header class="book-header">
         
-  <div class="flex align-center justify-between">
-  <label for="menu-control">
-    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
-  </label>
-
-  <h3>Using bnns for TMLE</h3>
-
-  <label for="toc-control">
-    
-    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
-    
-  </label>
-</div>
-
-
-  
-  <aside class="hidden clearfix">
-    
-  
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#simulating-data">Simulating Data</a></li>
-    <li><a href="#applying-tmle-with-bnns">Applying TMLE with <code>bnns</code></a>
-      <ul>
-        <li><a href="#step-1-install-and-load-required-packages">Step 1: Install and Load Required Packages</a></li>
-        <li><a href="#step-2-tmle-implementation">Step 2: TMLE Implementation</a></li>
+        
+        
+        
+        
+        
+        
       </ul>
-    </li>
-    <li><a href="#comparing-tmle-to-traditional-methods">Comparing TMLE to Traditional Methods</a></li>
-    <li><a href="#visualizing-results">Visualizing Results</a></li>
-    <li><a href="#summary">Summary</a></li>
-  </ul>
+    </div>
+  </div>
+  
+  
+  
+  
 </nav>
 
 
 
-  </aside>
-  
- 
-      </header>
+      
+      
+  <section class="sidebar-section" id="sidebar-section">
+    <div class="sidebar-holder">
+      <div class="sidebar" id="sidebar">
+        <form class="mx-auto" method="get" action="/search">
+          <input type="text" name="keyword" value="" placeholder="Search" data-search="" id="search-box" />
+        </form>
+        <div class="sidebar-tree">
+          <ul class="tree" id="tree">
+            <li id="list-heading"><a href="/posts/" data-filter="all">Posts</a></li>
+            <div class="subtree">
+                
+
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
       
       
-  <article class="markdown book-article"><h2 id="introduction">
-  Introduction
-  <a class="anchor" href="#introduction">#</a>
-</h2>
-<p>This document demonstrates how to use the <a href="https://cran.r-project.org/package=bnns">bnns</a> package with <strong>TMLE</strong> for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the <strong>Average Treatment Effect (ATE)</strong>. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this <a href="https://www.khstats.com/blog/tmle/tutorial">tmle tutorial</a>.</p>
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      
+      <div class="hero-area col-sm-12" id="hero-area" style='background-image: url(/images/default-hero.jpg);'>
+      </div>
+
+      
+      <div class="page-content">
+        
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/default-avatar_hu_af7c48c7ef93202f.png' alt="Author Image">
+          <h5 class="author-name"></h5>
+          <p class="text-muted">Friday, January 17, 2025</p>
+        </div>
+        
+
+        <div class="title">
+          <h1>Using bnns for TMLE</h1>
+        </div>
+
+        
+
+        
+        <div class="post-content" id="post-content">
+          <h2 id="introduction">Introduction</h2>
+<p>This document demonstrates how to use the <a href="https://cran.r-project.org/package=bnns" target="_blank" rel="noopener">bnns</a> package with <strong>TMLE</strong> for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the <strong>Average Treatment Effect (ATE)</strong>. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this <a href="https://www.khstats.com/blog/tmle/tutorial" target="_blank" rel="noopener">tmle tutorial</a>.</p>
 <hr>
-<h2 id="simulating-data">
-  Simulating Data
-  <a class="anchor" href="#simulating-data">#</a>
-</h2>
+<h2 id="simulating-data">Simulating Data</h2>
 <p>We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.</p>
 <pre><code class="language-r">library(bnns)
 
@@ -189,23 +225,14 @@ true_ate
 #&gt; [1] 0.07431068
 </code></pre>
 <hr>
-<h2 id="applying-tmle-with-bnns">
-  Applying TMLE with <code>bnns</code>
-  <a class="anchor" href="#applying-tmle-with-bnns">#</a>
-</h2>
-<h3 id="step-1-install-and-load-required-packages">
-  Step 1: Install and Load Required Packages
-  <a class="anchor" href="#step-1-install-and-load-required-packages">#</a>
-</h3>
+<h2 id="applying-tmle-with-bnns">Applying TMLE with <code>bnns</code></h2>
+<h3 id="step-1-install-and-load-required-packages">Step 1: Install and Load Required Packages</h3>
 <p>Ensure that the <strong><code>bnns</code></strong> and <strong><code>tmle</code></strong> packages are installed.</p>
 <pre><code class="language-r"># Install ggplot2 and bnns from CRAN
 install.packages(&quot;ggplot2&quot;)
 install.packages(&quot;bnns&quot;)
 </code></pre>
-<h3 id="step-2-tmle-implementation">
-  Step 2: TMLE Implementation
-  <a class="anchor" href="#step-2-tmle-implementation">#</a>
-</h3>
+<h3 id="step-2-tmle-implementation">Step 2: TMLE Implementation</h3>
 <p>We use <code>tmle</code> to estimate the ATE. Both the treatment mechanism (<code>g</code>) and the outcome mechanism (<code>Q</code>) are modeled using Bayesian Neural Networks via the <code>bnns</code> package.</p>
 <pre><code class="language-r">### Step 1: Estimate Q
 Q &lt;- bnns(Y ~ -1 + ., data = sim_data, L = 2, nodes = c(2, 2), act_fn = c(2, 2), out_act_fn = 2)
@@ -252,10 +279,7 @@ median(tmle_ate)
 #&gt; [1] 0.08956612
 </code></pre>
 <hr>
-<h2 id="comparing-tmle-to-traditional-methods">
-  Comparing TMLE to Traditional Methods
-  <a class="anchor" href="#comparing-tmle-to-traditional-methods">#</a>
-</h2>
+<h2 id="comparing-tmle-to-traditional-methods">Comparing TMLE to Traditional Methods</h2>
 <p>To highlight the benefits of TMLE, compare it to other methods such as:</p>
 <ol>
 <li><strong>IPTW (Inverse Probability of Treatment Weighting)</strong></li>
@@ -313,10 +337,7 @@ results
 #&gt; 4     Naive 0.12824940 0.12824940 0.12824940
 </code></pre>
 <hr>
-<h2 id="visualizing-results">
-  Visualizing Results
-  <a class="anchor" href="#visualizing-results">#</a>
-</h2>
+<h2 id="visualizing-results">Visualizing Results</h2>
 <p>Plot the estimates from different methods to compare their performance.</p>
 <pre><code class="language-r">library(ggplot2)
 
@@ -334,85 +355,179 @@ ggplot(results, aes(x = forcats::fct_reorder(Method, Estimate), y = Estimate, fi
 </code></pre>
 <img src="/post/2025/01/17/bnns-for-tmle/index_files/figure-html/visualization-1.png" width="672" />
 <hr>
-<h2 id="summary">
-  Summary
-  <a class="anchor" href="#summary">#</a>
-</h2>
-<p>This tutorial demonstrates how to use the <a href="https://swarnendu-stat.github.io/bnns/">bnns</a> package for TMLE to estimate the Average Treatment Effect (ATE). By leveraging the flexibility of Bayesian Neural Networks, TMLE can handle complex data structures and improve accuracy compared to traditional methods. Use this workflow for applications in clinical trials, epidemiology, and other domains requiring robust causal inference.</p>
-</article>
- 
-      
+<h2 id="summary">Summary</h2>
+<p>This tutorial demonstrates how to use the <a href="https://swarnendu-stat.github.io/bnns/" target="_blank" rel="noopener">bnns</a> package for TMLE to estimate the Average Treatment Effect (ATE). By leveraging the flexibility of Bayesian Neural Networks, TMLE can handle complex data structures and improve accuracy compared to traditional methods. Use this workflow for applications in clinical trials, epidemiology, and other domains requiring robust causal inference.</p>
 
-      <footer class="book-footer">
+        </div>
+
         
-  <div class="flex flex-wrap justify-between">
-
-
-
-
-
-</div>
-
-
-
-  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
-
-
- 
+        <div class="row ps-3 pe-3">
         
-      </footer>
+          <div class="col-md-6 share-buttons">
+          
+          </div>
+
+        
+        
+        </div>
+
+
 
       
-  
-  <div class="book-comments">
+      <hr />
+        
 
+
+
+
+
+
+
+
+
+
+
+
+<div class="row next-prev-navigator">
+  
+  
 </div>
-  
- 
 
-      <label for="menu-control" class="hidden book-menu-overlay"></label>
+      <hr />
+
+      
+      
+
+      
+      
+
+      </div>
+    </div>
+  </div>
+  
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+      
+  <section class="toc-section" id="toc-section">
+    
+  </section>
+
     </div>
 
     
-    <aside class="book-toc">
-      <div class="book-toc-content">
-        
-  
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#simulating-data">Simulating Data</a></li>
-    <li><a href="#applying-tmle-with-bnns">Applying TMLE with <code>bnns</code></a>
-      <ul>
-        <li><a href="#step-1-install-and-load-required-packages">Step 1: Install and Load Required Packages</a></li>
-        <li><a href="#step-2-tmle-implementation">Step 2: TMLE Implementation</a></li>
-      </ul>
-    </li>
-    <li><a href="#comparing-tmle-to-traditional-methods">Comparing TMLE to Traditional Methods</a></li>
-    <li><a href="#visualizing-results">Visualizing Results</a></li>
-    <li><a href="#summary">Summary</a></li>
-  </ul>
-</nav>
-
-
- 
-      </div>
-    </aside>
     
-  </main>
+
+
+
+
+
+
+
+
+
+
+
 
   
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start">
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Navigation</h5>
+          
+        </div>
+        
+        
+        
+        
+          
+          <div class="col-md-4 col-sm-12">
+            <p>Stay up to date with email notification</p>
+            
+              <form method='post' action='https://blogtrottr.com'>
+              <div class="form-group">
+              <input type='email' class="form-control" name='btr_email' placeholder="Enter email"/><br />
+              <input type='hidden' name='btr_url' value='//index.xml' />
+              <input type='hidden' name='schedule_type' value='1' />
+              <small id="emailHelp" class="form-text text-muted">By entering your email address, you agree to receive the newsletter of this website.</small>
+              <button type="submit" class="btn btn-info"> Submit </button>
+              </div>
+              </form>
+            
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_b3360284c55cf72d.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2025 Copyright.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/scripts/application.js" integrity="" defer></script>
+
+
+    
+     
+
+    
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

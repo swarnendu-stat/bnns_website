@@ -3,8 +3,9 @@ title: "Using bnns for TMLE"
 author: "Swarnendu Chatterjee"
 date: "2025-01-17T23:24:25+0530"
 slug: "bnns-for-tmle"
-categories: ["R"]
+categories: ["R", "bnns", "neural network", "Bayesian", "tmle"]
 tags: ["bnns", "neural network", "Bayesian", "tmle"]
+output: hugodown::md_document
 ---
 
 
@@ -113,7 +114,7 @@ tmle_ate_list <- lapply(1:dim(Q_A)[2], function(i){
 
 tmle_ate <- unlist(tmle_ate_list)
 median(tmle_ate)
-#> [1] 0.08956612
+#> [1] 0.08957689
 ```
 
 ---
@@ -157,6 +158,49 @@ freq_tmle <- tmle(
   g.SL.library = c("SL.glm", "SL.ranger")
 )
 #> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
+#> Loading required namespace: ranger
+#> Error : loading required package (ranger) failed
 
 # Results
 freq_tmle_ate <- freq_tmle$estimates$ATE$psi
@@ -174,8 +218,8 @@ results <- data.frame(
 results
 #>      Method   Estimate     CI_low    CI_high
 #> 1  True ATE 0.07431068 0.07431068 0.07431068
-#> 2  BNN_TMLE 0.08956612 0.08372502 0.09625603
-#> 3 Freq_TMLE 0.09309979 0.05910546 0.12709413
+#> 2  BNN_TMLE 0.08957689 0.08349883 0.09569561
+#> 3 Freq_TMLE 0.08813580 0.05292755 0.12334406
 #> 4     Naive 0.12824940 0.12824940 0.12824940
 ```
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on </title>
+        <link>/posts/</link>
+        <description>Recent content in Posts on </description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <lastBuildDate>Fri, 17 Jan 2025 00:00:00 +0530</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>About</title>
+        <link>/posts/about/</link>
+        <pubDate>Fri, 17 Jan 2025 00:00:00 +0530</pubDate>
+        
+        <guid>/posts/about/</guid>
+        <description>&lt;h2 id=&#34;about-me&#34;&gt;&lt;a href=&#34;#about-me&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;About Me
+&lt;/h2&gt;&lt;p&gt;Hi, I’m Swarnendu, a statistician and R enthusiast with a passion for unlocking the power of data. Welcome to my blog—a space where I share practical knowledge, tutorials, and insights to help you master R programming and data science.&lt;/p&gt;
+&lt;h2 id=&#34;my-journey-with-r&#34;&gt;&lt;a href=&#34;#my-journey-with-r&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;My Journey with R
+&lt;/h2&gt;&lt;p&gt;For years, R has been my go-to tool for statistical modeling, data visualization, and machine learning. From analyzing clinical trial data to building interactive Shiny apps, I’ve seen firsthand how R transforms complex problems into elegant solutions. This blog is my way of giving back to the R community by sharing what I’ve learned—and what I’m still discovering.
+What You’ll Find Here&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Hands-On Tutorials&lt;/strong&gt;: Learn R programming with clear, practical examples.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Statistical Modeling&lt;/strong&gt;: Dive into advanced techniques for robust analysis.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Data Visualization&lt;/strong&gt;: Create stunning visuals with ggplot2 and beyond.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Machine Learning&lt;/strong&gt;: Apply R to real-world ML challenges.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Performance Tips&lt;/strong&gt;: Optimize code and compare tools like Shiny and dplyr.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Real-World Applications&lt;/strong&gt;: Explore case studies from clinical trials, simulations, and more.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;why-i-do-this&#34;&gt;&lt;a href=&#34;#why-i-do-this&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Why I Do This
+&lt;/h2&gt;&lt;p&gt;I believe R is more than a programming language—it’s a gateway to understanding data. My goal is to make R accessible to everyone, whether you’re a beginner writing your first script or an expert tackling complex models. I’m here to simplify concepts, share best practices, and inspire you to push the boundaries of what’s possible with R.&lt;/p&gt;
+&lt;p&gt;Let’s Connect&lt;/p&gt;
+&lt;p&gt;Join me on this R journey! Check out my &lt;a class=&#34;link&#34; href=&#34;https://github.com/swarnendu-stat/bnns&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt; for code and projects, or follow me on &lt;a class=&#34;link&#34; href=&#34;https://www.linkedin.com/in/swarnendu-stat/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;LinkedIn&lt;/a&gt; for updates. Have a question or idea? Drop a comment on any post or reach out directly.
+Thank you for being here—let’s code, analyze, and learn together!&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
