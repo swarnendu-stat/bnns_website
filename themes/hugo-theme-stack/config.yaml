@@ -18,7 +18,7 @@ params:
 
     footer:
         since: 2025
-        customText:
+        customText: <a href="https://www.r-bloggers.com/" target="_blank">R Bloggers</a>
     
     dateFormat:
         published: Jan 02, 2006
