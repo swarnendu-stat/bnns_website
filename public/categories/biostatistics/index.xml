@@ -1,18 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Biostatistics on </title>
-        <link>/categories/biostatistics/</link>
-        <description>Recent content in Biostatistics on </description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en</language>
-        <lastBuildDate>Fri, 18 Apr 2025 22:21:00 +0530</lastBuildDate><atom:link href="/categories/biostatistics/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
-        <link>/post/bnns-binary-classification/</link>
-        <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-        
-        <guid>/post/bnns-binary-classification/</guid>
-        <description>&lt;blockquote&gt;
+  <channel>
+    <title>Biostatistics on </title>
+    <link>/categories/biostatistics/</link>
+    <description>Recent content in Biostatistics on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 18 Apr 2025 22:21:00 +0530</lastBuildDate>
+    
+        <atom:link href="/categories/biostatistics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
+      <link>/post/bnns-binary-classification/</link>
+      <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
+      
+      <guid>/post/bnns-binary-classification/</guid>
+      <description>&lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;-the-problem&#34;&gt;&lt;a href=&#34;#-the-problem&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;🔍 The Problem
@@ -134,7 +138,21 @@ $AUC
     &gt;me&lt;/a&gt;!&lt;/p&gt;
 &lt;hr&gt;
 </description>
-        </item>
-        
-    </channel>
+      
+            <category>R</category>
+      
+            <category>Bayesian Neural Networks</category>
+      
+            <category>Clinical Trials</category>
+      
+      
+            <category>Biostatistics</category>
+      
+            <category>Machine Learning</category>
+      
+            <category>Bayesian Methods</category>
+      
+    </item>
+    
+  </channel>
 </rss>

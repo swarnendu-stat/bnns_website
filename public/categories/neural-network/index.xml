@@ -1,18 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Neural Network on </title>
-        <link>/categories/neural-network/</link>
-        <description>Recent content in Neural Network on </description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en</language>
-        <lastBuildDate>Fri, 17 Jan 2025 23:24:25 +0530</lastBuildDate><atom:link href="/categories/neural-network/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Using bnns for TMLE</title>
-        <link>/post/bnns-for-tmle/</link>
-        <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-        
-        <guid>/post/bnns-for-tmle/</guid>
-        <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+  <channel>
+    <title>Neural Network on </title>
+    <link>/categories/neural-network/</link>
+    <description>Recent content in Neural Network on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 17 Jan 2025 23:24:25 +0530</lastBuildDate>
+    
+        <atom:link href="/categories/neural-network/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using bnns for TMLE</title>
+      <link>/post/bnns-for-tmle/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
+      
+      <guid>/post/bnns-for-tmle/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
 &lt;/h2&gt;&lt;p&gt;This document demonstrates how to use the &lt;a class=&#34;link&#34; href=&#34;https://cran.r-project.org/package=bnns&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;bnns&lt;/a&gt; package with &lt;strong&gt;TMLE&lt;/strong&gt; for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the &lt;strong&gt;Average Treatment Effect (ATE)&lt;/strong&gt;. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this &lt;a class=&#34;link&#34; href=&#34;https://www.khstats.com/blog/tmle/tutorial&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;tmle tutorial&lt;/a&gt;.&lt;/p&gt;
@@ -170,7 +174,27 @@
 &lt;/h2&gt;&lt;p&gt;This tutorial demonstrates how to use the &lt;a class=&#34;link&#34; href=&#34;https://swarnendu-stat.github.io/bnns/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;bnns&lt;/a&gt; package for TMLE to estimate the Average Treatment Effect (ATE). By leveraging the flexibility of Bayesian Neural Networks, TMLE can handle complex data structures and improve accuracy compared to traditional methods. Use this workflow for applications in clinical trials, epidemiology, and other domains requiring robust causal inference.&lt;/p&gt;
 </description>
-        </item>
-        
-    </channel>
+      
+            <category>bnns</category>
+      
+            <category>neural network</category>
+      
+            <category>Bayesian</category>
+      
+            <category>tmle</category>
+      
+      
+            <category>R</category>
+      
+            <category>bnns</category>
+      
+            <category>neural network</category>
+      
+            <category>Bayesian</category>
+      
+            <category>tmle</category>
+      
+    </item>
+    
+  </channel>
 </rss>
