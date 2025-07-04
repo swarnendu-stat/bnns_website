@@ -1,18 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Dplyr on </title>
-        <link>/tags/dplyr/</link>
-        <description>Recent content in Dplyr on </description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en</language>
-        <lastBuildDate>Fri, 17 Jan 2025 22:32:22 +0530</lastBuildDate><atom:link href="/tags/dplyr/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Power of Base R: A Performance Comparison with dplyr</title>
-        <link>/post/power-of-base-r/</link>
-        <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
-        
-        <guid>/post/power-of-base-r/</guid>
-        <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+  <channel>
+    <title>Dplyr on </title>
+    <link>/tags/dplyr/</link>
+    <description>Recent content in Dplyr on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 17 Jan 2025 22:32:22 +0530</lastBuildDate>
+    
+        <atom:link href="/tags/dplyr/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Power of Base R: A Performance Comparison with dplyr</title>
+      <link>/post/power-of-base-r/</link>
+      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
+      
+      <guid>/post/power-of-base-r/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
 &lt;/h2&gt;&lt;p&gt;This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;While dplyr is renowned for its intuitive syntax and efficiency,&lt;/li&gt;
@@ -288,7 +292,25 @@
 &lt;li&gt;underscoring the importance of benchmarking and profiling in the R language.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        </item>
-        
-    </channel>
+      
+            <category>R</category>
+      
+            <category>dplyr</category>
+      
+            <category>tidyverse</category>
+      
+            <category>base R</category>
+      
+      
+            <category>R</category>
+      
+            <category>dplyr</category>
+      
+            <category>tidyverse</category>
+      
+            <category>base R</category>
+      
+    </item>
+    
+  </channel>
 </rss>

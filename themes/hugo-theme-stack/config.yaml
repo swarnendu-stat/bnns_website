@@ -4,9 +4,9 @@ defaultContentLanguage: "en"
 languageCode: "en-us"
 
 outputs:
-  home:
-    - HTML
-    - RSS
+    home:
+        - HTML
+        - RSS
 
 module:
     hugoVersion:

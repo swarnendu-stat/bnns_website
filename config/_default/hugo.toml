@@ -1,3 +1,8 @@
 theme = "hugo-theme-stack"
 [module.hugoVersion]
 min = "0.128.0"
+[outputs]
+  home = ['html', 'rss']
+  section = ['html', 'rss']
+  taxonomy = ['html']
+  term = ['html']
