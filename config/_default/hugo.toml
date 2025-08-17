@@ -6,3 +6,8 @@ min = "0.128.0"
   section = ['html', 'rss']
   taxonomy = ['html']
   term = ['html']
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true  
