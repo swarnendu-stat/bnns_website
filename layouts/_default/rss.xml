@@ -1,59 +1,32 @@
-{{- $base := .Site.BaseURL -}}
-{{- $title := .Site.Title -}}
-<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ if eq .Title $title }}{{ $title }}{{ else }}{{ with .Title }}{{ . }} on {{ end }}{{ $title }}{{ end }}</title>
-    <!-- absolute channel link -->
-    <link>{{ $base }}</link>
-    <description>Recent content {{ if ne .Title $title }}{{ with .Title }}in {{ . }} {{ end }}{{ end }}on {{ $title }}</description>
+    <title>{{ if eq  .Title  .Site.Title }}{{ .Site.Title }}{{ else }}{{ with .Title }}{{.}} on {{ end }}{{ .Site.Title }}{{ end }}</title>
+    <link>{{ .Permalink }}</link>
+    <description>Recent content {{ if ne  .Title  .Site.Title }}{{ with .Title }}in {{.}} {{ end }}{{ end }}on {{ .Site.Title }}</description>
     <generator>Hugo -- gohugo.io</generator>{{ with .Site.LanguageCode }}
-    <language>{{ . }}</language>{{ end }}{{ with .Site.Author.email }}
-    <managingEditor>{{ . }}{{ with $.Site.Author.name }} ({{ . }}){{ end }}</managingEditor>{{ end }}{{ with .Site.Author.email }}
-    <webMaster>{{ . }}{{ with $.Site.Author.name }} ({{ . }}){{ end }}</webMaster>{{ end }}{{ with .Site.Copyright }}
-    <copyright>{{ . }}</copyright>{{ end }}{{ if not .Date.IsZero }}
+    <language>{{.}}</language>{{end}}{{ with .Site.Author.email }}
+    <managingEditor>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</managingEditor>{{end}}{{ with .Site.Author.email }}
+    <webMaster>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</webMaster>{{end}}{{ with .Site.Copyright }}
+    <copyright>{{.}}</copyright>{{end}}{{ if not .Date.IsZero }}
     <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
-
-    <!-- absolute self link -->
-    <atom:link href="{{ $base }}index.xml" rel="self" type="application/rss+xml" />
-
-    {{/* pick pages: change Type/Section filter as needed */}}
-    {{- $pages := where .Site.RegularPages "Type" "post" -}}
-    {{- range $pages.ByDate.Reverse -}}
-
-      {{- /* precompute permalink (absolute). avoid inline ifs */ -}}
-      {{- $rel := .RelPermalink -}}
-      {{- $perm := .Permalink -}}
-      {{- if strings.HasPrefix $perm "/" -}}
-        {{- $perm = print $base $rel -}}
-      {{- end -}}
-
-      <item>
-        <title>{{ .Title | html }}</title>
-
-        <link>{{ $perm }}</link>
-        <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
-        {{ with .Site.Author.email }}<author>{{ . }}{{ with $.Site.Author.name }} ({{ . }}){{ end }}</author>{{ end }}
-
-        <guid isPermaLink="true">{{ $perm }}</guid>
-
-        {{- /* description: prefer summary, fallback to content */ -}}
-        {{- $content := .Summary -}}
-        {{- if not $content }}{{- $content = .Content -}}{{- end -}}
-
-        {{- /* convert root-relative href/src to absolute */ -}}
-        {{- $content = replaceRE `(?i)href="/` (print `href="` $base) $content -}}
-        {{- $content = replaceRE `(?i)src="/` (print `src="` $base) $content -}}
-
-        {{- /* convert fragment-only links href="#foo" -> href="PERM#foo" */ -}}
-        {{- $content = replace $content `href="#` (print `href="` $perm `#`) -}}
-
-        <description>{{ $content | safeHTML }}</description>
-        <content:encoded><![CDATA[{{ .Content | safeHTML }}]]></content:encoded>
-
-        {{ range .Params.tags }}<category>{{ . }}</category>{{ end }}
-        {{ range .Params.categories }}<category>{{ . }}</category>{{ end }}
-      </item>
-    {{- end -}}
+    {{ with .OutputFormats.Get "RSS" }}
+        {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
+    {{ end }}
+    {{ range .Pages }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      {{ with .Site.Author.email }}<author>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</author>{{end}}
+      <guid>{{ .Permalink }}</guid>
+      <description>{{ .Content | html }}</description>
+      {{ range .Params.tags }}
+            <category>{{ . }}</category>
+      {{ end }}
+      {{ range .Params.categories }}
+            <category>{{ . }}</category>
+      {{ end }}
+    </item>
+    {{ end }}
   </channel>
 </rss>
