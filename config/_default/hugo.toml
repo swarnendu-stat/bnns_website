@@ -4,8 +4,8 @@ min = "0.128.0"
 [outputs]
   home = ['html', 'rss']
   section = ['html', 'rss']
-  taxonomy = ['html']
-  term = ['html']
+  taxonomy = ['html', 'rss']
+  term = ['html', 'rss']
 
 [markup]
   [markup.goldmark]
