@@ -7,9 +7,6 @@ min = "0.128.0"
   taxonomy = ["html", "rss"]
   term = ["html", "rss"]
 
-baseURL = "https://swarnendu-stat.netlify.app/"
-canonifyURLs = true
-
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
