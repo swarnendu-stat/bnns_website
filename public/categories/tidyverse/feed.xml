@@ -1,20 +1,56 @@
+
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tidyverse on </title>
-    <link>/categories/tidyverse/</link>
-    <description>Recent content in Tidyverse on </description>
+    <title></title>
+    <link>/</link>
+    <description>Recent posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Jan 2025 22:32:22 +0530</lastBuildDate>
+    <lastBuildDate>Mon, 18 Aug 2025 09:58:53 &#43;0530</lastBuildDate>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
     
-        <atom:link href="/categories/tidyverse/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tidy SuperLearner</title>
+      <link>/2025/08/tidy-superlearner/</link>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 &#43;0530</pubDate>
+      <guid>/2025/08/tidy-superlearner/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The &lt;code&gt;SuperLearner&lt;/code&gt; R package is a go-to for this, however it only supports &lt;strong&gt;gaussian&lt;/strong&gt; or &lt;strong&gt;binomial&lt;/strong&gt; to describe the error distribution. Using the clean, flexible &lt;code&gt;tidymodels&lt;/code&gt; framework we can implement these functionalities and also &lt;strong&gt;extend&lt;/strong&gt; it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with &lt;code&gt;tidymodels&lt;/code&gt;, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.&lt;/p&gt;</description>
+    </item>
     
+    <item>
+      <title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
+      <link>/2025/04/bnns-binary-classification/</link>
+      <pubDate>Fri, 18 Apr 2025 22:21:00 &#43;0530</pubDate>
+      <guid>/2025/04/bnns-binary-classification/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-the-problem&#34;&gt;&lt;a href=&#34;#-the-problem&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;🔍 The Problem
+&lt;/h2&gt;&lt;p&gt;Diabetes prediction models abound, but they often give us &lt;strong&gt;just a number&lt;/strong&gt;. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&amp;rsquo;s a 73% chance someone has diabetes.&lt;/p&gt;
+&lt;p&gt;But what if we asked:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;How sure are we about that 73%?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Using bnns for TMLE</title>
+      <link>/2025/01/bnns-for-tmle/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 &#43;0530</pubDate>
+      <guid>/2025/01/bnns-for-tmle/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;This document demonstrates how to use the &lt;a class=&#34;link&#34; href=&#34;https://cran.r-project.org/package=bnns&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;bnns&lt;/a&gt; package with &lt;strong&gt;TMLE&lt;/strong&gt; for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the &lt;strong&gt;Average Treatment Effect (ATE)&lt;/strong&gt;. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this &lt;a class=&#34;link&#34; href=&#34;https://www.khstats.com/blog/tmle/tutorial&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;tmle tutorial&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;simulating-data&#34;&gt;&lt;a href=&#34;#simulating-data&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Simulating Data
+&lt;/h2&gt;&lt;p&gt;We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Power of Base R: A Performance Comparison with dplyr</title>
       <link>/2025/01/power-of-base-r/</link>
-      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
-      
+      <pubDate>Fri, 17 Jan 2025 22:32:22 &#43;0530</pubDate>
       <guid>/2025/01/power-of-base-r/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
 &lt;/h2&gt;&lt;p&gt;This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.&lt;/p&gt;
@@ -26,290 +62,7 @@
 &lt;h2 id=&#34;the-iris-dataset&#34;&gt;&lt;a href=&#34;#the-iris-dataset&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Iris Dataset
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;The &lt;strong&gt;iris&lt;/strong&gt; dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;It contains measurements of flower characteristics for three species of iris: &lt;em&gt;setosa&lt;/em&gt;, &lt;em&gt;versicolor&lt;/em&gt;, and &lt;em&gt;virginica&lt;/em&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Key Features:&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;150 observations&lt;/strong&gt;: 50 samples for each species.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;4 numeric attributes&lt;/strong&gt;: Sepal.Length, Sepal.Width, Petal.Length, Petal.Width&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;1 categorical attribute&lt;/strong&gt;: Species: The species of the iris flower (&lt;em&gt;setosa&lt;/em&gt;, &lt;em&gt;versicolor&lt;/em&gt;, &lt;em&gt;virginica&lt;/em&gt;).&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;the-iris-dataset-continued&#34;&gt;&lt;a href=&#34;#the-iris-dataset-continued&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Iris Dataset (continued)
-&lt;/h2&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
-1            5.1         3.5          1.4         0.2     setosa
-2            4.9         3.0          1.4         0.2     setosa
-3            4.7         3.2          1.3         0.2     setosa
-51           7.0         3.2          4.7         1.4 versicolor
-52           6.4         3.2          4.5         1.5 versicolor
-53           6.9         3.1          4.9         1.5 versicolor
-101          6.3         3.3          6.0         2.5  virginica
-102          5.8         2.7          5.1         1.9  virginica
-103          7.1         3.0          5.9         2.1  virginica
-&lt;/code&gt;&lt;/pre&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;h2 id=&#34;benchmarking-data-manipulation-tasks&#34;&gt;&lt;a href=&#34;#benchmarking-data-manipulation-tasks&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Benchmarking Data Manipulation Tasks
-&lt;/h2&gt;&lt;h2 id=&#34;1-filter-rows&#34;&gt;&lt;a href=&#34;#1-filter-rows&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;1. Filter Rows
-&lt;/h2&gt;&lt;p&gt;Filtering rows is a common operation in data analysis. This section benchmarks the efficiency of base R’s subsetting approaches against the dplyr::filter function. While dplyr provides clean syntax, base R’s performance is more efficient.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_filter &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iris[iris&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;Species &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;setosa&amp;#34;&lt;/span&gt;, ],
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;subset&lt;/span&gt;(iris, Species &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;setosa&amp;#34;&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;filter&lt;/span&gt;(iris, Species &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;setosa&amp;#34;&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_filter
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr   min     lq     mean median    uq    max neval cld
- base_0  28.0  32.70  42.0561  37.90  49.5  218.6  1000 a  
- base_1  37.5  46.95  59.3593  56.65  68.8  261.2  1000  b 
-  dplyr 369.9 404.85 451.8073 421.30 440.1 2846.6  1000   c
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_filter) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Filter: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_filter &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_filter), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 11 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::filter. The absolute difference in 10k simulations is 4.097512 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;2-select-columns&#34;&gt;&lt;a href=&#34;#2-select-columns&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;2. Select Columns
-&lt;/h2&gt;&lt;p&gt;Selecting specific columns is fundamental to narrowing down datasets. The comparison here shows how base R indexing and the subset function stack up against dplyr::select in terms of speed.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_select &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iris[, &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sepal.Length&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Petal.Length&amp;#34;&lt;/span&gt;)],
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;subset&lt;/span&gt;(iris, select &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;(Sepal.Length, Petal.Length)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;select&lt;/span&gt;(iris, Sepal.Length, Petal.Length),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_select
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr   min     lq     mean median    uq    max neval cld
- base_0   5.7   6.65   9.0531   9.60  10.6   49.3  1000 a  
- base_1  25.1  32.60  43.7883  44.75  48.6 2026.9  1000  b 
-  dplyr 433.1 465.30 498.3363 478.00 497.7 2342.9  1000   c
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_select) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Select: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_select &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_select), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 55 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::select. The absolute difference in 10k simulations is 4.892832 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;3-addmodify-columns&#34;&gt;&lt;a href=&#34;#3-addmodify-columns&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;3. Add/Modify Columns
-&lt;/h2&gt;&lt;p&gt;Adding or modifying columns is crucial for feature engineering. Base R provides multiple methods for this, which are benchmarked here against dplyr::mutate for their computational efficiency.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_mutate &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {iris&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;Sepal_LbyW &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; iris&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;Sepal.Length &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; iris&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;Sepal.Width},
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;transform&lt;/span&gt;(iris, Sepal_LbyW &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Sepal.Length &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; Sepal.Width),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;mutate&lt;/span&gt;(iris, Sepal_LbyW &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Sepal.Length &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; Sepal.Width),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_mutate
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr   min     lq     mean median     uq    max neval cld
- base_0   3.1   4.10   6.5303   6.80   8.00  127.7  1000 a  
- base_1  27.0  38.65  49.2795  49.05  58.50  166.4  1000  b 
-  dplyr 365.4 400.85 434.6963 414.40 434.95 2154.6  1000   c
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_mutate) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Mutate: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_mutate &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_mutate), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 67 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::mutate. The absolute difference in 10k simulations is 4.28166 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;4-summarise-data&#34;&gt;&lt;a href=&#34;#4-summarise-data&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;4. Summarise Data
-&lt;/h2&gt;&lt;p&gt;Data summarization helps derive aggregate metrics. This section compares colMeans from base R with dplyr::summarise_if, illustrating their relative performance in summarizing numeric columns.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_summarise &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;with&lt;/span&gt;(iris, &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(Sepal_L_mean &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;mean&lt;/span&gt;(Sepal.Length), Sepal_W_sd &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sd&lt;/span&gt;(Sepal.Width),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Petal_L_mean &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;mean&lt;/span&gt;(Petal.Length), Petal_W_sd &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sd&lt;/span&gt;(Petal.Width))),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;summarise&lt;/span&gt;(iris, Sepal_L_mean &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;mean&lt;/span&gt;(Sepal.Length), Sepal_W_sd &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sd&lt;/span&gt;(Sepal.Width),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Petal_L_mean &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;mean&lt;/span&gt;(Petal.Length), Petal_W_sd &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sd&lt;/span&gt;(Petal.Width)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_summarise
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr   min    lq     mean median     uq    max neval cld
- base_0 114.9 139.8 167.7646  171.7 184.95 2365.9  1000  a 
-  dplyr 627.7 685.1 729.6822  707.7 729.10 2497.4  1000   b
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_summarise) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Summarise: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_summarise &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_summarise), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 4 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::summarise. The absolute difference in 10k simulations is 5.619176 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;5-grouped-summary&#34;&gt;&lt;a href=&#34;#5-grouped-summary&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;5. Grouped Summary
-&lt;/h2&gt;&lt;p&gt;Aggregating data by groups is often required for advanced analytics. Base R’s aggregate function is tested here against dplyr&amp;rsquo;s group_by and summarise_all functions to highlight performance differences.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_grp &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(. &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; Species, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iris, FUN &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mean, na.rm &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TRUE&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iris &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;group_by&lt;/span&gt;(Species) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;summarise_all&lt;/span&gt;(mean, na.rm &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TRUE&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ungroup&lt;/span&gt;(),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_grp
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr    min      lq      mean median      uq     max neval cld
- base_0  657.0  741.95  795.2686  765.7  801.60  3292.2  1000  a 
-  dplyr 2128.8 2225.50 2392.1440 2291.4 2386.75 14798.6  1000   b
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_grp) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Grouped Summarise: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_grp &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_grp), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 3 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::grp. The absolute difference in 10k simulations is 15.968754 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;6-sort-data&#34;&gt;&lt;a href=&#34;#6-sort-data&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;6. Sort Data
-&lt;/h2&gt;&lt;p&gt;Sorting is essential for ordering data before visualization or further analysis. The benchmarks here compare the classic base R order approach to the elegant dplyr::arrange.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_sort &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iris&lt;span style=&#34;color:#a6e22e&#34;&gt;[with&lt;/span&gt;(iris, &lt;span style=&#34;color:#a6e22e&#34;&gt;order&lt;/span&gt;(Sepal.Length, Petal.Length)), ],
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;arrange&lt;/span&gt;(iris, Sepal.Length, Petal.Length),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_sort
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr    min     lq      mean median      uq    max neval cld
- base_0   40.2   51.7   69.1362   72.8   78.95 1888.6  1000  a 
-  dplyr 1343.6 1392.6 1485.4011 1437.6 1498.70 3672.0  1000   b
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_sort) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sort: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_sort &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_sort), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 21 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::arrange. The absolute difference in 10k simulations is 14.162649 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;7-join-data&#34;&gt;&lt;a href=&#34;#7-join-data&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;7. Join Data
-&lt;/h2&gt;&lt;p&gt;Data joins are indispensable when working with relational datasets. This section demonstrates the efficiency of base R’s merge function compared to dplyr::left_join.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;iris&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;id &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sample.int&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nrow&lt;/span&gt;(iris), replace &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FALSE&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;iris2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; iris&lt;span style=&#34;color:#a6e22e&#34;&gt;[sample&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;nrow&lt;/span&gt;(iris)),]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_join &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;merge&lt;/span&gt;(iris, iris2, by &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;id&amp;#34;&lt;/span&gt;, all.x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;TRUE&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;left_join&lt;/span&gt;(iris, iris2, by &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;id&amp;#34;&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_join
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr   min     lq     mean median     uq     max neval cld
- base_0 256.3 313.65 357.0383 344.80 376.75  2629.4  1000  a 
-  dplyr 696.3 765.05 921.3512 800.45 835.75 75403.2  1000   b
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_join) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Join: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_join &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_join), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 3 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::left_join. The absolute difference in 10k simulations is 5.643129 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;8-group-and-apply-function-1&#34;&gt;&lt;a href=&#34;#8-group-and-apply-function-1&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;8. Group and Apply Function 1
-&lt;/h2&gt;&lt;p&gt;Applying models or transformations to groups of data is a frequent task in statistical workflows. This benchmark showcases the performance of split and lapply in base R versus dplyr::group_map.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_grp_map &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lapply&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;split&lt;/span&gt;(iris, iris&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;Species), &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(x) &lt;span style=&#34;color:#a6e22e&#34;&gt;lm&lt;/span&gt;(Sepal.Length &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; Petal.Length, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iris &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;group_by&lt;/span&gt;(Species) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;group_map&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lm&lt;/span&gt;(Sepal.Length &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; Petal.Length, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; .x)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_grp_map
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr    min      lq      mean  median      uq    max neval cld
- base_0  784.3  840.40  911.4024  865.75  905.30 3135.7  1000  a 
-  dplyr 2450.7 2534.55 2684.8511 2598.80 2694.35 7384.0  1000   b
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_grp_map) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Group Map: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_grp_map &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_grp_map), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 3 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::group_map. The absolute difference in 10k simulations is 17.734487 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;9-group-and-apply-function-2&#34;&gt;&lt;a href=&#34;#9-group-and-apply-function-2&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;9. Group and Apply Function 2
-&lt;/h2&gt;&lt;p&gt;Complex operations on grouped data are common in analytical pipelines. This comparison highlights the performance of base R’s split and lapply with a row-binding step versus dplyr::group_modify.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_grp_mod &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;do.call&lt;/span&gt;(rbind, &lt;span style=&#34;color:#a6e22e&#34;&gt;lapply&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;split&lt;/span&gt;(iris, iris&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;Species), &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(x) 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;summary&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;lm&lt;/span&gt;(Sepal.Length &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; Petal.Length, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x))&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;coefficients))),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iris &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;group_by&lt;/span&gt;(Species) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;group_modify&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;summary&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;lm&lt;/span&gt;(Sepal.Length &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; Petal.Length, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; .x))&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;coefficients)) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ungroup&lt;/span&gt;(),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_grp_mod
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: milliseconds
-   expr    min      lq     mean median      uq    max neval cld
- base_0 1.4068 1.50905 1.625191 1.5613 1.62855 4.3454  1000  a 
-  dplyr 4.5348 4.70640 5.007739 4.8595 5.09485 9.8918  1000   b
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_grp_mod) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Group Modify: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_grp_mod &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_grp_mod), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 3 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::group_modify. The absolute difference in 10k simulations is 33.825473 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;10-rowwise&#34;&gt;&lt;a href=&#34;#10-rowwise&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;10. Rowwise
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_rowwise &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;transform&lt;/span&gt;(iris, 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sepal_sd &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;apply&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;cbind&lt;/span&gt;(Sepal.Length, Sepal.Width), &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, sd),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Petal_sd &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;apply&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;cbind&lt;/span&gt;(Petal.Length, Petal.Width), &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, sd)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iris &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;rowwise&lt;/span&gt;() &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;mutate&lt;/span&gt;(Sepal_sd &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sd&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;(Sepal.Length, Sepal.Width)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Petal_sd &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sd&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;(Petal.Length, Petal.Width))) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ungroup&lt;/span&gt;(),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_rowwise) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Rowwise: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-20-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_rowwise &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_rowwise), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 3 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::rowwise. The absolute difference in 10k simulations is 21.835045 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;11-count-rows-by-group&#34;&gt;&lt;a href=&#34;#11-count-rows-by-group&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;11. Count Rows by Group
-&lt;/h2&gt;&lt;p&gt;Counting the number of rows by group is a simple yet frequent operation. The comparison here emphasizes the efficiency of base R’s table function against dplyr::count.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_count &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;table&lt;/span&gt;(iris&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;Species),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; iris &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;count&lt;/span&gt;(Species),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_count
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr    min     lq      mean  median     uq    max neval cld
- base_0   14.9   21.3   32.3976   33.55   41.4  161.2  1000  a 
-  dplyr 1427.3 1516.6 1620.9624 1544.90 1639.8 4518.4  1000   b
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_count) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Count: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-22-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_count &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_count), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 50 times &lt;strong&gt;faster&lt;/strong&gt; than dplyr::count. The absolute difference in 10k simulations is 15.885648 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;12-identify-distinct-rows&#34;&gt;&lt;a href=&#34;#12-identify-distinct-rows&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;12. Identify Distinct Rows
-&lt;/h2&gt;&lt;p&gt;Identifying unique rows is crucial for deduplication. This benchmark compares base R’s unique function with dplyr::distinct, shedding light on performance differences for this operation.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_distinct &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;microbenchmark&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;base_0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;unique&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;rbind&lt;/span&gt;(iris, iris)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;dplyr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;distinct&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;rbind&lt;/span&gt;(iris, iris)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;times &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1e3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mcb_distinct
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Unit: microseconds
-   expr   min     lq     mean median     uq    max neval cld
- base_0 546.6 587.15 644.9276  607.2 640.95 5494.7  1000  a 
-  dplyr 255.9 285.75 315.5954  297.9 315.00 2635.5  1000   b
-&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;autoplot&lt;/span&gt;(mcb_distinct) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ggtitle&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Distinct: Base R vs dplyr&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/2025/01/power-of-base-r/index_files/figure-html/unnamed-chunk-24-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;agg_distinct &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;aggregate&lt;/span&gt;(time &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; expr, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(mcb_distinct), mean)&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;time
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, base R code is on average 2 times &lt;strong&gt;slower&lt;/strong&gt; than dplyr::distinct. The absolute difference in 10k simulations is 3.293322 seconds.&lt;/p&gt;
-&lt;h2 id=&#34;summary&#34;&gt;&lt;a href=&#34;#summary&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Summary
-&lt;/h2&gt;&lt;p&gt;Given that these functions are very commonly used, it is fair to assume that these functions are used at least 5 times in a standard simulation code. If that simulation is repeated for 10k times, then the total gain we have by using base R is at least 11.7210869 minutes.&lt;/p&gt;
-&lt;h2 id=&#34;conclusion&#34;&gt;&lt;a href=&#34;#conclusion&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Conclusion
-&lt;/h2&gt;&lt;p&gt;This analysis demonstrates&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;that while dplyr offers user-friendly functions and a consistent syntax,&lt;/li&gt;
-&lt;li&gt;base R can often be &lt;strong&gt;faster&lt;/strong&gt; for basic operations, especially with large datasets.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The choice between base R and dplyr should consider both readability and computational efficiency, dependent on the scale and complexity of your data tasks.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;For intensive data simulations, careful function choice can lead to significant performance gains,&lt;/li&gt;
-&lt;li&gt;underscoring the importance of benchmarking and profiling in the R language.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-      
-            <category>R</category>
-      
-            <category>dplyr</category>
-      
-            <category>tidyverse</category>
-      
-            <category>base R</category>
-      
-      
-            <category>R</category>
-      
-            <category>dplyr</category>
-      
-            <category>tidyverse</category>
-      
-            <category>base R</category>
-      
+&lt;p&gt;The &lt;strong&gt;iris&lt;/strong&gt; dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.&lt;/p&gt;</description>
     </item>
     
   </channel>

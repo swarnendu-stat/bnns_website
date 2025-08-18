@@ -1,156 +1,68 @@
+
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on </title>
-    <link>/categories/</link>
-    <description>Recent content in Categories on </description>
+    <title></title>
+    <link>/</link>
+    <description>Recent posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 17 Aug 2025 09:00:00 +0530</lastBuildDate>
-    
-        <atom:link href="/categories/feed.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Mon, 18 Aug 2025 09:58:53 &#43;0530</lastBuildDate>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Machine Learning</title>
-      <link>/categories/machine-learning/</link>
-      <pubDate>Sun, 17 Aug 2025 09:00:00 +0530</pubDate>
-      
-      <guid>/categories/machine-learning/</guid>
-      <description></description>
-      
-      
+      <title>Tidy SuperLearner</title>
+      <link>/2025/08/tidy-superlearner/</link>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 &#43;0530</pubDate>
+      <guid>/2025/08/tidy-superlearner/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The &lt;code&gt;SuperLearner&lt;/code&gt; R package is a go-to for this, however it only supports &lt;strong&gt;gaussian&lt;/strong&gt; or &lt;strong&gt;binomial&lt;/strong&gt; to describe the error distribution. Using the clean, flexible &lt;code&gt;tidymodels&lt;/code&gt; framework we can implement these functionalities and also &lt;strong&gt;extend&lt;/strong&gt; it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with &lt;code&gt;tidymodels&lt;/code&gt;, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>SuperLearner</title>
-      <link>/categories/superlearner/</link>
-      <pubDate>Sun, 17 Aug 2025 09:00:00 +0530</pubDate>
-      
-      <guid>/categories/superlearner/</guid>
-      <description></description>
-      
-      
+      <title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
+      <link>/2025/04/bnns-binary-classification/</link>
+      <pubDate>Fri, 18 Apr 2025 22:21:00 &#43;0530</pubDate>
+      <guid>/2025/04/bnns-binary-classification/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-the-problem&#34;&gt;&lt;a href=&#34;#-the-problem&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;🔍 The Problem
+&lt;/h2&gt;&lt;p&gt;Diabetes prediction models abound, but they often give us &lt;strong&gt;just a number&lt;/strong&gt;. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&amp;rsquo;s a 73% chance someone has diabetes.&lt;/p&gt;
+&lt;p&gt;But what if we asked:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;How sure are we about that 73%?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>TidyModels</title>
-      <link>/categories/tidymodels/</link>
-      <pubDate>Sun, 17 Aug 2025 09:00:00 +0530</pubDate>
-      
-      <guid>/categories/tidymodels/</guid>
-      <description></description>
-      
-      
+      <title>Using bnns for TMLE</title>
+      <link>/2025/01/bnns-for-tmle/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 &#43;0530</pubDate>
+      <guid>/2025/01/bnns-for-tmle/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;This document demonstrates how to use the &lt;a class=&#34;link&#34; href=&#34;https://cran.r-project.org/package=bnns&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;bnns&lt;/a&gt; package with &lt;strong&gt;TMLE&lt;/strong&gt; for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the &lt;strong&gt;Average Treatment Effect (ATE)&lt;/strong&gt;. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this &lt;a class=&#34;link&#34; href=&#34;https://www.khstats.com/blog/tmle/tutorial&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;tmle tutorial&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;simulating-data&#34;&gt;&lt;a href=&#34;#simulating-data&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Simulating Data
+&lt;/h2&gt;&lt;p&gt;We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Bayesian Methods</title>
-      <link>/categories/bayesian-methods/</link>
-      <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      
-      <guid>/categories/bayesian-methods/</guid>
-      <description></description>
-      
-      
-    </item>
-    
-    <item>
-      <title>Biostatistics</title>
-      <link>/categories/biostatistics/</link>
-      <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      
-      <guid>/categories/biostatistics/</guid>
-      <description></description>
-      
-      
-    </item>
-    
-    <item>
-      <title>Bayesian</title>
-      <link>/categories/bayesian/</link>
-      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      
-      <guid>/categories/bayesian/</guid>
-      <description></description>
-      
-      
-    </item>
-    
-    <item>
-      <title>Bnns</title>
-      <link>/categories/bnns/</link>
-      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      
-      <guid>/categories/bnns/</guid>
-      <description></description>
-      
-      
-    </item>
-    
-    <item>
-      <title>Neural Network</title>
-      <link>/categories/neural-network/</link>
-      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      
-      <guid>/categories/neural-network/</guid>
-      <description></description>
-      
-      
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      
-      <guid>/categories/r/</guid>
-      <description></description>
-      
-      
-    </item>
-    
-    <item>
-      <title>Tmle</title>
-      <link>/categories/tmle/</link>
-      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
-      
-      <guid>/categories/tmle/</guid>
-      <description></description>
-      
-      
-    </item>
-    
-    <item>
-      <title>Base R</title>
-      <link>/categories/base-r/</link>
-      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
-      
-      <guid>/categories/base-r/</guid>
-      <description></description>
-      
-      
-    </item>
-    
-    <item>
-      <title>Dplyr</title>
-      <link>/categories/dplyr/</link>
-      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
-      
-      <guid>/categories/dplyr/</guid>
-      <description></description>
-      
-      
-    </item>
-    
-    <item>
-      <title>Tidyverse</title>
-      <link>/categories/tidyverse/</link>
-      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
-      
-      <guid>/categories/tidyverse/</guid>
-      <description></description>
-      
-      
+      <title>Power of Base R: A Performance Comparison with dplyr</title>
+      <link>/2025/01/power-of-base-r/</link>
+      <pubDate>Fri, 17 Jan 2025 22:32:22 &#43;0530</pubDate>
+      <guid>/2025/01/power-of-base-r/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;While dplyr is renowned for its intuitive syntax and efficiency,&lt;/li&gt;
+&lt;li&gt;base R functions can sometimes outperform it, particularly in large simulations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.&lt;/p&gt;
+&lt;h2 id=&#34;the-iris-dataset&#34;&gt;&lt;a href=&#34;#the-iris-dataset&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Iris Dataset
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;strong&gt;iris&lt;/strong&gt; dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.&lt;/p&gt;</description>
     </item>
     
   </channel>
