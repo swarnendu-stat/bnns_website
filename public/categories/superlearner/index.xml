@@ -5,8 +5,8 @@
     <description>Recent posts on Welcome to My R Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 18 Aug 2025 10:22:08 &#43;0530</lastBuildDate>
-    <atom:link href="https://swarnendu-stat.netlify.app/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Aug 2025 10:23:45 &#43;0530</lastBuildDate>
+    <atom:link href="https://swarnendu-stat.netlify.app/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Tidy SuperLearner</title>

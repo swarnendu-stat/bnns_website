@@ -6,7 +6,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>{{ site.LanguageCode | default "en-us" }}</language>
     <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</lastBuildDate>
-    <atom:link href="{{ "/feed.xml" | absURL }}" rel="self" type="application/rss+xml" />
+    <atom:link href="{{ "/index.xml" | absURL }}" rel="self" type="application/rss+xml" />
     {{ range first 20 (where site.RegularPages "Section" "post") }}
     <item>
       <title>{{ .Title }}</title>
