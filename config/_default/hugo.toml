@@ -26,3 +26,4 @@ min = "0.128.0"
 [params.feed]
   enable = true
   limit = 20
+  sections = ["post"]
