@@ -1,3 +1,4 @@
+baseURL = "https://swarnendu-stat.netlify.app/"
 theme = "hugo-theme-stack"
 [module.hugoVersion]
 min = "0.128.0"
@@ -18,7 +19,7 @@ min = "0.128.0"
 [outputFormats]
   [outputFormats.RSS]
     mediatype = "application/rss+xml"
-    baseName = "feed"
+    baseName = "index"
 
 [permalinks]
   post = "/:year/:month/:slug/"

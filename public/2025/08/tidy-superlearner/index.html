@@ -4,11 +4,11 @@
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The SuperLearner R package is a go-to for this, however it only supports gaussian or binomial to describe the error distribution. Using the clean, flexible tidymodels framework we can implement these functionalities and also extend it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with tidymodels, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.\n">
 <title>Tidy SuperLearner</title>
 
-<link rel='canonical' href='/2025/08/tidy-superlearner/'>
+<link rel='canonical' href='https://swarnendu-stat.netlify.app/2025/08/tidy-superlearner/'>
 
 <link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Tidy SuperLearner">
 <meta property='og:description' content="Introduction Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The SuperLearner R package is a go-to for this, however it only supports gaussian or binomial to describe the error distribution. Using the clean, flexible tidymodels framework we can implement these functionalities and also extend it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with tidymodels, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.\n">
-<meta property='og:url' content='/2025/08/tidy-superlearner/'>
+<meta property='og:url' content='https://swarnendu-stat.netlify.app/2025/08/tidy-superlearner/'>
 <meta property='og:site_name' content=''>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Machine Learning' /><meta property='article:tag' content='TidyModels' /><meta property='article:tag' content='SuperLearner' /><meta property='article:published_time' content='2025-08-17T09:00:00&#43;05:30'/><meta property='article:modified_time' content='2025-08-17T09:00:00&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
 <meta name="twitter:site" content="@https://x.com/SwarnenduStat">
@@ -478,7 +478,7 @@
 </span></span></code></pre></div><pre tabindex="0"><code>## Area under the curve: 0.8106
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggroc</span>(diabetes_roc) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
-</span></span></code></pre></div><img src="/2025/08/tidy-superlearner/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/2025/08/tidy-superlearner/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 <p>This gives you a model that predicts diabetes with a stacked ensemble, and the ROC curve visualizes its performance in distinguishing between diabetic and non-diabetic cases.</p>
 <h3 id="count-data-regression-epileptic-seizures"><a href="#count-data-regression-epileptic-seizures" class="header-anchor"></a>Count Data Regression: Epileptic Seizures
 </h3><p>The <code>epil</code> dataset, from the <code>MASS</code> package, records the number of epileptic seizures in patients over time, along with predictors like treatment type and baseline seizure counts. It’s a great example for count regression, as seizure counts are non-negative integers with potential overdispersion, making Poisson. This dataset is often used to study count data in medical research.</p>
@@ -520,7 +520,7 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Observed Seizure Counts&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Predicted Seizure Counts&#34;</span>) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
-</span></span></code></pre></div><img src="/2025/08/tidy-superlearner/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/2025/08/tidy-superlearner/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 <p>The scatter plot shows how well our ensemble predicts seizure counts, useful for evaluating treatment effects in epilepsy studies.</p>
 <h3 id="regression-birthweight-prediction"><a href="#regression-birthweight-prediction" class="header-anchor"></a>Regression: Birthweight Prediction
 </h3><p>The <code>birthwt</code> dataset, also from the <code>MASS</code> package, contains data on infant birthweights and maternal factors like smoking status, age, and weight. It’s a standard dataset for regression tasks, as birthweight is a continuous outcome influenced by multiple predictors. This dataset is valuable for studying maternal and fetal health, often used in statistical modeling to explore risk factors for low birthweight.</p>
@@ -578,7 +578,7 @@ There were issues with some computations   A: x5
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Observed Birthweight (grams)&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Predicted Birthweight (grams)&#34;</span>) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
-</span></span></code></pre></div><img src="/2025/08/tidy-superlearner/index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/2025/08/tidy-superlearner/index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 <p>This shows how the ensemble performs in predicting birthweight, which can inform medical interventions for at-risk pregnancies.</p>
 <h3 id="multi-class-classification-iris-species"><a href="#multi-class-classification-iris-species" class="header-anchor"></a>Multi-Class Classification: Iris Species
 </h3><p>The <code>iris</code> dataset, from the <code>datasets</code> package, is a classic in machine learning. It includes measurements of sepal and petal dimensions for three iris species: setosa, versicolor, and virginica. With four continuous predictors and three classes, it’s perfect for multi-class classification. This dataset, introduced by Ronald Fisher, remains a benchmark for testing classification algorithms due to its simplicity and clear class separation.</p>

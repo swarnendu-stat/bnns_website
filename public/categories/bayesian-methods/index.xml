@@ -1,21 +1,28 @@
+
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Bayesian Methods on </title>
-    <link>/categories/bayesian-methods/</link>
-    <description>Recent content in Bayesian Methods on </description>
+    <title></title>
+    <link>https://swarnendu-stat.netlify.app/</link>
+    <description>Recent posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 18 Apr 2025 22:21:00 +0530</lastBuildDate>
+    <lastBuildDate>Mon, 18 Aug 2025 10:02:21 &#43;0530</lastBuildDate>
+    <atom:link href="https://swarnendu-stat.netlify.app/feed.xml" rel="self" type="application/rss+xml" />
     
-        <atom:link href="/categories/bayesian-methods/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Tidy SuperLearner</title>
+      <link>https://swarnendu-stat.netlify.app/2025/08/tidy-superlearner/</link>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 &#43;0530</pubDate>
+      <guid>https://swarnendu-stat.netlify.app/2025/08/tidy-superlearner/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The &lt;code&gt;SuperLearner&lt;/code&gt; R package is a go-to for this, however it only supports &lt;strong&gt;gaussian&lt;/strong&gt; or &lt;strong&gt;binomial&lt;/strong&gt; to describe the error distribution. Using the clean, flexible &lt;code&gt;tidymodels&lt;/code&gt; framework we can implement these functionalities and also &lt;strong&gt;extend&lt;/strong&gt; it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with &lt;code&gt;tidymodels&lt;/code&gt;, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
-      <link>/post/bnns-binary-classification/</link>
-      <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
-      
-      <guid>/post/bnns-binary-classification/</guid>
+      <link>https://swarnendu-stat.netlify.app/2025/04/bnns-binary-classification/</link>
+      <pubDate>Fri, 18 Apr 2025 22:21:00 &#43;0530</pubDate>
+      <guid>https://swarnendu-stat.netlify.app/2025/04/bnns-binary-classification/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;hr&gt;
@@ -23,135 +30,39 @@
 &lt;/h2&gt;&lt;p&gt;Diabetes prediction models abound, but they often give us &lt;strong&gt;just a number&lt;/strong&gt;. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&amp;rsquo;s a 73% chance someone has diabetes.&lt;/p&gt;
 &lt;p&gt;But what if we asked:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;&amp;ldquo;How sure are we about that 73%?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
-&lt;p&gt;Enter &lt;strong&gt;Bayesian Neural Networks&lt;/strong&gt; (&lt;code&gt;bnns&lt;/code&gt;), where uncertainty isn’t a bug—it’s a feature.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;How sure are we about that 73%?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Using bnns for TMLE</title>
+      <link>https://swarnendu-stat.netlify.app/2025/01/bnns-for-tmle/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 &#43;0530</pubDate>
+      <guid>https://swarnendu-stat.netlify.app/2025/01/bnns-for-tmle/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;This document demonstrates how to use the &lt;a class=&#34;link&#34; href=&#34;https://cran.r-project.org/package=bnns&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;bnns&lt;/a&gt; package with &lt;strong&gt;TMLE&lt;/strong&gt; for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the &lt;strong&gt;Average Treatment Effect (ATE)&lt;/strong&gt;. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this &lt;a class=&#34;link&#34; href=&#34;https://www.khstats.com/blog/tmle/tutorial&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;tmle tutorial&lt;/a&gt;.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&#34;-the-data&#34;&gt;&lt;a href=&#34;#-the-data&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;📊 The Data
-&lt;/h2&gt;&lt;p&gt;We used the &lt;code&gt;PimaIndiansDiabetes2&lt;/code&gt; dataset from the &lt;code&gt;mlbench&lt;/code&gt; package, containing clinical variables (e.g., glucose, BMI, insulin) and diabetes diagnosis. Missing values were removed, and outcomes were converted to binary.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;library&lt;/span&gt;(bnns)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;library&lt;/span&gt;(mlbench)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;library&lt;/span&gt;(rsample)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;library&lt;/span&gt;(ggplot2)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;set.seed&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;123&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;data&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;PimaIndiansDiabetes2&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trial_data &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; PimaIndiansDiabetes2 &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;transform&lt;/span&gt;(diabetes &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ifelse&lt;/span&gt;(diabetes &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;pos&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;na.omit&lt;/span&gt;()
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trial_data_split &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;initial_split&lt;/span&gt;(trial_data, strata &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; diabetes, prop &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.8&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trial_data_train &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;training&lt;/span&gt;(trial_data_split)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;trial_data_test &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;testing&lt;/span&gt;(trial_data_split)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
-&lt;h2 id=&#34;-the-model&#34;&gt;&lt;a href=&#34;#-the-model&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;🧠 The Model
-&lt;/h2&gt;&lt;p&gt;Our BNN has two hidden layers (24 and 12 nodes) and uses Cauchy priors to encourage sparsity. We used logistic output activation (&lt;code&gt;out_act_fn = 2&lt;/code&gt;) for binary classification.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bnn_model &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;bnns&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  diabetes &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; .,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; trial_data_train,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  L &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  nodes &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;24&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  act_fn &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  out_act_fn &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  iter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.1e4&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  warmup &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.05e4&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  chains &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cores &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  prior_weights &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;list&lt;/span&gt;(dist &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cauchy&amp;#34;&lt;/span&gt;, params &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;list&lt;/span&gt;(mu &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, sigma &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.3&lt;/span&gt;)),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  prior_bias &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;list&lt;/span&gt;(dist &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cauchy&amp;#34;&lt;/span&gt;, params &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;list&lt;/span&gt;(mu &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, sigma &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.3&lt;/span&gt;))
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
-&lt;h2 id=&#34;-the-prediction&#34;&gt;&lt;a href=&#34;#-the-prediction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;🎯 The Prediction
-&lt;/h2&gt;&lt;p&gt;We predicted probabilities on the test set and extracted the &lt;strong&gt;posterior median&lt;/strong&gt; and &lt;strong&gt;95% credible intervals&lt;/strong&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pred &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;predict&lt;/span&gt;(bnn_model, newdata &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; trial_data_test)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pred_y &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;apply&lt;/span&gt;(pred, MARGIN &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, median)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pred_quantiles &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;apply&lt;/span&gt;(pred, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(x) &lt;span style=&#34;color:#a6e22e&#34;&gt;quantile&lt;/span&gt;(x, probs &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;c&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;0.025&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.975&lt;/span&gt;)), simplify &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FALSE&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;do.call&lt;/span&gt;(rbind, args &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; _)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
-&lt;h2 id=&#34;-model-performance&#34;&gt;&lt;a href=&#34;#-model-performance&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;📏 Model Performance
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;measure_bin&lt;/span&gt;(trial_data_test&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;diabetes, pred)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Setting levels: control = 0, case = 1
-&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Setting direction: controls &amp;lt; cases
-&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$conf_mat
-   pred_label
-obs  0  1
-  0 42 11
-  1  7 19
-
-$accuracy
-[1] 0.7721519
-
-$ROC
-
-Call:
-roc.default(response = obs, predictor = pred)
-
-Data: pred in 53 controls (obs 0) &amp;lt; 26 cases (obs 1).
-Area under the curve: 0.8353
-
-$AUC
-[1] 0.8352685
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Performance was comparable to classical methods (AUC ~0.835), but with a massive advantage: &lt;strong&gt;uncertainty quantification&lt;/strong&gt;.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-visualizing-predictions&#34;&gt;&lt;a href=&#34;#-visualizing-predictions&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;🔬 Visualizing Predictions
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;plot_data &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;data.frame&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Actual &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; trial_data_test&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;diabetes,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Predicted &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pred_y,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Lower &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pred_quantiles[,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;],
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Upper &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pred_quantiles[,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;transform&lt;/span&gt;(width &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Upper &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; Lower) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  dplyr&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;arrange&lt;/span&gt;(width)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ggplot&lt;/span&gt;(plot_data, &lt;span style=&#34;color:#a6e22e&#34;&gt;aes&lt;/span&gt;(x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Actual, y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Predicted)) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;geom_point&lt;/span&gt;(size &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;geom_errorbar&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;aes&lt;/span&gt;(ymin &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Lower, ymax &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Upper), width &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.05&lt;/span&gt;, color &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;steelblue&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;labs&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    title &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;BNN Predictions for Patient Status&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    subtitle &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Error bars show 95% credible intervals&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Test Set Patient Status&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Predicted Patient Status&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  ) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;theme_minimal&lt;/span&gt;()
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;/post/bnns-binary-classification/index_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-why-use-bnns&#34;&gt;&lt;a href=&#34;#-why-use-bnns&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;🧠 Why Use &lt;code&gt;bnns&lt;/code&gt;?
-&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Non-linear modeling&lt;/strong&gt;: Captures complex relationships among covariates without heavy pre-specification.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Credible intervals&lt;/strong&gt;: Each prediction comes with its uncertainty.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Probability of a probability&lt;/strong&gt;:
+&lt;h2 id=&#34;simulating-data&#34;&gt;&lt;a href=&#34;#simulating-data&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Simulating Data
+&lt;/h2&gt;&lt;p&gt;We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Power of Base R: A Performance Comparison with dplyr</title>
+      <link>https://swarnendu-stat.netlify.app/2025/01/power-of-base-r/</link>
+      <pubDate>Fri, 17 Jan 2025 22:32:22 &#43;0530</pubDate>
+      <guid>https://swarnendu-stat.netlify.app/2025/01/power-of-base-r/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;For example: &lt;em&gt;Pr(Pr(Diabetes) &amp;gt; 0.5) &amp;gt; 0.9&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;Translation: &amp;ldquo;We are 90% confident this person has more than 50% risk.&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;That’s &lt;strong&gt;clinical-grade insight&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;While dplyr is renowned for its intuitive syntax and efficiency,&lt;/li&gt;
+&lt;li&gt;base R functions can sometimes outperform it, particularly in large simulations.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;-final-thoughts&#34;&gt;&lt;a href=&#34;#-final-thoughts&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;📣 Final Thoughts
-&lt;/h2&gt;&lt;p&gt;Bayesian Neural Networks let us move beyond binary thinking and embrace &lt;strong&gt;informed uncertainty&lt;/strong&gt;. When the stakes are high (think medicine, finance, or policy), &lt;code&gt;bnns&lt;/code&gt; offers a probabilistic flashlight in the black box jungle.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;Ready to stop guessing your predictions? Start modeling your belief about your predictions.&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
-&lt;p&gt;🔗 &lt;a class=&#34;link&#34; href=&#34;https://cran.r-project.org/package=bnns&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Explore the &lt;code&gt;bnns&lt;/code&gt; package&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;💬 Like this blog? Share your thoughts and use-cases on &lt;a class=&#34;link&#34; href=&#34;https://www.linkedin.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;LinkedIn&lt;/a&gt; and tag &lt;a class=&#34;link&#34; href=&#34;https://www.linkedin.com/in/swarnendu-stat/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;me&lt;/a&gt;!&lt;/p&gt;
-&lt;hr&gt;
-</description>
-      
-            <category>R</category>
-      
-            <category>Bayesian Neural Networks</category>
-      
-            <category>Clinical Trials</category>
-      
-      
-            <category>Biostatistics</category>
-      
-            <category>Machine Learning</category>
-      
-            <category>Bayesian Methods</category>
-      
+&lt;p&gt;Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.&lt;/p&gt;
+&lt;h2 id=&#34;the-iris-dataset&#34;&gt;&lt;a href=&#34;#the-iris-dataset&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Iris Dataset
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;strong&gt;iris&lt;/strong&gt; dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.&lt;/p&gt;</description>
     </item>
     
   </channel>
