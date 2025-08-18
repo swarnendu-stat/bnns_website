@@ -1,19 +1,18 @@
-{{ $pages := where site.RegularPages "Section" "post" }}
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>{{ site.Title }}</title>
-    <link>{{ site.BaseURL }}</link>
+    <link>{{ site.BaseURL | absURL }}</link>
     <description>Recent posts on {{ site.Title }}</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>{{ site.LanguageCode | default "en" }}</language>
     <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</lastBuildDate>
     <atom:link href="{{ "/feed.xml" | absURL }}" rel="self" type="application/rss+xml" />
-    {{ range first 20 $pages }}
+    {{ range first 20 (where site.RegularPages "Section" "post") }}
     <item>
       <title>{{ .Title }}</title>
-      <link>{{ .Permalink }}</link>
+      <link>{{ .Permalink | absURL }}</link>
       <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
-      <guid>{{ .Permalink }}</guid>
+      <guid>{{ .Permalink | absURL }}</guid>
       <description>{{ .Summary | html }}</description>
     </item>
     {{ end }}
