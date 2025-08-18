@@ -53,48 +53,6 @@ Thank you for being here—let’s code, analyze, and learn together!&lt;/p&gt;
     </item>
     
     <item>
-      <title>Posts</title>
-      <link>/posts/</link>
-      <pubDate>Fri, 17 Jan 2025 00:00:00 +0530</pubDate>
-      
-      <guid>/posts/</guid>
-      <description>&lt;h1 id=&#34;welcome-to-my-r-blog&#34;&gt;&lt;a href=&#34;#welcome-to-my-r-blog&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Welcome to My R Blog
-&lt;/h1&gt;&lt;p&gt;Dive into the world of R programming! This blog is your resource for practical tutorials, expert insights, and tips on statistical modeling, data science, and machine learning with R. Whether you&amp;rsquo;re a beginner or an advanced user, there&amp;rsquo;s something here for you.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;what-youll-find&#34;&gt;&lt;a href=&#34;#what-youll-find&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;What You&amp;rsquo;ll Find
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Step-by-Step Tutorials&lt;/strong&gt;: Master R with hands-on examples and clear explanations.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Resources &amp;amp; Tips&lt;/strong&gt;: Discover the best R packages, tools, and techniques.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Real-World Insights&lt;/strong&gt;: Explore applications of R in statistics, machine learning, and data visualization.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;why-this-blog&#34;&gt;&lt;a href=&#34;#why-this-blog&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Why This Blog?
-&lt;/h2&gt;&lt;p&gt;As a statistician and R enthusiast, I’m passionate about making R accessible and showcasing its power for data analysis and modeling. My goal is to help you build confidence and skills in R programming.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;get-started&#34;&gt;&lt;a href=&#34;#get-started&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Get Started
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;/about/&#34; &gt;About Me&lt;/a&gt;&lt;/strong&gt;: Learn more about my background and mission.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/swarnendu-stat/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GitHub&lt;/a&gt;&lt;/strong&gt;: Explore my R projects and code.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;http://www.r-bloggers.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;R-bloggers&lt;/a&gt;&lt;/strong&gt;: Connect with the broader R community.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Browse Posts&lt;/strong&gt;:
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;/post/2025/01/17/power-of-base-R/&#34; &gt;The Power of Base R&lt;/a&gt;: Why Base R is still a game-changer.&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;/post/2025/01/17/bnns-for-tmle/&#34; &gt;Using BNNs for TMLE&lt;/a&gt;: Targeted Maximum Likelihood Estimation with Bayesian Neural Networks.&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;/post/2025/04/18/bnns-binary-classification/&#34; &gt;BNNs for Binary Classification&lt;/a&gt;: Practical guide to binary classification with BNNs.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;stay-connected&#34;&gt;&lt;a href=&#34;#stay-connected&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Stay Connected
-&lt;/h2&gt;&lt;p&gt;Subscribe to get new tutorials and tips delivered to your inbox, or follow me on [Twitter/GitHub] for updates. Have a question? Drop a comment on any post!&lt;/p&gt;
-</description>
-      
-      
-    </item>
-    
-    <item>
       <title>Notes</title>
       <link>/notes/</link>
       <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
