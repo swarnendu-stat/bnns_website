@@ -6,7 +6,10 @@ min = "0.128.0"
   section = ["html", "rss"]
   taxonomy = ["html", "rss"]
   term = ["html", "rss"]
-
+  
+[params]
+  mainSections = ["post"]
+  
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
