@@ -1,3 +1,5 @@
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;?xml-stylesheet type="text/xsl" href="/rss.xsl"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Welcome to My R Blog</title>
@@ -5,7 +7,7 @@
     <description>Recent posts on Welcome to My R Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 18 Aug 2025 10:23:45 &#43;0530</lastBuildDate>
+    <lastBuildDate>Mon, 18 Aug 2025 10:24:51 &#43;0530</lastBuildDate>
     <atom:link href="https://swarnendu-stat.netlify.app/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
