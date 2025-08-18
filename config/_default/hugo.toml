@@ -14,3 +14,15 @@ min = "0.128.0"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true  
+
+[outputFormats]
+  [outputFormats.RSS]
+    mediatype = "application/rss+xml"
+    baseName = "feed"
+
+[permalinks]
+  post = "/:year/:month/:slug/"
+
+[params.feed]
+  enable = true
+  limit = 20

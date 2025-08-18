@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content=" In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.\n🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.\nBut what if we asked:\n&ldquo;How sure are we about that 73%?&rdquo;\n">
+<title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
+
+<link rel='canonical' href='/2025/04/bnns-binary-classification/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability">
+<meta property='og:description' content=" In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.\n🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.\nBut what if we asked:\n&ldquo;How sure are we about that 73%?&rdquo;\n">
+<meta property='og:url' content='/2025/04/bnns-binary-classification/'>
+<meta property='og:site_name' content=''>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='R' /><meta property='article:tag' content='Bayesian Neural Networks' /><meta property='article:tag' content='Clinical Trials' /><meta property='article:published_time' content='2025-04-18T22:21:00&#43;05:30'/><meta property='article:modified_time' content='2025-04-18T22:21:00&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
+<meta name="twitter:site" content="@https://x.com/SwarnenduStat">
+    <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability">
+<meta name="twitter:description" content=" In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.\n🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.\nBut what if we asked:\n&ldquo;How sure are we about that 73%?&rdquo;\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' />
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_a76b8da90d73b17e.jpg" width="300"
+                            height="293" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🌱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/"></a></h1>
+            <h2 class="site-description">Biostat, Bayes &amp; Blogdown  
+✨Statistically Speaking
+📍 India
+</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/biostatistics/" >
+                Biostatistics
+            </a>
+        
+            <a href="/categories/machine-learning/" >
+                Machine Learning
+            </a>
+        
+            <a href="/categories/bayesian-methods/" >
+                Bayesian Methods
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/2025/04/bnns-binary-classification/">Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 18, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    3 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <blockquote>
+<p><em>In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.</em></p></blockquote>
+<hr>
+<h2 id="-the-problem"><a href="#-the-problem" class="header-anchor"></a>🔍 The Problem
+</h2><p>Diabetes prediction models abound, but they often give us <strong>just a number</strong>. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.</p>
+<p>But what if we asked:</p>
+<blockquote>
+<p><em>&ldquo;How sure are we about that 73%?&rdquo;</em></p></blockquote>
+<p>Enter <strong>Bayesian Neural Networks</strong> (<code>bnns</code>), where uncertainty isn’t a bug—it’s a feature.</p>
+<hr>
+<h2 id="-the-data"><a href="#-the-data" class="header-anchor"></a>📊 The Data
+</h2><p>We used the <code>PimaIndiansDiabetes2</code> dataset from the <code>mlbench</code> package, containing clinical variables (e.g., glucose, BMI, insulin) and diabetes diagnosis. Missing values were removed, and outcomes were converted to binary.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(bnns)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(mlbench)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(rsample)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggplot2)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">123</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">data</span>(<span style="color:#e6db74">&#34;PimaIndiansDiabetes2&#34;</span>)
+</span></span><span style="display:flex;"><span>trial_data <span style="color:#f92672">&lt;-</span> PimaIndiansDiabetes2 <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">transform</span>(diabetes <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(diabetes <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;pos&#34;</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">na.omit</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>trial_data_split <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">initial_split</span>(trial_data, strata <span style="color:#f92672">=</span> diabetes, prop <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>)
+</span></span><span style="display:flex;"><span>trial_data_train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">training</span>(trial_data_split)
+</span></span><span style="display:flex;"><span>trial_data_test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">testing</span>(trial_data_split)
+</span></span></code></pre></div><hr>
+<h2 id="-the-model"><a href="#-the-model" class="header-anchor"></a>🧠 The Model
+</h2><p>Our BNN has two hidden layers (24 and 12 nodes) and uses Cauchy priors to encourage sparsity. We used logistic output activation (<code>out_act_fn = 2</code>) for binary classification.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>bnn_model <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bnns</span>(
+</span></span><span style="display:flex;"><span>  diabetes <span style="color:#f92672">~</span> .,
+</span></span><span style="display:flex;"><span>  data <span style="color:#f92672">=</span> trial_data_train,
+</span></span><span style="display:flex;"><span>  L <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  nodes <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">12</span>),
+</span></span><span style="display:flex;"><span>  act_fn <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>  out_act_fn <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  iter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1e4</span>,
+</span></span><span style="display:flex;"><span>  warmup <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05e4</span>,
+</span></span><span style="display:flex;"><span>  chains <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>  cores <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>  prior_weights <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cauchy&#34;</span>, params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(mu <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sigma <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>)),
+</span></span><span style="display:flex;"><span>  prior_bias <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cauchy&#34;</span>, params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(mu <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sigma <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>))
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><hr>
+<h2 id="-the-prediction"><a href="#-the-prediction" class="header-anchor"></a>🎯 The Prediction
+</h2><p>We predicted probabilities on the test set and extracted the <strong>posterior median</strong> and <strong>95% credible intervals</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(bnn_model, newdata <span style="color:#f92672">=</span> trial_data_test)
+</span></span><span style="display:flex;"><span>pred_y <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">apply</span>(pred, MARGIN <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, median)
+</span></span><span style="display:flex;"><span>pred_quantiles <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">apply</span>(pred, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">function</span>(x) <span style="color:#a6e22e">quantile</span>(x, probs <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.025</span>, <span style="color:#ae81ff">0.975</span>)), simplify <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">do.call</span>(rbind, args <span style="color:#f92672">=</span> _)
+</span></span></code></pre></div><hr>
+<h2 id="-model-performance"><a href="#-model-performance" class="header-anchor"></a>📏 Model Performance
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">measure_bin</span>(trial_data_test<span style="color:#f92672">$</span>diabetes, pred)
+</span></span></code></pre></div><pre tabindex="0"><code>Setting levels: control = 0, case = 1
+</code></pre><pre tabindex="0"><code>Setting direction: controls &lt; cases
+</code></pre><pre tabindex="0"><code>$conf_mat
+   pred_label
+obs  0  1
+  0 42 11
+  1  7 19
+
+$accuracy
+[1] 0.7721519
+
+$ROC
+
+Call:
+roc.default(response = obs, predictor = pred)
+
+Data: pred in 53 controls (obs 0) &lt; 26 cases (obs 1).
+Area under the curve: 0.8353
+
+$AUC
+[1] 0.8352685
+</code></pre><p>Performance was comparable to classical methods (AUC ~0.835), but with a massive advantage: <strong>uncertainty quantification</strong>.</p>
+<hr>
+<h2 id="-visualizing-predictions"><a href="#-visualizing-predictions" class="header-anchor"></a>🔬 Visualizing Predictions
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>plot_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(
+</span></span><span style="display:flex;"><span>  Actual <span style="color:#f92672">=</span> trial_data_test<span style="color:#f92672">$</span>diabetes,
+</span></span><span style="display:flex;"><span>  Predicted <span style="color:#f92672">=</span> pred_y,
+</span></span><span style="display:flex;"><span>  Lower <span style="color:#f92672">=</span> pred_quantiles[,<span style="color:#ae81ff">1</span>],
+</span></span><span style="display:flex;"><span>  Upper <span style="color:#f92672">=</span> pred_quantiles[,<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">transform</span>(width <span style="color:#f92672">=</span> Upper <span style="color:#f92672">-</span> Lower) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">arrange</span>(width)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(plot_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> Actual, y <span style="color:#f92672">=</span> Predicted)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_errorbar</span>(<span style="color:#a6e22e">aes</span>(ymin <span style="color:#f92672">=</span> Lower, ymax <span style="color:#f92672">=</span> Upper), width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;steelblue&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BNN Predictions for Patient Status&#34;</span>,
+</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Error bars show 95% credible intervals&#34;</span>,
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Test Set Patient Status&#34;</span>,
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Predicted Patient Status&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="/2025/04/bnns-binary-classification/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+<hr>
+<h2 id="-why-use-bnns"><a href="#-why-use-bnns" class="header-anchor"></a>🧠 Why Use <code>bnns</code>?
+</h2><ol>
+<li><strong>Non-linear modeling</strong>: Captures complex relationships among covariates without heavy pre-specification.</li>
+<li><strong>Credible intervals</strong>: Each prediction comes with its uncertainty.</li>
+<li><strong>Probability of a probability</strong>:
+<ul>
+<li>For example: <em>Pr(Pr(Diabetes) &gt; 0.5) &gt; 0.9</em></li>
+<li>Translation: &ldquo;We are 90% confident this person has more than 50% risk.&rdquo;</li>
+<li>That’s <strong>clinical-grade insight</strong>.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="-final-thoughts"><a href="#-final-thoughts" class="header-anchor"></a>📣 Final Thoughts
+</h2><p>Bayesian Neural Networks let us move beyond binary thinking and embrace <strong>informed uncertainty</strong>. When the stakes are high (think medicine, finance, or policy), <code>bnns</code> offers a probabilistic flashlight in the black box jungle.</p>
+<blockquote>
+<p><em>Ready to stop guessing your predictions? Start modeling your belief about your predictions.</em></p></blockquote>
+<p>🔗 <a class="link" href="https://cran.r-project.org/package=bnns"  target="_blank" rel="noopener"
+    >Explore the <code>bnns</code> package</a></p>
+<p>💬 Like this blog? Share your thoughts and use-cases on <a class="link" href="https://www.linkedin.com/"  target="_blank" rel="noopener"
+    >LinkedIn</a> and tag <a class="link" href="https://www.linkedin.com/in/swarnendu-stat/"  target="_blank" rel="noopener"
+    >me</a>!</p>
+<hr>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/r/">R</a>
+        
+            <a href="/tags/bayesian-neural-networks/">Bayesian Neural Networks</a>
+        
+            <a href="/tags/clinical-trials/">Clinical Trials</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/2025/01/power-of-base-r/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Power of Base R: A Performance Comparison with dplyr</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://www.r-bloggers.com/" target="_blank">R Bloggers</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

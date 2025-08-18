@@ -1,0 +1,157 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on </title>
+    <link>/categories/</link>
+    <description>Recent content in Categories on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 17 Aug 2025 09:00:00 +0530</lastBuildDate>
+    
+        <atom:link href="/categories/feed.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>/categories/machine-learning/</link>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 +0530</pubDate>
+      
+      <guid>/categories/machine-learning/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>SuperLearner</title>
+      <link>/categories/superlearner/</link>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 +0530</pubDate>
+      
+      <guid>/categories/superlearner/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>TidyModels</title>
+      <link>/categories/tidymodels/</link>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 +0530</pubDate>
+      
+      <guid>/categories/tidymodels/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Bayesian Methods</title>
+      <link>/categories/bayesian-methods/</link>
+      <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
+      
+      <guid>/categories/bayesian-methods/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Biostatistics</title>
+      <link>/categories/biostatistics/</link>
+      <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
+      
+      <guid>/categories/biostatistics/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Bayesian</title>
+      <link>/categories/bayesian/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
+      
+      <guid>/categories/bayesian/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Bnns</title>
+      <link>/categories/bnns/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
+      
+      <guid>/categories/bnns/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Neural Network</title>
+      <link>/categories/neural-network/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
+      
+      <guid>/categories/neural-network/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/categories/r/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
+      
+      <guid>/categories/r/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Tmle</title>
+      <link>/categories/tmle/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
+      
+      <guid>/categories/tmle/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Base R</title>
+      <link>/categories/base-r/</link>
+      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
+      
+      <guid>/categories/base-r/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Dplyr</title>
+      <link>/categories/dplyr/</link>
+      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
+      
+      <guid>/categories/dplyr/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Tidyverse</title>
+      <link>/categories/tidyverse/</link>
+      <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
+      
+      <guid>/categories/tidyverse/</guid>
+      <description></description>
+      
+      
+    </item>
+    
+  </channel>
+</rss>

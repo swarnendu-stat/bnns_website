@@ -2,9 +2,11 @@
 title: "Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability"
 author: "Swarnendu Chatterjee"
 date: "2025-04-18T22:21:00+0530"
+draft: false
 slug: bnns-binary-classification
 categories: ["Biostatistics", "Machine Learning", "Bayesian Methods"]
 tags: ["R", "Bayesian Neural Networks", "Clinical Trials"]
+output: hugodown::md_document
 ---
 
 

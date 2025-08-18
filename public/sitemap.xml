@@ -103,37 +103,37 @@
     <priority>0.1</priority>
   </url><url>
     <loc>/categories/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/categories/machine-learning/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/tags/machine-learning/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/post/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/categories/superlearner/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/tags/superlearner/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/tags/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
-    <loc>/post/2025-08-15-tidy-superlearner/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <loc>/2025/08/tidy-superlearner/</loc>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/categories/tidymodels/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/tags/tidymodels/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/</loc>
-    <lastmod>2025-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-17T09:00:00+05:30</lastmod>
   </url><url>
     <loc>/categories/bayesian-methods/</loc>
     <lastmod>2025-04-18T22:21:00+05:30</lastmod>
@@ -147,7 +147,7 @@
     <loc>/tags/clinical-trials/</loc>
     <lastmod>2025-04-18T22:21:00+05:30</lastmod>
   </url><url>
-    <loc>/post/bnns-binary-classification/</loc>
+    <loc>/2025/04/bnns-binary-classification/</loc>
     <lastmod>2025-04-18T22:21:00+05:30</lastmod>
   </url><url>
     <loc>/tags/r/</loc>
@@ -180,7 +180,7 @@
     <loc>/tags/tmle/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
-    <loc>/post/bnns-for-tmle/</loc>
+    <loc>/2025/01/bnns-for-tmle/</loc>
     <lastmod>2025-01-17T23:24:25+05:30</lastmod>
   </url><url>
     <loc>/categories/base-r/</loc>
@@ -195,7 +195,7 @@
     <loc>/tags/dplyr/</loc>
     <lastmod>2025-01-17T22:32:22+05:30</lastmod>
   </url><url>
-    <loc>/post/power-of-base-r/</loc>
+    <loc>/2025/01/power-of-base-r/</loc>
     <lastmod>2025-01-17T22:32:22+05:30</lastmod>
   </url><url>
     <loc>/categories/tidyverse/</loc>

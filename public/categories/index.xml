@@ -5,7 +5,7 @@
     <description>Recent content in Categories on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 17 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 17 Aug 2025 09:00:00 +0530</lastBuildDate>
     
         <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,7 +13,7 @@
     <item>
       <title>Machine Learning</title>
       <link>/categories/machine-learning/</link>
-      <pubDate>Sun, 17 Aug 2025 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 +0530</pubDate>
       
       <guid>/categories/machine-learning/</guid>
       <description></description>
@@ -24,7 +24,7 @@
     <item>
       <title>SuperLearner</title>
       <link>/categories/superlearner/</link>
-      <pubDate>Sun, 17 Aug 2025 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 +0530</pubDate>
       
       <guid>/categories/superlearner/</guid>
       <description></description>
@@ -35,7 +35,7 @@
     <item>
       <title>TidyModels</title>
       <link>/categories/tidymodels/</link>
-      <pubDate>Sun, 17 Aug 2025 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 +0530</pubDate>
       
       <guid>/categories/tidymodels/</guid>
       <description></description>

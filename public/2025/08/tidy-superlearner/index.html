@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The SuperLearner R package is a go-to for this, however it only supports gaussian or binomial to describe the error distribution. Using the clean, flexible tidymodels framework we can implement these functionalities and also extend it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with tidymodels, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.\n">
+<title>Tidy SuperLearner</title>
+
+<link rel='canonical' href='/2025/08/tidy-superlearner/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Tidy SuperLearner">
+<meta property='og:description' content="Introduction Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The SuperLearner R package is a go-to for this, however it only supports gaussian or binomial to describe the error distribution. Using the clean, flexible tidymodels framework we can implement these functionalities and also extend it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with tidymodels, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.\n">
+<meta property='og:url' content='/2025/08/tidy-superlearner/'>
+<meta property='og:site_name' content=''>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Machine Learning' /><meta property='article:tag' content='TidyModels' /><meta property='article:tag' content='SuperLearner' /><meta property='article:published_time' content='2025-08-17T09:00:00&#43;05:30'/><meta property='article:modified_time' content='2025-08-17T09:00:00&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
+<meta name="twitter:site" content="@https://x.com/SwarnenduStat">
+    <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="Tidy SuperLearner">
+<meta name="twitter:description" content="Introduction Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The SuperLearner R package is a go-to for this, however it only supports gaussian or binomial to describe the error distribution. Using the clean, flexible tidymodels framework we can implement these functionalities and also extend it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with tidymodels, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' />
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_a76b8da90d73b17e.jpg" width="300"
+                            height="293" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🌱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/"></a></h1>
+            <h2 class="site-description">Biostat, Bayes &amp; Blogdown  
+✨Statistically Speaking
+📍 India
+</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/machine-learning/" >
+                Machine Learning
+            </a>
+        
+            <a href="/categories/tidymodels/" >
+                TidyModels
+            </a>
+        
+            <a href="/categories/superlearner/" >
+                SuperLearner
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/2025/08/tidy-superlearner/">Tidy SuperLearner</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 17, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    14 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
+</h2><p>Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The <code>SuperLearner</code> R package is a go-to for this, however it only supports <strong>gaussian</strong> or <strong>binomial</strong> to describe the error distribution. Using the clean, flexible <code>tidymodels</code> framework we can implement these functionalities and also <strong>extend</strong> it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with <code>tidymodels</code>, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.</p>
+<h2 id="why-tidymodels-for-ensemble-learning"><a href="#why-tidymodels-for-ensemble-learning" class="header-anchor"></a>Why Tidymodels for Ensemble Learning?
+</h2><p>The <code>SuperLearner</code> package is great, but <code>tidymodels</code> offers a modular, intuitive workflow that’s perfect for building and tuning ensembles. With packages like <code>recipes</code>, <code>workflows</code>, and <code>stacks</code>, you can preprocess data, define models, and stack them into a robust ensemble with ease. Plus, <code>tidymodels</code> integrates seamlessly with modern R tools, making your code clean and reproducible.</p>
+<p>Let’s dive into the process with a clear roadmap and examples you can adapt for your own projects.</p>
+<h2 id="packages-youll-need"><a href="#packages-youll-need" class="header-anchor"></a>Packages You’ll Need
+</h2><p>First, let’s load the essential packages. These cover everything from data preprocessing to model stacking and evaluation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidymodels, quietly <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: package &#39;tidymodels&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## ── Attaching packages ────────────────────────────────────── tidymodels 1.3.0 ──
+</code></pre><pre tabindex="0"><code>## ✔ broom        1.0.9     ✔ recipes      1.3.1
+## ✔ dials        1.4.1     ✔ rsample      1.3.0
+## ✔ dplyr        1.1.4     ✔ tibble       3.2.1
+## ✔ ggplot2      3.5.2     ✔ tidyr        1.3.1
+## ✔ infer        1.0.9     ✔ tune         1.3.0
+## ✔ modeldata    1.5.0     ✔ workflows    1.2.0
+## ✔ parsnip      1.3.2     ✔ workflowsets 1.1.1
+## ✔ purrr        1.0.4     ✔ yardstick    1.3.2
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;broom&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;dials&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;infer&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;modeldata&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;parsnip&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;recipes&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;tune&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;workflows&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;workflowsets&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;yardstick&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+## ✖ purrr::discard() masks scales::discard()
+## ✖ dplyr::filter()  masks stats::filter()
+## ✖ dplyr::lag()     masks stats::lag()
+## ✖ recipes::step()  masks stats::step()
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(stacks)
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: package &#39;stacks&#39; was built under R version 4.5.1
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(discrim)      <span style="color:#75715e"># For quadratic discriminant analysis (QDA)</span>
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: package &#39;discrim&#39; was built under R version 4.5.1
+</code></pre><pre tabindex="0"><code>## 
+## Attaching package: &#39;discrim&#39;
+</code></pre><pre tabindex="0"><code>## The following object is masked from &#39;package:dials&#39;:
+## 
+##     smoothness
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(poissonreg)   <span style="color:#75715e"># For Poisson regression</span>
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: package &#39;poissonreg&#39; was built under R version 4.5.1
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">123</span>)         <span style="color:#75715e"># For reproducibility</span>
+</span></span></code></pre></div><h2 id="the-four-step-process"><a href="#the-four-step-process" class="header-anchor"></a>The Four-Step Process
+</h2><p>Building a SuperLearner with <code>tidymodels</code> boils down to four high-level steps. Think of it as a recipe for ensemble success:</p>
+<h3 id="step-1-prep-your-data-with-a-recipe"><a href="#step-1-prep-your-data-with-a-recipe" class="header-anchor"></a>Step 1: Prep Your Data with a Recipe
+</h3><p>Use the <code>recipes</code> package to preprocess your data. This ensures all predictors are ready for modeling (e.g., converting categorical variables to dummy variables and removing zero-variance predictors). Of course, you can add more based on your needs and what makes sense.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>data_rec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">recipe</span>(<span style="color:#a6e22e">as.formula</span>(formula), data <span style="color:#f92672">=</span> data) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">step_dummy</span>(<span style="color:#a6e22e">all_nominal_predictors</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">step_zv</span>(<span style="color:#a6e22e">all_predictors</span>())
+</span></span></code></pre></div><h3 id="step-2-build-a-workflow"><a href="#step-2-build-a-workflow" class="header-anchor"></a>Step 2: Build a Workflow
+</h3><p>Create a <code>workflow</code> that combines your data recipe with a model specification. For example, if you’re using XGBoost, it might look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>wflow <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">workflow</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">add_recipe</span>(data_rec) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">add_model</span>(boost_spec)  <span style="color:#75715e"># Example: XGBoost model spec</span>
+</span></span></code></pre></div><h3 id="step-3-tune-your-models"><a href="#step-3-tune-your-models" class="header-anchor"></a>Step 3: Tune Your Models
+</h3><p>Tune each model’s hyperparameters using cross-validation. This step optimizes each algorithm’s performance before stacking.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>tune_results <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tune_grid</span>(
+</span></span><span style="display:flex;"><span>  object <span style="color:#f92672">=</span> wflow,
+</span></span><span style="display:flex;"><span>  resamples <span style="color:#f92672">=</span> folds,
+</span></span><span style="display:flex;"><span>  grid <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>  control <span style="color:#f92672">=</span> <span style="color:#a6e22e">control_stack_grid</span>()
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><h3 id="step-4-stack-the-models"><a href="#step-4-stack-the-models" class="header-anchor"></a>Step 4: Stack the Models
+</h3><p>Combine your tuned models into an ensemble using the <code>stacks</code> package. This blends their predictions and fits the final ensemble.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ensemble_model <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">stacks</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">add_candidates</span>(<span style="color:#a6e22e">do.call</span>(as_workflow_set, member_list)) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">blend_predictions</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">fit_members</span>()
+</span></span></code></pre></div><h2 id="a-reusable-function-for-tidymodels-superlearner"><a href="#a-reusable-function-for-tidymodels-superlearner" class="header-anchor"></a>A Reusable Function for Tidymodels SuperLearner
+</h2><p>To make this process reusable, I’ve crafted a function that automates the workflow for various model types (e.g., XGBoost, random forest, neural networks) and problem types (binary classification, regression, count data, or multi-class classification). Here’s the polished version:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>sl_tidy_workflow <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(member, mode) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;poisson&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">poisson_reg</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;glm&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;elasto_poisson&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">poisson_reg</span>(penalty <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), mixture <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;glmnet&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;poisson_zero&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">poisson_reg</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;zeroinfl&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;multi&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">multinom_reg</span>(penalty <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;nnet&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;elasto_multi&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">multinom_reg</span>(penalty <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), mixture <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;glmnet&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;knn&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">nearest_neighbor</span>(neighbors <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), weight_func <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), dist_power <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;kknn&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;boost&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">boost_tree</span>(mtry <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), min_n <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), trees <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;xgboost&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;rf&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rand_forest</span>(mtry <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), min_n <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), trees <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;ranger&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;nnet&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mlp</span>(hidden_units <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), penalty <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), epochs <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;nnet&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;logit&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">logistic_reg</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;glm&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;lm&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">linear_reg</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;lm&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;elasto_logit&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">logistic_reg</span>(penalty <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), mixture <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;glmnet&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;elasto_lm&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">linear_reg</span>(penalty <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(), mixture <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;glmnet&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;qda&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">discrim_quad</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;MASS&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;lsvm&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">svm_linear</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;kernlab&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;psvm&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">svm_poly</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;kernlab&#34;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (member <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;rsvm&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">svm_rbf</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_mode</span>(mode) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">set_engine</span>(<span style="color:#e6db74">&#34;kernlab&#34;</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span>(mod_spec)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now, let us implement the above mentioned 4 steps.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>sl_tidy <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(formula, data, sl_lib <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>, cv_v <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bin&#34;</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Check for required packages</span>
+</span></span><span style="display:flex;"><span>  req_pkg_list <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;xgboost&#34;</span>, <span style="color:#e6db74">&#34;ranger&#34;</span>, <span style="color:#e6db74">&#34;nnet&#34;</span>, <span style="color:#e6db74">&#34;earth&#34;</span>, <span style="color:#e6db74">&#34;stats&#34;</span>, <span style="color:#e6db74">&#34;glmnet&#34;</span>, <span style="color:#e6db74">&#34;discrim&#34;</span>, <span style="color:#e6db74">&#34;kernlab&#34;</span>, <span style="color:#e6db74">&#34;kknn&#34;</span>, <span style="color:#e6db74">&#34;mgcv&#34;</span>, <span style="color:#e6db74">&#34;poissonreg&#34;</span>, <span style="color:#e6db74">&#34;mlbench&#34;</span>, <span style="color:#e6db74">&#34;COUNT&#34;</span>, <span style="color:#e6db74">&#34;pscl&#34;</span>)
+</span></span><span style="display:flex;"><span>  not_installed_pkgs <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">setdiff</span>(req_pkg_list, <span style="color:#a6e22e">installed.packages</span>()[, <span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">length</span>(not_installed_pkgs)) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">stop</span>(<span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;Please install: install.packages(c(&#39;&#34;</span>, <span style="color:#a6e22e">paste</span>(not_installed_pkgs, collapse <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#39;,&#39;&#34;</span>), <span style="color:#e6db74">&#34;&#39;))&#34;</span>))
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Define model libraries for different modes</span>
+</span></span><span style="display:flex;"><span>  sl_lib_cl <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;boost&#34;</span>, <span style="color:#e6db74">&#34;rf&#34;</span>, <span style="color:#e6db74">&#34;nnet&#34;</span>, <span style="color:#e6db74">&#34;logit&#34;</span>, <span style="color:#e6db74">&#34;elasto_logit&#34;</span>, <span style="color:#e6db74">&#34;qda&#34;</span>, <span style="color:#e6db74">&#34;lsvm&#34;</span>, <span style="color:#e6db74">&#34;psvm&#34;</span>, <span style="color:#e6db74">&#34;rsvm&#34;</span>)
+</span></span><span style="display:flex;"><span>  sl_lib_reg <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;boost&#34;</span>, <span style="color:#e6db74">&#34;lm&#34;</span>, <span style="color:#e6db74">&#34;elasto_lm&#34;</span>, <span style="color:#e6db74">&#34;nnet&#34;</span>, <span style="color:#e6db74">&#34;knn&#34;</span>, <span style="color:#e6db74">&#34;rf&#34;</span>, <span style="color:#e6db74">&#34;lsvm&#34;</span>, <span style="color:#e6db74">&#34;psvm&#34;</span>, <span style="color:#e6db74">&#34;rsvm&#34;</span>)
+</span></span><span style="display:flex;"><span>  sl_lib_multi <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;boost&#34;</span>, <span style="color:#e6db74">&#34;rf&#34;</span>, <span style="color:#e6db74">&#34;multi&#34;</span>, <span style="color:#e6db74">&#34;elasto_multi&#34;</span>, <span style="color:#e6db74">&#34;qda&#34;</span>, <span style="color:#e6db74">&#34;lsvm&#34;</span>, <span style="color:#e6db74">&#34;psvm&#34;</span>, <span style="color:#e6db74">&#34;rsvm&#34;</span>)
+</span></span><span style="display:flex;"><span>  sl_lib_count <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;boost&#34;</span>, <span style="color:#e6db74">&#34;knn&#34;</span>, <span style="color:#e6db74">&#34;rf&#34;</span>, <span style="color:#e6db74">&#34;lsvm&#34;</span>, <span style="color:#e6db74">&#34;psvm&#34;</span>, <span style="color:#e6db74">&#34;rsvm&#34;</span>, <span style="color:#e6db74">&#34;poisson&#34;</span>, <span style="color:#e6db74">&#34;elasto_poisson&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Set mode and model library</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (mode <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;bin&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mode <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;classification&#34;</span>
+</span></span><span style="display:flex;"><span>    sl_lib_master <span style="color:#f92672">&lt;-</span> sl_lib_cl
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (mode <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;cont&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mode <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;regression&#34;</span>
+</span></span><span style="display:flex;"><span>    sl_lib_master <span style="color:#f92672">&lt;-</span> sl_lib_reg
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (mode <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;multi&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mode <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;classification&#34;</span>
+</span></span><span style="display:flex;"><span>    sl_lib_master <span style="color:#f92672">&lt;-</span> sl_lib_multi
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (mode <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;count&#34;</span>) {
+</span></span><span style="display:flex;"><span>    mode <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;regression&#34;</span>
+</span></span><span style="display:flex;"><span>    sl_lib_master <span style="color:#f92672">&lt;-</span> sl_lib_count
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">is.null</span>(sl_lib)) {
+</span></span><span style="display:flex;"><span>    sl_lib <span style="color:#f92672">&lt;-</span> sl_lib_master
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">all</span>(sl_lib <span style="color:#f92672">%in%</span> sl_lib_master)) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">stop</span>(<span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;&#39;sl_lib&#39; must be one of: &#34;</span>, <span style="color:#a6e22e">paste</span>(sl_lib_master, collapse <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;, &#34;</span>)))
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Step 1: Create recipe</span>
+</span></span><span style="display:flex;"><span>  data_rec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">recipe</span>(<span style="color:#a6e22e">as.formula</span>(formula), data <span style="color:#f92672">=</span> data) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">step_dummy</span>(<span style="color:#a6e22e">all_nominal_predictors</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">step_zv</span>(<span style="color:#a6e22e">all_predictors</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Step 2: Initialize workflow</span>
+</span></span><span style="display:flex;"><span>  data_wflow <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">workflow</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">add_recipe</span>(data_rec)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Step 3: Cross-validation folds</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (mode <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;classification&#34;</span>) {
+</span></span><span style="display:flex;"><span>    folds <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">vfold_cv</span>(data, v <span style="color:#f92672">=</span> cv_v, strata <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.character</span>(formula)[2])
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    folds <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">vfold_cv</span>(data, v <span style="color:#f92672">=</span> cv_v)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Tune models</span>
+</span></span><span style="display:flex;"><span>  member_list <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lapply</span>(sl_lib, <span style="color:#66d9ef">function</span>(member) {
+</span></span><span style="display:flex;"><span>    mod_spec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sl_tidy_workflow</span>(member <span style="color:#f92672">=</span> member, mode <span style="color:#f92672">=</span> mode)
+</span></span><span style="display:flex;"><span>    mod_wflow <span style="color:#f92672">&lt;-</span> data_wflow <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">add_model</span>(mod_spec)
+</span></span><span style="display:flex;"><span>    mod_res <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tryCatch</span>(
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">suppressWarnings</span>(<span style="color:#a6e22e">tune_grid</span>(
+</span></span><span style="display:flex;"><span>        object <span style="color:#f92672">=</span> mod_wflow,
+</span></span><span style="display:flex;"><span>        resamples <span style="color:#f92672">=</span> folds,
+</span></span><span style="display:flex;"><span>        grid <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>        control <span style="color:#f92672">=</span> <span style="color:#a6e22e">control_stack_grid</span>()
+</span></span><span style="display:flex;"><span>      )),
+</span></span><span style="display:flex;"><span>      error <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(e) <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">is.null</span>(mod_res)) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;Tuned &#34;</span>, member, <span style="color:#e6db74">&#34; model\n&#34;</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(mod_res)
+</span></span><span style="display:flex;"><span>  })
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">names</span>(member_list) <span style="color:#f92672">&lt;-</span> sl_lib
+</span></span><span style="display:flex;"><span>  member_list <span style="color:#f92672">&lt;-</span> member_list<span style="color:#a6e22e">[lengths</span>(member_list) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Step 4: Stack models</span>
+</span></span><span style="display:flex;"><span>  data_model_st <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">stacks</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (res <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">names</span>(member_list)) {
+</span></span><span style="display:flex;"><span>    data_model_st <span style="color:#f92672">&lt;-</span> data_model_st <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">add_candidates</span>(member_list[[res]], name <span style="color:#f92672">=</span> res)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  data_model_st <span style="color:#f92672">&lt;-</span> data_model_st <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">blend_predictions</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fit_members</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span>(data_model_st)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="real-world-examples"><a href="#real-world-examples" class="header-anchor"></a>Real-World Examples
+</h2><p>Let’s see this in action with four datasets, covering binary classification, count regression, standard regression, and multi-class classification. Each dataset is chosen to demonstrate the flexibility of our <code>tidymodels</code> SuperLearner approach, and I’ll provide some context about each to help you understand their relevance.</p>
+<h3 id="binary-classification-pima-indians-diabetes"><a href="#binary-classification-pima-indians-diabetes" class="header-anchor"></a>Binary Classification: Pima Indians Diabetes
+</h3><p>The <code>PimaIndiansDiabetes2</code> dataset, from the <code>mlbench</code> package, contains medical data on Pima Indian women, including variables like glucose levels, blood pressure, and body mass index (BMI). The goal is to predict diabetes status (positive or negative), making it a classic binary classification problem. This dataset is widely used in machine learning to study diagnostic prediction models, as it reflects real-world medical data with some missing values and class imbalance.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">data</span>(<span style="color:#e6db74">&#34;PimaIndiansDiabetes2&#34;</span>, package <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;mlbench&#34;</span>)
+</span></span><span style="display:flex;"><span>diabetes_data <span style="color:#f92672">&lt;-</span> PimaIndiansDiabetes2 <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">na.omit</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(diabetes <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(<span style="color:#a6e22e">if_else</span>(diabetes <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;pos&#34;</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>)))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">head</span>(diabetes_data)
+</span></span></code></pre></div><pre tabindex="0"><code>##    pregnant glucose pressure triceps insulin mass pedigree age diabetes
+## 4         1      89       66      23      94 28.1    0.167  21        0
+## 5         0     137       40      35     168 43.1    2.288  33        1
+## 7         3      78       50      32      88 31.0    0.248  26        1
+## 9         2     197       70      45     543 30.5    0.158  53        1
+## 14        1     189       60      23     846 30.1    0.398  59        1
+## 15        5     166       72      19     175 25.8    0.587  51        1
+</code></pre><p>Let&rsquo;s split the data into training and test sets.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>diabetes_split <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">initial_split</span>(diabetes_data, prop <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>, strata <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;diabetes&#34;</span>)
+</span></span><span style="display:flex;"><span>diabetes_train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">training</span>(diabetes_split)
+</span></span><span style="display:flex;"><span>diabetes_test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">testing</span>(diabetes_split)
+</span></span></code></pre></div><p>Let&rsquo;s now build the superlearner</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>diabetes_SL <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sl_tidy</span>(diabetes <span style="color:#f92672">~</span> ., data <span style="color:#f92672">=</span> diabetes_train, cv_v <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bin&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## i Creating pre-processing data to finalize unknown parameter: mtry
+</code></pre><pre tabindex="0"><code>## Tuned boost model
+</code></pre><pre tabindex="0"><code>## i Creating pre-processing data to finalize unknown parameter: mtry
+</code></pre><pre tabindex="0"><code>## Tuned rf model
+## Tuned nnet model
+## Tuned logit model
+## Tuned elasto_logit model
+## Tuned qda model
+## Tuned lsvm model
+## Tuned psvm model
+## Tuned rsvm model
+</code></pre><pre tabindex="0"><code>## Warning: Predictions from 2 candidates were identical to those from existing candidates
+## and were removed from the data stack.
+</code></pre><pre tabindex="0"><code>##  Setting default kernel parameters
+</code></pre><pre tabindex="0"><code>## Warning: package &#39;future&#39; was built under R version 4.5.1
+</code></pre><p>Use the superlearner for prediction</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Predict</span>
+</span></span><span style="display:flex;"><span>diabetes_test_pred <span style="color:#f92672">&lt;-</span> diabetes_test <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">bind_cols</span>(<span style="color:#a6e22e">predict</span>(diabetes_SL, ., type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;prob&#34;</span>))
+</span></span></code></pre></div><p>Evaluate the ROC AUC</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Evaluate with ROC AUC</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(pROC)
+</span></span></code></pre></div><pre tabindex="0"><code>## Type &#39;citation(&#34;pROC&#34;)&#39; for a citation.
+</code></pre><pre tabindex="0"><code>## 
+## Attaching package: &#39;pROC&#39;
+</code></pre><pre tabindex="0"><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     cov, smooth, var
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>diabetes_roc <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">roc</span>(response <span style="color:#f92672">=</span> diabetes_test_pred<span style="color:#f92672">$</span>diabetes, predictor <span style="color:#f92672">=</span> diabetes_test_pred<span style="color:#f92672">$</span>.pred_1)
+</span></span></code></pre></div><pre tabindex="0"><code>## Setting levels: control = 0, case = 1
+</code></pre><pre tabindex="0"><code>## Setting direction: controls &lt; cases
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">auc</span>(diabetes_roc)
+</span></span></code></pre></div><pre tabindex="0"><code>## Area under the curve: 0.8106
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggroc</span>(diabetes_roc) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="/2025/08/tidy-superlearner/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<p>This gives you a model that predicts diabetes with a stacked ensemble, and the ROC curve visualizes its performance in distinguishing between diabetic and non-diabetic cases.</p>
+<h3 id="count-data-regression-epileptic-seizures"><a href="#count-data-regression-epileptic-seizures" class="header-anchor"></a>Count Data Regression: Epileptic Seizures
+</h3><p>The <code>epil</code> dataset, from the <code>MASS</code> package, records the number of epileptic seizures in patients over time, along with predictors like treatment type and baseline seizure counts. It’s a great example for count regression, as seizure counts are non-negative integers with potential overdispersion, making Poisson. This dataset is often used to study count data in medical research.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">data</span>(<span style="color:#e6db74">&#34;epil&#34;</span>, package <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MASS&#34;</span>)
+</span></span><span style="display:flex;"><span>epil_data <span style="color:#f92672">&lt;-</span> epil <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">na.omit</span>() <span style="color:#f92672">|&gt;</span> dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>subject)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">head</span>(epil_data)
+</span></span></code></pre></div><pre tabindex="0"><code>##   y     trt base age V4 period      lbase       lage
+## 1 5 placebo   11  31  0      1 -0.7563538 0.11420370
+## 2 3 placebo   11  31  0      2 -0.7563538 0.11420370
+## 3 3 placebo   11  31  0      3 -0.7563538 0.11420370
+## 4 3 placebo   11  31  1      4 -0.7563538 0.11420370
+## 5 3 placebo   11  30  0      1 -0.7563538 0.08141387
+## 6 5 placebo   11  30  0      2 -0.7563538 0.08141387
+</code></pre><p>Let&rsquo;s split the data into training and test sets.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>epil_split <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">initial_split</span>(epil_data, prop <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>)
+</span></span><span style="display:flex;"><span>epil_train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">training</span>(epil_split)
+</span></span><span style="display:flex;"><span>epil_test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">testing</span>(epil_split)
+</span></span></code></pre></div><p>Let&rsquo;s now build the superlearner</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>epil_SL <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sl_tidy</span>(y <span style="color:#f92672">~</span> ., data <span style="color:#f92672">=</span> epil_train, cv_v <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;count&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## i Creating pre-processing data to finalize unknown parameter: mtry
+</code></pre><pre tabindex="0"><code>## Tuned boost model
+## Tuned knn model
+</code></pre><pre tabindex="0"><code>## i Creating pre-processing data to finalize unknown parameter: mtry
+</code></pre><pre tabindex="0"><code>## Tuned rf model
+## Tuned lsvm model
+## Tuned psvm model
+## Tuned rsvm model
+## Tuned poisson model
+## Tuned elasto_poisson model
+##  Setting default kernel parameters  
+##  Setting default kernel parameters
+</code></pre><p>Use the superlearner for prediction</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Predict</span>
+</span></span><span style="display:flex;"><span>epil_test_pred <span style="color:#f92672">&lt;-</span> epil_test <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">bind_cols</span>(<span style="color:#a6e22e">predict</span>(epil_SL, ., type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;numeric&#34;</span>))
+</span></span></code></pre></div><p>Now visualize</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Visualize</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(epil_test_pred, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> y, y <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(.pred))) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Observed Seizure Counts&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Predicted Seizure Counts&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="/2025/08/tidy-superlearner/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<p>The scatter plot shows how well our ensemble predicts seizure counts, useful for evaluating treatment effects in epilepsy studies.</p>
+<h3 id="regression-birthweight-prediction"><a href="#regression-birthweight-prediction" class="header-anchor"></a>Regression: Birthweight Prediction
+</h3><p>The <code>birthwt</code> dataset, also from the <code>MASS</code> package, contains data on infant birthweights and maternal factors like smoking status, age, and weight. It’s a standard dataset for regression tasks, as birthweight is a continuous outcome influenced by multiple predictors. This dataset is valuable for studying maternal and fetal health, often used in statistical modeling to explore risk factors for low birthweight.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">data</span>(<span style="color:#e6db74">&#34;birthwt&#34;</span>, package <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MASS&#34;</span>)
+</span></span><span style="display:flex;"><span>bwt_data <span style="color:#f92672">&lt;-</span> birthwt <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">na.omit</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">head</span>(bwt_data)
+</span></span></code></pre></div><pre tabindex="0"><code>##    low age lwt race smoke ptl ht ui ftv  bwt
+## 85   0  19 182    2     0   0  0  1   0 2523
+## 86   0  33 155    3     0   0  0  0   3 2551
+## 87   0  20 105    1     1   0  0  0   1 2557
+## 88   0  21 108    1     1   0  0  1   2 2594
+## 89   0  18 107    1     1   0  0  1   0 2600
+## 91   0  21 124    3     0   0  0  0   0 2622
+</code></pre><p>Let&rsquo;s split the data into training and test sets.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>bwt_split <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">initial_split</span>(bwt_data, prop <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>)
+</span></span><span style="display:flex;"><span>bwt_train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">training</span>(bwt_split)
+</span></span><span style="display:flex;"><span>bwt_test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">testing</span>(bwt_split)
+</span></span></code></pre></div><p>And then Build the superlearner</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>bwt_SL <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sl_tidy</span>(bwt <span style="color:#f92672">~</span> ., data <span style="color:#f92672">=</span> bwt_train, cv_v <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cont&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## i Creating pre-processing data to finalize unknown parameter: mtry
+</code></pre><pre tabindex="0"><code>## Tuned boost model
+## Tuned lm model
+## Tuned elasto_lm model
+</code></pre><pre tabindex="0"><code>## → A | warning: A correlation computation is required, but `estimate` is constant and has 0
+##                standard deviation, resulting in a divide by 0 error. `NA` will be returned.
+</code></pre><pre tabindex="0"><code>## 
+There were issues with some computations   A: x1
+
+There were issues with some computations   A: x2
+
+There were issues with some computations   A: x3
+
+There were issues with some computations   A: x4
+
+There were issues with some computations   A: x5
+
+There were issues with some computations   A: x5
+</code></pre><pre tabindex="0"><code>## Tuned nnet model
+## Tuned knn model
+</code></pre><pre tabindex="0"><code>## i Creating pre-processing data to finalize unknown parameter: mtry
+</code></pre><pre tabindex="0"><code>## Tuned rf model
+## Tuned lsvm model
+## Tuned psvm model
+## Tuned rsvm model
+</code></pre><pre tabindex="0"><code>## Warning: The inputted `candidates` argument `nnet` generated notes during
+## tuning/resampling. Model stacking may fail due to these issues; see
+## `collect_notes()` (`?tune::collect_notes()`) if so.
+</code></pre><p>Now, use it for prediction</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Predict</span>
+</span></span><span style="display:flex;"><span>bwt_test_pred <span style="color:#f92672">&lt;-</span> bwt_test <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">bind_cols</span>(<span style="color:#a6e22e">predict</span>(bwt_SL, ., type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;numeric&#34;</span>))
+</span></span></code></pre></div><p>We can then visualize as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Visualize</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(bwt_test_pred, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> bwt, y <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(.pred))) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Observed Birthweight (grams)&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Predicted Birthweight (grams)&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="/2025/08/tidy-superlearner/index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<p>This shows how the ensemble performs in predicting birthweight, which can inform medical interventions for at-risk pregnancies.</p>
+<h3 id="multi-class-classification-iris-species"><a href="#multi-class-classification-iris-species" class="header-anchor"></a>Multi-Class Classification: Iris Species
+</h3><p>The <code>iris</code> dataset, from the <code>datasets</code> package, is a classic in machine learning. It includes measurements of sepal and petal dimensions for three iris species: setosa, versicolor, and virginica. With four continuous predictors and three classes, it’s perfect for multi-class classification. This dataset, introduced by Ronald Fisher, remains a benchmark for testing classification algorithms due to its simplicity and clear class separation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">data</span>(<span style="color:#e6db74">&#34;iris&#34;</span>, package <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;datasets&#34;</span>)
+</span></span><span style="display:flex;"><span>species_data <span style="color:#f92672">&lt;-</span> iris <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">na.omit</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">head</span>(species_data)
+</span></span></code></pre></div><pre tabindex="0"><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+</code></pre><p>We split it into training and test sets:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>species_split <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">initial_split</span>(species_data, prop <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>, strata <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Species&#34;</span>)
+</span></span><span style="display:flex;"><span>species_train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">training</span>(species_split)
+</span></span><span style="display:flex;"><span>species_test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">testing</span>(species_split)
+</span></span></code></pre></div><p>Build the superlearner</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>species_SL <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sl_tidy</span>(Species <span style="color:#f92672">~</span> ., data <span style="color:#f92672">=</span> species_train, cv_v <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;multi&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## i Creating pre-processing data to finalize unknown parameter: mtry
+</code></pre><pre tabindex="0"><code>## Tuned boost model
+</code></pre><pre tabindex="0"><code>## i Creating pre-processing data to finalize unknown parameter: mtry
+</code></pre><pre tabindex="0"><code>## Tuned rf model
+## Tuned multi model
+## Tuned elasto_multi model
+## Tuned qda model
+## Tuned lsvm model
+## Tuned psvm model
+## Tuned rsvm model
+</code></pre><pre tabindex="0"><code>## Warning: Predictions from 14 candidates were identical to those from existing candidates
+## and were removed from the data stack.
+</code></pre><pre tabindex="0"><code>## Warning: Predictions from 3 candidates were identical to those from existing candidates
+## and were removed from the data stack.
+</code></pre><pre tabindex="0"><code>##  Setting default kernel parameters
+</code></pre><p>Use it for prediction</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Predict</span>
+</span></span><span style="display:flex;"><span>species_test_pred <span style="color:#f92672">&lt;-</span> species_test <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">bind_cols</span>(<span style="color:#a6e22e">predict</span>(species_SL, ., type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;prob&#34;</span>))
+</span></span></code></pre></div><p>Evaluate the ROC</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Evaluate with multi-class ROC</span>
+</span></span><span style="display:flex;"><span>species_roc <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">multiclass.roc</span>(
+</span></span><span style="display:flex;"><span>  response <span style="color:#f92672">=</span> species_test_pred<span style="color:#f92672">$</span>Species,
+</span></span><span style="display:flex;"><span>  predictor <span style="color:#f92672">=</span> <span style="color:#a6e22e">cbind</span>(
+</span></span><span style="display:flex;"><span>    setosa <span style="color:#f92672">=</span> species_test_pred<span style="color:#f92672">$</span>.pred_setosa,
+</span></span><span style="display:flex;"><span>    versicolor <span style="color:#f92672">=</span> species_test_pred<span style="color:#f92672">$</span>.pred_versicolor,
+</span></span><span style="display:flex;"><span>    virginica <span style="color:#f92672">=</span> species_test_pred<span style="color:#f92672">$</span>.pred_virginica
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">auc</span>(species_roc)
+</span></span></code></pre></div><pre tabindex="0"><code>## Multi-class area under the curve: 1
+</code></pre><p>This evaluates the ensemble’s ability to distinguish between iris species, a task relevant to botanical classification and algorithm benchmarking.</p>
+<h2 id="wrapping-up"><a href="#wrapping-up" class="header-anchor"></a>Wrapping Up
+</h2><p>Using <code>tidymodels</code>, you can build a SuperLearner-style ensemble that’s flexible, reproducible, and easy to understand. The <code>sl_tidy</code> function simplifies the process, letting you focus on modeling rather than boilerplate code. Whether you’re tackling medical diagnostics (Pima Indians Diabetes), count data (epileptic seizures), health outcomes (birthweight), or classic classification (iris), this approach scales to your needs. Based on github conversations, support for <code>censored regression</code> is coming in <code>stacks</code>, which will enable extension of this for time-to-event data.</p>
+<p>Try it out on your own dataset, tweak the model library, and see how stacking can boost your predictions.</p>
+<p>💬 Like this blog? Share your thoughts and use-cases on <a class="link" href="https://www.linkedin.com/in/swarnendu-stat/"  target="_blank" rel="noopener"
+    >LinkedIn</a> and tag <a class="link" href="https://www.linkedin.com/in/swarnendu-stat/"  target="_blank" rel="noopener"
+    >me</a>!</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/machine-learning/">Machine Learning</a>
+        
+            <a href="/tags/tidymodels/">TidyModels</a>
+        
+            <a href="/tags/superlearner/">SuperLearner</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://www.r-bloggers.com/" target="_blank">R Bloggers</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

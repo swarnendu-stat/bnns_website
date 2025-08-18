@@ -1,0 +1,585 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Notes on </title>
+    <link>/notes/</link>
+    <description>Recent content in Notes on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 08 Jun 2010 08:06:25 +0600</lastBuildDate>
+    
+        <atom:link href="/notes/feed.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Resultados de Búsqueda</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;Este archivo existe únicamente para responder a la URL /search con la plantilla de diseño &lt;code&gt;search&lt;/code&gt; relacionada.&lt;/p&gt;
+&lt;p&gt;No se muestra ningún contenido aquí, todo el contenido se basa en la plantilla layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Establecer una prioridad muy baja en el mapa del sitio le dirá a los motores de búsqueda que éste no es un contenido importante.&lt;/p&gt;
+&lt;p&gt;Esta implementación utiliza Fusejs, jquery y mark.js&lt;/p&gt;
+&lt;h2 id=&#34;configuración-inicial&#34;&gt;&lt;a href=&#34;#configuraci%c3%b3n-inicial&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Configuración inicial
+&lt;/h2&gt;&lt;p&gt;La búsqueda depende del tipo de contenido de salida adicional de JSON en config.toml&lt;/p&gt;
+&lt;p&gt;```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;búsqueda-de-archivos-adicionales&#34;&gt;&lt;a href=&#34;#b%c3%basqueda-de-archivos-adicionales&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Búsqueda de archivos adicionales
+&lt;/h2&gt;&lt;p&gt;Para buscar campos adicionales definidos en el front matter, debes añadirlo en 2 lugares.&lt;/p&gt;
+&lt;h3 id=&#34;editar-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#editar-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Editar layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;Esto expone los valores en /index.json: por ejemplo, para agregar &lt;code&gt;categories&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;editar-las-opciones-de-fusejs-para-buscar&#34;&gt;&lt;a href=&#34;#editar-las-opciones-de-fusejs-para-buscar&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Editar las opciones de fuse.js para buscar
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>অনুসন্ধানের ফলাফল</title>
+      <link>/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/search/</guid>
+      <description>&lt;p&gt;This file exists solely to respond to /search URL with the related &lt;code&gt;search&lt;/code&gt; layout template.&lt;/p&gt;
+&lt;p&gt;No content shown here is rendered, all content is based in the template layouts/page/search.html&lt;/p&gt;
+&lt;p&gt;Setting a very low sitemap priority will tell search engines this is not important content.&lt;/p&gt;
+&lt;p&gt;This implementation uses Fusejs and mark.js&lt;/p&gt;
+&lt;h2 id=&#34;initial-setup&#34;&gt;&lt;a href=&#34;#initial-setup&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Initial setup
+&lt;/h2&gt;&lt;p&gt;Search  depends on additional output content type of JSON in config.toml
+```
+[outputs]
+home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;]
+```&lt;/p&gt;
+&lt;h2 id=&#34;searching-additional-fields&#34;&gt;&lt;a href=&#34;#searching-additional-fields&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Searching additional fields
+&lt;/h2&gt;&lt;p&gt;To search additional fields defined in front matter, you must add it in 2 places.&lt;/p&gt;
+&lt;h3 id=&#34;edit-layouts_defaultindexjson&#34;&gt;&lt;a href=&#34;#edit-layouts_defaultindexjson&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit layouts/_default/index.JSON
+&lt;/h3&gt;&lt;p&gt;This exposes the values in /index.json
+i.e. add &lt;code&gt;category&lt;/code&gt;
+```
+&amp;hellip;
+&amp;ldquo;contents&amp;rdquo;:{{ .Content | plainify | jsonify }}
+{{ if .Params.tags }},
+&amp;ldquo;tags&amp;rdquo;:{{ .Params.tags | jsonify }}{{end}},
+&amp;ldquo;categories&amp;rdquo; : {{ .Params.categories | jsonify }},
+&amp;hellip;
+```&lt;/p&gt;
+&lt;h3 id=&#34;edit-fusejs-options-to-search&#34;&gt;&lt;a href=&#34;#edit-fusejs-options-to-search&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Edit fuse.js options to Search
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;assets/scripts/pages/search.js&lt;/code&gt;
+```
+keys: [
+&amp;ldquo;title&amp;rdquo;,
+&amp;ldquo;contents&amp;rdquo;,
+&amp;ldquo;tags&amp;rdquo;,
+&amp;ldquo;categories&amp;rdquo;
+]
+```&lt;/p&gt;
+</description>
+      
+      
+    </item>
+    
+  </channel>
+</rss>

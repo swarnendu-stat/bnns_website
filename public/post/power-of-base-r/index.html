@@ -245,15 +245,15 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_filter
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr   min     lq     mean median    uq    max neval
- base_0  27.3  32.70  43.3981  38.20  50.2 1632.3  1000
- base_1  37.4  46.65  59.6620  56.30  67.9 1762.0  1000
-  dplyr 365.0 406.55 444.7454 421.35 443.6 3155.3  1000
+   expr   min     lq     mean median    uq    max neval cld
+ base_0  28.0  32.70  42.0561  37.90  49.5  218.6  1000 a  
+ base_1  37.5  46.95  59.3593  56.65  68.8  261.2  1000  b 
+  dplyr 369.9 404.85 451.8073 421.30 440.1 2846.6  1000   c
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_filter) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Filter: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_filter <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_filter), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 10 times <strong>faster</strong> than dplyr::filter. The absolute difference in 10k simulations is 4.013473 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 11 times <strong>faster</strong> than dplyr::filter. The absolute difference in 10k simulations is 4.097512 seconds.</p>
 <h2 id="2-select-columns"><a href="#2-select-columns" class="header-anchor"></a>2. Select Columns
 </h2><p>Selecting specific columns is fundamental to narrowing down datasets. The comparison here shows how base R indexing and the subset function stack up against dplyr::select in terms of speed.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_select <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(
@@ -264,15 +264,15 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_select
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr   min     lq     mean median    uq    max neval
- base_0   5.7   6.80   9.2123   9.60  10.8   41.2  1000
- base_1  25.2  31.85  42.6012  43.05  49.1  163.8  1000
-  dplyr 434.1 470.00 517.3763 483.65 505.2 2877.8  1000
+   expr   min     lq     mean median    uq    max neval cld
+ base_0   5.7   6.65   9.0531   9.60  10.6   49.3  1000 a  
+ base_1  25.1  32.60  43.7883  44.75  48.6 2026.9  1000  b 
+  dplyr 433.1 465.30 498.3363 478.00 497.7 2342.9  1000   c
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_select) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Select: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_select <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_select), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 56 times <strong>faster</strong> than dplyr::select. The absolute difference in 10k simulations is 5.08164 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 55 times <strong>faster</strong> than dplyr::select. The absolute difference in 10k simulations is 4.892832 seconds.</p>
 <h2 id="3-addmodify-columns"><a href="#3-addmodify-columns" class="header-anchor"></a>3. Add/Modify Columns
 </h2><p>Adding or modifying columns is crucial for feature engineering. Base R provides multiple methods for this, which are benchmarked here against dplyr::mutate for their computational efficiency.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_mutate <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(
@@ -283,15 +283,15 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_mutate
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr   min    lq     mean median     uq    max neval
- base_0   3.0   4.0   6.2721    6.2   8.00   23.3  1000
- base_1  26.9  38.6  49.7894   49.3  59.90  159.5  1000
-  dplyr 368.6 401.8 436.5808  416.6 433.35 2068.8  1000
+   expr   min     lq     mean median     uq    max neval cld
+ base_0   3.1   4.10   6.5303   6.80   8.00  127.7  1000 a  
+ base_1  27.0  38.65  49.2795  49.05  58.50  166.4  1000  b 
+  dplyr 365.4 400.85 434.6963 414.40 434.95 2154.6  1000   c
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_mutate) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Mutate: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_mutate <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_mutate), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 70 times <strong>faster</strong> than dplyr::mutate. The absolute difference in 10k simulations is 4.303087 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 67 times <strong>faster</strong> than dplyr::mutate. The absolute difference in 10k simulations is 4.28166 seconds.</p>
 <h2 id="4-summarise-data"><a href="#4-summarise-data" class="header-anchor"></a>4. Summarise Data
 </h2><p>Data summarization helps derive aggregate metrics. This section compares colMeans from base R with dplyr::summarise_if, illustrating their relative performance in summarizing numeric columns.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_summarise <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(
@@ -303,14 +303,14 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_summarise
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr   min     lq     mean median     uq    max neval
- base_0 114.6 134.50 164.4607  167.4 179.75 1637.3  1000
-  dplyr 607.5 660.35 709.8235  677.2 699.80 3643.8  1000
+   expr   min    lq     mean median     uq    max neval cld
+ base_0 114.9 139.8 167.7646  171.7 184.95 2365.9  1000  a 
+  dplyr 627.7 685.1 729.6822  707.7 729.10 2497.4  1000   b
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_summarise) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Summarise: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_summarise <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_summarise), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 4 times <strong>faster</strong> than dplyr::summarise. The absolute difference in 10k simulations is 5.453628 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 4 times <strong>faster</strong> than dplyr::summarise. The absolute difference in 10k simulations is 5.619176 seconds.</p>
 <h2 id="5-grouped-summary"><a href="#5-grouped-summary" class="header-anchor"></a>5. Grouped Summary
 </h2><p>Aggregating data by groups is often required for advanced analytics. Base R’s aggregate function is tested here against dplyr&rsquo;s group_by and summarise_all functions to highlight performance differences.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_grp <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(
@@ -323,14 +323,14 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_grp
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr    min      lq      mean median   uq     max neval
- base_0  673.9  724.25  822.9378  756.3  787 39185.9  1000
-  dplyr 2095.8 2181.25 2334.0126 2225.7 2296 14855.4  1000
+   expr    min      lq      mean median      uq     max neval cld
+ base_0  657.0  741.95  795.2686  765.7  801.60  3292.2  1000  a 
+  dplyr 2128.8 2225.50 2392.1440 2291.4 2386.75 14798.6  1000   b
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_grp) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Grouped Summarise: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_grp <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_grp), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 3 times <strong>faster</strong> than dplyr::grp. The absolute difference in 10k simulations is 15.110748 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 3 times <strong>faster</strong> than dplyr::grp. The absolute difference in 10k simulations is 15.968754 seconds.</p>
 <h2 id="6-sort-data"><a href="#6-sort-data" class="header-anchor"></a>6. Sort Data
 </h2><p>Sorting is essential for ordering data before visualization or further analysis. The benchmarks here compare the classic base R order approach to the elegant dplyr::arrange.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_sort <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(
@@ -340,14 +340,14 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_sort
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr    min      lq     mean  median     uq    max neval
- base_0   39.2   50.60   68.453   70.90   78.2 1642.0  1000
-  dplyr 1311.7 1374.85 1483.152 1403.75 1460.9 4921.1  1000
+   expr    min     lq      mean median      uq    max neval cld
+ base_0   40.2   51.7   69.1362   72.8   78.95 1888.6  1000  a 
+  dplyr 1343.6 1392.6 1485.4011 1437.6 1498.70 3672.0  1000   b
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_sort) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Sort: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_sort <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_sort), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 22 times <strong>faster</strong> than dplyr::arrange. The absolute difference in 10k simulations is 14.146992 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 21 times <strong>faster</strong> than dplyr::arrange. The absolute difference in 10k simulations is 14.162649 seconds.</p>
 <h2 id="7-join-data"><a href="#7-join-data" class="header-anchor"></a>7. Join Data
 </h2><p>Data joins are indispensable when working with relational datasets. This section demonstrates the efficiency of base R’s merge function compared to dplyr::left_join.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>iris<span style="color:#f92672">$</span>id <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample.int</span>(<span style="color:#a6e22e">nrow</span>(iris), replace <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
@@ -359,14 +359,14 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_join
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr   min     lq     mean median     uq    max neval
- base_0 256.0 303.55 350.0250 340.10 355.05 2151.8  1000
-  dplyr 694.1 736.25 806.4005 756.05 799.95 5727.6  1000
+   expr   min     lq     mean median     uq     max neval cld
+ base_0 256.3 313.65 357.0383 344.80 376.75  2629.4  1000  a 
+  dplyr 696.3 765.05 921.3512 800.45 835.75 75403.2  1000   b
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_join) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Join: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_join <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_join), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 2 times <strong>faster</strong> than dplyr::left_join. The absolute difference in 10k simulations is 4.563755 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 3 times <strong>faster</strong> than dplyr::left_join. The absolute difference in 10k simulations is 5.643129 seconds.</p>
 <h2 id="8-group-and-apply-function-1"><a href="#8-group-and-apply-function-1" class="header-anchor"></a>8. Group and Apply Function 1
 </h2><p>Applying models or transformations to groups of data is a frequent task in statistical workflows. This benchmark showcases the performance of split and lapply in base R versus dplyr::group_map.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_grp_map <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(
@@ -378,14 +378,14 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_grp_map
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr    min      lq      mean  median      uq    max neval
- base_0  761.6  850.80  950.6823  884.80  940.45 4405.0  1000
-  dplyr 2447.7 2543.05 2780.8759 2656.45 2811.50 5602.4  1000
+   expr    min      lq      mean  median      uq    max neval cld
+ base_0  784.3  840.40  911.4024  865.75  905.30 3135.7  1000  a 
+  dplyr 2450.7 2534.55 2684.8511 2598.80 2694.35 7384.0  1000   b
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_grp_map) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Group Map: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_grp_map <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_grp_map), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 3 times <strong>faster</strong> than dplyr::group_map. The absolute difference in 10k simulations is 18.301936 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 3 times <strong>faster</strong> than dplyr::group_map. The absolute difference in 10k simulations is 17.734487 seconds.</p>
 <h2 id="9-group-and-apply-function-2"><a href="#9-group-and-apply-function-2" class="header-anchor"></a>9. Group and Apply Function 2
 </h2><p>Complex operations on grouped data are common in analytical pipelines. This comparison highlights the performance of base R’s split and lapply with a row-binding step versus dplyr::group_modify.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_grp_mod <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(
@@ -399,14 +399,14 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_grp_mod
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: milliseconds
-   expr    min      lq     mean  median      uq     max neval
- base_0 1.4087 1.50025 1.594760 1.53825 1.59505  3.7525  1000
-  dplyr 4.5044 4.69865 5.065493 4.80680 5.03665 44.4467  1000
+   expr    min      lq     mean median      uq    max neval cld
+ base_0 1.4068 1.50905 1.625191 1.5613 1.62855 4.3454  1000  a 
+  dplyr 4.5348 4.70640 5.007739 4.8595 5.09485 9.8918  1000   b
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_grp_mod) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Group Modify: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_grp_mod <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_grp_mod), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 3 times <strong>faster</strong> than dplyr::group_modify. The absolute difference in 10k simulations is 34.707333 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 3 times <strong>faster</strong> than dplyr::group_modify. The absolute difference in 10k simulations is 33.825473 seconds.</p>
 <h2 id="10-rowwise"><a href="#10-rowwise" class="header-anchor"></a>10. Rowwise
 </h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_rowwise <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(base_0 <span style="color:#f92672">=</span> <span style="color:#a6e22e">transform</span>(iris, 
 </span></span><span style="display:flex;"><span>Sepal_sd <span style="color:#f92672">=</span> <span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">cbind</span>(Sepal.Length, Sepal.Width), <span style="color:#ae81ff">1</span>, sd),
@@ -421,7 +421,7 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_rowwise) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Rowwise: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_rowwise <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_rowwise), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 3 times <strong>faster</strong> than dplyr::rowwise. The absolute difference in 10k simulations is 22.976678 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 3 times <strong>faster</strong> than dplyr::rowwise. The absolute difference in 10k simulations is 21.835045 seconds.</p>
 <h2 id="11-count-rows-by-group"><a href="#11-count-rows-by-group" class="header-anchor"></a>11. Count Rows by Group
 </h2><p>Counting the number of rows by group is a simple yet frequent operation. The comparison here emphasizes the efficiency of base R’s table function against dplyr::count.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_count <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(
@@ -431,14 +431,14 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_count
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr    min      lq      mean median     uq    max neval
- base_0   14.8   21.30   31.7192   36.6   38.8  176.9  1000
-  dplyr 1396.4 1454.55 1585.3359 1502.1 1578.7 4258.1  1000
+   expr    min     lq      mean  median     uq    max neval cld
+ base_0   14.9   21.3   32.3976   33.55   41.4  161.2  1000  a 
+  dplyr 1427.3 1516.6 1620.9624 1544.90 1639.8 4518.4  1000   b
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_count) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Count: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_count <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_count), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 50 times <strong>faster</strong> than dplyr::count. The absolute difference in 10k simulations is 15.536167 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 50 times <strong>faster</strong> than dplyr::count. The absolute difference in 10k simulations is 15.885648 seconds.</p>
 <h2 id="12-identify-distinct-rows"><a href="#12-identify-distinct-rows" class="header-anchor"></a>12. Identify Distinct Rows
 </h2><p>Identifying unique rows is crucial for deduplication. This benchmark compares base R’s unique function with dplyr::distinct, shedding light on performance differences for this operation.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>mcb_distinct <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">microbenchmark</span>(
@@ -448,16 +448,16 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>mcb_distinct
 </span></span></code></pre></div><pre tabindex="0"><code>Unit: microseconds
-   expr   min     lq     mean median     uq     max neval
- base_0 551.1 587.85 682.7063  608.1 638.45 39456.5  1000
-  dplyr 247.7 285.20 320.7242  298.1 315.30  2128.6  1000
+   expr   min     lq     mean median     uq    max neval cld
+ base_0 546.6 587.15 644.9276  607.2 640.95 5494.7  1000  a 
+  dplyr 255.9 285.75 315.5954  297.9 315.00 2635.5  1000   b
 </code></pre><hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">autoplot</span>(mcb_distinct) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Distinct: Base R vs dplyr&#34;</span>)
 </span></span></code></pre></div><img src="/post/power-of-base-r/index_files/figure-html/unnamed-chunk-24-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>agg_distinct <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">aggregate</span>(time <span style="color:#f92672">~</span> expr, data <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(mcb_distinct), mean)<span style="color:#f92672">$</span>time
-</span></span></code></pre></div><p>So, base R code is on average 2 times <strong>slower</strong> than dplyr::distinct. The absolute difference in 10k simulations is 3.619821 seconds.</p>
+</span></span></code></pre></div><p>So, base R code is on average 2 times <strong>slower</strong> than dplyr::distinct. The absolute difference in 10k simulations is 3.293322 seconds.</p>
 <h2 id="summary"><a href="#summary" class="header-anchor"></a>Summary
-</h2><p>Given that these functions are very commonly used, it is fair to assume that these functions are used at least 5 times in a standard simulation code. If that simulation is repeated for 10k times, then the total gain we have by using base R is at least 11.7146347 minutes.</p>
+</h2><p>Given that these functions are very commonly used, it is fair to assume that these functions are used at least 5 times in a standard simulation code. If that simulation is repeated for 10k times, then the total gain we have by using base R is at least 11.7210869 minutes.</p>
 <h2 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
 </h2><p>This analysis demonstrates</p>
 <ul>
