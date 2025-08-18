@@ -20,3 +20,8 @@ HUGO_ENV = 'production'
   for = "/index.xml"
   [headers.values]
     Content-Type = "application/rss+xml"
+
+[[redirects]]
+  from = "/index.xml"
+  to = "/index.xml"
+  status = 200    

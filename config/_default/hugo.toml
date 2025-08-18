@@ -1,8 +1,10 @@
 baseURL = "https://swarnendu-stat.netlify.app/"
 title = "Welcome to My R Blog"
 theme = "hugo-theme-stack"
+
 [module.hugoVersion]
-min = "0.128.0"
+    min = "0.128.0"
+
 [outputs]
   home = ["html", "rss"]
   section = ["html", "rss"]
