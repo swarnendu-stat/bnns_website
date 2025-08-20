@@ -31,3 +31,10 @@ theme = "hugo-theme-stack"
   enable = true
   limit = 20
   sections = ["post"]
+  
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+  
+disableKinds = ["sitemap"]  

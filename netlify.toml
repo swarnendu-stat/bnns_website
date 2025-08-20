@@ -25,3 +25,14 @@ HUGO_ENV = 'production'
   from = "/index.xml"
   to = "/index.xml"
   status = 200    
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml"
+
+[[redirects]]
+  from = "/*"
+  to = "/:splat"
+  status = 200
+  force = false  
