@@ -13,6 +13,9 @@ theme = "hugo-theme-stack"
   
 [params]
   mainSections = ["post"]
+  customHead = '''
+    <meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+  '''
   
 [markup]
   [markup.goldmark]
