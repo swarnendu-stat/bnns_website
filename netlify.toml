@@ -2,6 +2,7 @@
   publish = "public"
   command = "hugo --gc --minify"
 
+[context.production]
 [context.production.environment]
   HUGO_VERSION = "0.146.7"  # (or your local version)
   HUGO_ENV = "production"
@@ -21,10 +22,10 @@ command = "hugo -F -b $DEPLOY_PRIME_URL"
 [context.deploy-preview]
 command = "hugo -F -b $DEPLOY_PRIME_URL"
 
-[context.production]
-[context.production.environment]
-HUGO_ENV = "production"
-
+[context.deploy-preview.environment]
+  HUGO_VERSION = "0.146.7"
+  HUGO_ENV = "development"
+  
 [[headers]]
   for = "/index.xml"
   [headers.values]
