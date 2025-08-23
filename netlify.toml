@@ -1,20 +1,29 @@
 [build]
-command = 'hugo'
-publish = 'public'
+  publish = "public"
+  command = "hugo --gc --minify"
 
-[build.environment]
-HUGO_VERSION = '0.146.7'
+[context.production.environment]
+  HUGO_VERSION = "0.146.7"  # (or your local version)
+  HUGO_ENV = "production"
+  HUGO_ENABLEGITINFO = "true"
+
+# [build]
+# command = 'hugo'
+# publish = 'public'
+
+# [build.environment]
+# HUGO_VERSION = '0.146.7'
 
 [context]
 [context.branch-deploy]
-command = 'hugo -F -b $DEPLOY_PRIME_URL'
+command = "hugo -F -b $DEPLOY_PRIME_URL"
 
 [context.deploy-preview]
-command = 'hugo -F -b $DEPLOY_PRIME_URL'
+command = "hugo -F -b $DEPLOY_PRIME_URL"
 
 [context.production]
 [context.production.environment]
-HUGO_ENV = 'production'
+HUGO_ENV = "production"
 
 [[headers]]
   for = "/index.xml"
