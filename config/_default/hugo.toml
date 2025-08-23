@@ -3,7 +3,7 @@ title = "Welcome to My R Blog"
 theme = "hugo-theme-stack"
 
 [module.hugoVersion]
-    min = "0.128.0"
+    min = "0.146.7"
 
 [outputs]
   home = ["html", "rss"]

@@ -20,9 +20,12 @@ outputs:
 module:
     hugoVersion:
         extended: true
-        min: "0.87.0"
+        min: "0.146.7"
 
 params:
+    customHead: '''
+    <meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+      '''  
     mainSections:
         - posts
         - post
