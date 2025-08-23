@@ -1,3 +1,6 @@
+[params.seo]
+  googleSiteVerification = "QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM"
+
 [ananke]
 show_recent_posts = true # show recent posts on the homepage
 
