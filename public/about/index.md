@@ -1,7 +1,7 @@
 # About
 
 **Date:** January 17, 2025
-**Link:** /about/
+**Link:** https://swarnendu-stat.netlify.app/about/
 
 
 

@@ -1,7 +1,7 @@
 # Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability
 
 **Date:** April 18, 2025
-**Link:** /post/bnns-binary-classification/
+**Link:** https://swarnendu-stat.netlify.app/post/bnns-binary-classification/
 **Tags:** R, Bayesian Neural Networks, Clinical Trials
 
 

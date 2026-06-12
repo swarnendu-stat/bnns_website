@@ -1,7 +1,7 @@
 # Search Results
 
 **Date:** June 8, 2010
-**Link:** /search/
+**Link:** https://swarnendu-stat.netlify.app/search/
 
 
 

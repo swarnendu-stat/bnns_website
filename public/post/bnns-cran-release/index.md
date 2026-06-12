@@ -1,7 +1,7 @@
 # bnns 1.0.0 is now on CRAN
 
 **Date:** June 12, 2026
-**Link:** /post/bnns-cran-release/
+**Link:** https://swarnendu-stat.netlify.app/post/bnns-cran-release/
 **Tags:** bnns, CRAN, R, Bayesian Neural Networks, Stan
 
 

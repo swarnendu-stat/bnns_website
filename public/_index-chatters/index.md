@@ -1,7 +1,7 @@
 # Welcome to My R Blog
 
 **Date:** January 1, 0001
-**Link:** /_index-chatters/
+**Link:** https://swarnendu-stat.netlify.app/_index-chatters/
 
 
 

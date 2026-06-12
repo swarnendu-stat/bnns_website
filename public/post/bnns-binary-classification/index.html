@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content=" In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.\n🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.\nBut what if we asked:\n&ldquo;How sure are we about that 73%?&rdquo;\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content=" In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.\n🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.\nBut what if we asked:\n&ldquo;How sure are we about that 73%?&rdquo;\n">
 <title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
 
-<link rel='canonical' href='/post/bnns-binary-classification/'>
+<link rel='canonical' href='https://swarnendu-stat.netlify.app/post/bnns-binary-classification/'>
 
 <link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability">
 <meta property='og:description' content=" In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.\n🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.\nBut what if we asked:\n&ldquo;How sure are we about that 73%?&rdquo;\n">
-<meta property='og:url' content='/post/bnns-binary-classification/'>
-<meta property='og:site_name' content=''>
+<meta property='og:url' content='https://swarnendu-stat.netlify.app/post/bnns-binary-classification/'>
+<meta property='og:site_name' content='Welcome to My R Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='R' /><meta property='article:tag' content='Bayesian Neural Networks' /><meta property='article:tag' content='Clinical Trials' /><meta property='article:published_time' content='2025-04-18T22:21:00&#43;05:30'/><meta property='article:modified_time' content='2025-04-18T22:21:00&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
 <meta name="twitter:site" content="@https://x.com/SwarnenduStat">
     <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability">
 <meta name="twitter:description" content=" In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.\n🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&rsquo;s a 73% chance someone has diabetes.\nBut what if we asked:\n&ldquo;How sure are we about that 73%?&rdquo;\n"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="text/markdown" href="/post/bnns-binary-classification/index.md">
+    <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="text/markdown" href="https://swarnendu-stat.netlify.app/post/bnns-binary-classification/index.md">
     <link rel="shortcut icon" href="/static/favicon.ico" />
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability">
+	<meta name="twitter:description" content="In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.
+🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there’s a 73% chance someone has diabetes.
+But what if we asked:
+“How sure are we about that 73%?”">
+
+
+	<meta itemprop="name" content="Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability">
+	<meta itemprop="description" content="In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.
+🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there’s a 73% chance someone has diabetes.
+But what if we asked:
+“How sure are we about that 73%?”">
+	<meta itemprop="datePublished" content="2025-04-18T22:21:00+05:30">
+	<meta itemprop="dateModified" content="2025-04-18T22:21:00+05:30">
+	<meta itemprop="wordCount" content="564">
+	<meta itemprop="keywords" content="R,Bayesian Neural Networks,Clinical Trials">
 <meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability">
@@ -85,7 +104,7 @@ But what if we asked:
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/"></a></h1>
+            <h1 class="site-name"><a href="/">Welcome to My R Blog</a></h1>
             <h2 class="site-description">Statistician &amp; R Enthusiast. Unlocking the power of data. I also love photography!</h2>
         </div>
     </header><ol class="menu" id="main-menu">
@@ -297,7 +316,7 @@ $AUC
 </span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Predicted Patient Status&#34;</span>
 </span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
-</span></span></code></pre></div><img src="/post/bnns-binary-classification/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+</span></span></code></pre></div><!-- raw HTML omitted -->
 <hr>
 <h2 id="-why-use-bnns"><a href="#-why-use-bnns" class="header-anchor"></a>🧠 Why Use <code>bnns</code>?
 </h2><ol>
@@ -409,7 +428,7 @@ $AUC
         
             2025 - 
         
-        2026 
+        2026 Welcome to My R Blog
     </section>
     
     <section class="powerby">
