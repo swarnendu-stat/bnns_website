@@ -1,8 +1,67 @@
 theme = "hugo-theme-stack"
+enableRobotsTXT = true
 [module.hugoVersion]
 min = "0.128.0"
+
+[mediaTypes]
+  [mediaTypes."text/markdown"]
+    suffixes = ["md"]
+  [mediaTypes."text/plain"]
+    suffixes = ["txt"]
+
+[outputFormats]
+  [outputFormats.Markdown]
+    mediaType = "text/markdown"
+    isPlainText = true
+    isHTML = false
+  [outputFormats.llmstxt]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+    notAlternative = true
+  [outputFormats.llmsfulltxt]
+    mediaType = "text/plain"
+    baseName = "llms-full"
+    isPlainText = true
+    notAlternative = true
+
 [outputs]
-  home = ['html', 'rss']
+  home = ['html', 'rss', 'llmstxt', 'llmsfulltxt']
   section = ['html', 'rss']
   taxonomy = ['html']
   term = ['html']
+  page = ['html', 'Markdown']
+
+[params]
+  mainSection = "post"
+  
+  # Author sidebar configuration
+  [params.sidebar]
+    subtitle = "Statistician & R Enthusiast. Unlocking the power of data. I also love photography!"
+    emoji = "📊"
+    
+    [params.sidebar.avatar]
+      enabled = true
+      local = false
+      src = "https://github.com/swarnendu-stat.png"
+
+  # Article features (Math support is crucial for your stats/R posts!)
+  [params.article]
+    math = true
+    readingTime = true
+
+  # Social Links
+  [[params.social]]
+    identifier = "github"
+    name = "GitHub"
+    url = "https://github.com/swarnendu-stat"
+
+  [[params.social]]
+    identifier = "linkedin"
+    name = "LinkedIn"
+    url = "https://www.linkedin.com/in/swarnendu-stat/"
+
+  [[params.social]]
+    identifier = "instagram"
+    name = "Instagram"
+    url = "https://www.instagram.com/shutter.and.stats?utm_source=qr&igsh=bWYwdGFyMnp3M2I4"

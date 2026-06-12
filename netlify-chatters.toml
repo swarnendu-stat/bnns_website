@@ -1,0 +1,53 @@
+[build]
+  publish = "public"
+  command = "hugo --gc --minify"
+
+[context.production]
+[context.production.environment]
+  HUGO_VERSION = "0.146.7"  # (or your local version)
+  HUGO_ENV = "production"
+  HUGO_ENABLEGITINFO = "true"
+
+# [build]
+# command = 'hugo'
+# publish = 'public'
+
+# [build.environment]
+# HUGO_VERSION = '0.146.7'
+
+[context]
+[context.branch-deploy]
+command = "hugo -F -b $DEPLOY_PRIME_URL"
+
+[context.deploy-preview]
+command = "hugo -F -b $DEPLOY_PRIME_URL"
+
+[context.deploy-preview.environment]
+  HUGO_VERSION = "0.146.7"
+  HUGO_ENV = "development"
+  
+[[headers]]
+  for = "/index.xml"
+  [headers.values]
+    Content-Type = "application/rss+xml"
+
+[[redirects]]
+  from = "/index.xml"
+  to = "/index.xml"
+  status = 200    
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml"
+
+[[redirects]]
+  from = "/*"
+  to = "/:splat"
+  status = 200
+  force = false  
+
+[params]
+  customHead = '''
+    <meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+  '''  

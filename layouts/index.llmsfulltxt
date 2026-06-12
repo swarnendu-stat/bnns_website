@@ -1,0 +1,19 @@
+# {{ .Site.Title }}
+
+{{ with .Site.Params.description }}
+> {{ . }}
+{{ end }}
+
+This file contains the full content of the website.
+
+{{ range (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) }}
+---
+## {{ .Title }}
+
+**Date:** {{ .Date.Format "January 2, 2006" }}
+**Link:** {{ .Permalink }}
+{{ with .Params.tags }}**Tags:** {{ delimit . ", " }}{{ end }}
+
+{{ .RawContent }}
+
+{{ end }}

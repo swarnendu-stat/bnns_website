@@ -1,6 +1,11 @@
 // CSS Style Guide          : https://codeguide.co/#css
 // All variables from site's config content.
 {{ $P := .Site.Params }}
+
+{{ if and $P.font $P.font.enable }}
+@import url('https://fonts.googleapis.com/css2?family={{ replace $P.font.global.family " " "+" }}:wght@400;700&family={{ replace $P.font.headings.family " " "+" }}:wght@400;700&display=swap');
+{{ end }}
+
 // Base
 $scheme                     : {{ $P.scheme }};
 $darkmode                   : {{ $P.darkmode }};
@@ -178,3 +183,50 @@ $second_comment_name        : {{ lower (index $sortNav 1).name }};
 // Schemes Layer
 // --------------------------------------------------
 {{ printf "@import '_schemes/%s/';" $P.scheme }}
+
+// Custom Look and Feel Improvements
+// --------------------------------------------------
+
+// 1. Smooth scrolling across the site
+html {
+  scroll-behavior: smooth;
+}
+
+// 2. Better font rendering for modern displays
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 3. Add smooth transitions for links to make hover states feel more polished
+a {
+  transition: all 0.2s ease-in-out;
+}
+
+// 4. Modernize code blocks with rounded corners and subtle drop shadows
+pre, .highlight {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+// 5. Modernize buttons with a subtle hover lift
+.btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 4px;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+{{ if and $P.font $P.font.enable }}
+// 6. Apply Typography Configuration
+body {
+  font-family: '{{ $P.font.global.family }}', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .site-title, .title {
+  font-family: '{{ $P.font.headings.family }}', serif;
+}
+{{ end }}

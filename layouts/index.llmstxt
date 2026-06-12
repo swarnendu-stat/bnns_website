@@ -1,0 +1,13 @@
+# {{ .Site.Title }}
+
+{{ with .Site.Params.description }}
+> {{ . }}
+{{ end }}
+
+## Content
+
+{{ range (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) }}
+- [{{ .Title }}]({{ .Permalink }}) - {{ .Description | default .Summary | plainify | truncate 100 }}
+{{ end }}
+
+> Note: You can append `/index.md` to any article URL to read its raw Markdown content.

@@ -1,0 +1,20 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.Title | default "Welcome to My R Blog" }}</title>
+    <link>{{ site.BaseURL | absURL }}</link>
+    <description>Recent posts on {{ site.Title | default "Welcome to My R Blog" }}</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>{{ site.LanguageCode | default "en-us" }}</language>
+    <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</lastBuildDate>
+    <atom:link href="{{ "/index.xml" | absURL }}" rel="self" type="application/rss+xml" />
+    {{ range first 20 (where site.RegularPages "Section" "post") }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink | absURL }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
+      <guid>{{ .Permalink | absURL }}</guid>
+      <description>{{ .Summary | plainify | htmlEscape | html }}</description>
+    </item>
+    {{ end }}
+  </channel>
+</rss>

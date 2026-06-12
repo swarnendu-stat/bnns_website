@@ -1,0 +1,1833 @@
+# 
+
+
+
+This file contains the full content of the website.
+
+
+---
+## bnns 1.0.0 is now on CRAN
+
+**Date:** June 12, 2026
+**Link:** /post/bnns-cran-release/
+**Tags:** bnns, CRAN, R, Bayesian Neural Networks, Stan
+
+
+I am happy to share that `bnns` version `1.0.0` is now available on CRAN:
+
+[https://cran.r-project.org/web/packages/bnns/index.html](https://cran.r-project.org/web/packages/bnns/index.html)
+
+CRAN lists the package publication date as June 7, 2026.
+
+You can install it directly from CRAN:
+
+``` r
+install.packages("bnns")
+```
+
+## What is `bnns`?
+
+`bnns` is an R package for building Bayesian neural networks with a familiar formula interface. Under the hood, it uses `Stan`, so the model output is not just a point prediction: it carries posterior uncertainty with it.
+
+That makes it useful when we care about both prediction and uncertainty quantification, especially in settings where decisions should not be based on a single fitted value alone.
+
+## What the CRAN release includes
+
+The `1.0.0` release supports:
+
+1. Formula-based model specification for Bayesian neural networks.
+2. User-chosen priors for weights and biases.
+3. Regression, binary classification, and multi-class classification workflows.
+4. Posterior predictive summaries that make uncertainty easier to inspect.
+5. A workflow designed for applied problems in clinical trials, finance, and other decision-heavy domains.
+
+## A small example
+
+The basic workflow is intentionally close to standard R modeling:
+
+``` r
+library(bnns)
+
+fit <- bnns(
+  y ~ .,
+  data = training_data,
+  L = 2,
+  nodes = c(16, 8),
+  act_fn = c(4, 1),
+  iter = 2000,
+  warmup = 1000,
+  chains = 4
+)
+
+pred <- predict(fit, newdata = test_data)
+```
+
+From there, predictions can be summarized using posterior medians, credible intervals, or any other posterior quantity that is useful for the analysis.
+
+## Why this matters
+
+Neural networks are often treated as black-box prediction engines. Bayesian neural networks give us a richer object: a model that can learn non-linear relationships while still expressing uncertainty about its predictions.
+
+That is the main motivation behind `bnns`: to make Bayesian neural networks more accessible to R users who want flexible modeling without giving up probabilistic interpretation.
+
+## Links
+
+- CRAN: [bnns on CRAN](https://cran.r-project.org/web/packages/bnns/index.html)
+- Package page: [swarnendu-stat.github.io/bnns](https://swarnendu-stat.github.io/bnns/)
+- Source code: [github.com/swarnendu-stat/bnns](https://github.com/swarnendu-stat/bnns)
+
+If you try it on your own data, I would be glad to hear what you build with it.
+
+
+
+---
+## Tidy SuperLearner
+
+**Date:** August 17, 2025
+**Link:** /post/2025-08-15-tidy-superlearner/
+**Tags:** Machine Learning, TidyModels, SuperLearner
+
+
+## Introduction
+
+Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The `SuperLearner` R package is a go-to for this, however it only supports **gaussian** or **binomial** to describe the error distribution. Using the clean, flexible `tidymodels` framework we can implement these functionalities and also **extend** it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with `tidymodels`, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.
+
+## Why Tidymodels for Ensemble Learning?
+
+The `SuperLearner` package is great, but `tidymodels` offers a modular, intuitive workflow that’s perfect for building and tuning ensembles. With packages like `recipes`, `workflows`, and `stacks`, you can preprocess data, define models, and stack them into a robust ensemble with ease. Plus, `tidymodels` integrates seamlessly with modern R tools, making your code clean and reproducible.
+
+Let’s dive into the process with a clear roadmap and examples you can adapt for your own projects.
+
+## Packages You’ll Need
+
+First, let’s load the essential packages. These cover everything from data preprocessing to model stacking and evaluation.
+
+
+``` r
+library(tidymodels, quietly = TRUE)
+```
+
+```
+## Warning: package 'tidymodels' was built under R version 4.5.1
+```
+
+```
+## ── Attaching packages ────────────────────────────────────── tidymodels 1.3.0 ──
+```
+
+```
+## ✔ broom        1.0.9     ✔ recipes      1.3.1
+## ✔ dials        1.4.1     ✔ rsample      1.3.0
+## ✔ dplyr        1.1.4     ✔ tibble       3.2.1
+## ✔ ggplot2      3.5.2     ✔ tidyr        1.3.1
+## ✔ infer        1.0.9     ✔ tune         1.3.0
+## ✔ modeldata    1.5.0     ✔ workflows    1.2.0
+## ✔ parsnip      1.3.2     ✔ workflowsets 1.1.1
+## ✔ purrr        1.0.4     ✔ yardstick    1.3.2
+```
+
+```
+## Warning: package 'broom' was built under R version 4.5.1
+```
+
+```
+## Warning: package 'dials' was built under R version 4.5.1
+```
+
+```
+## Warning: package 'infer' was built under R version 4.5.1
+```
+
+```
+## Warning: package 'modeldata' was built under R version 4.5.1
+```
+
+```
+## Warning: package 'parsnip' was built under R version 4.5.1
+```
+
+```
+## Warning: package 'recipes' was built under R version 4.5.1
+```
+
+```
+## Warning: package 'tune' was built under R version 4.5.1
+```
+
+```
+## Warning: package 'workflows' was built under R version 4.5.1
+```
+
+```
+## Warning: package 'workflowsets' was built under R version 4.5.1
+```
+
+```
+## Warning: package 'yardstick' was built under R version 4.5.1
+```
+
+```
+## ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+## ✖ purrr::discard() masks scales::discard()
+## ✖ dplyr::filter()  masks stats::filter()
+## ✖ dplyr::lag()     masks stats::lag()
+## ✖ recipes::step()  masks stats::step()
+```
+
+``` r
+library(stacks)
+```
+
+```
+## Warning: package 'stacks' was built under R version 4.5.1
+```
+
+``` r
+library(discrim)      # For quadratic discriminant analysis (QDA)
+```
+
+```
+## Warning: package 'discrim' was built under R version 4.5.1
+```
+
+```
+## 
+## Attaching package: 'discrim'
+```
+
+```
+## The following object is masked from 'package:dials':
+## 
+##     smoothness
+```
+
+``` r
+library(poissonreg)   # For Poisson regression
+```
+
+```
+## Warning: package 'poissonreg' was built under R version 4.5.1
+```
+
+``` r
+set.seed(123)         # For reproducibility
+```
+
+## The Four-Step Process
+
+Building a SuperLearner with `tidymodels` boils down to four high-level steps. Think of it as a recipe for ensemble success:
+
+### Step 1: Prep Your Data with a Recipe
+
+Use the `recipes` package to preprocess your data. This ensures all predictors are ready for modeling (e.g., converting categorical variables to dummy variables and removing zero-variance predictors). Of course, you can add more based on your needs and what makes sense.
+
+```r
+data_rec <- recipe(as.formula(formula), data = data) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors())
+```
+
+### Step 2: Build a Workflow
+
+Create a `workflow` that combines your data recipe with a model specification. For example, if you’re using XGBoost, it might look like this:
+
+```r
+wflow <- workflow() |>
+  add_recipe(data_rec) |>
+  add_model(boost_spec)  # Example: XGBoost model spec
+```
+
+### Step 3: Tune Your Models
+
+Tune each model’s hyperparameters using cross-validation. This step optimizes each algorithm’s performance before stacking.
+
+```r
+tune_results <- tune_grid(
+  object = wflow,
+  resamples = folds,
+  grid = 10,
+  control = control_stack_grid()
+)
+```
+
+### Step 4: Stack the Models
+
+Combine your tuned models into an ensemble using the `stacks` package. This blends their predictions and fits the final ensemble.
+
+```r
+ensemble_model <- stacks() |>
+  add_candidates(do.call(as_workflow_set, member_list)) |>
+  blend_predictions() |>
+  fit_members()
+```
+
+## A Reusable Function for Tidymodels SuperLearner
+
+To make this process reusable, I’ve crafted a function that automates the workflow for various model types (e.g., XGBoost, random forest, neural networks) and problem types (binary classification, regression, count data, or multi-class classification). Here’s the polished version:
+
+
+``` r
+sl_tidy_workflow <- function(member, mode) {
+  if (member == "poisson") {
+    mod_spec <- poisson_reg() |>
+      set_mode(mode) |>
+      set_engine("glm")
+  } else if (member == "elasto_poisson") {
+    mod_spec <- poisson_reg(penalty = tune(), mixture = tune()) |>
+      set_mode(mode) |>
+      set_engine("glmnet")
+  } else if (member == "poisson_zero") {
+    mod_spec <- poisson_reg() |>
+      set_mode(mode) |>
+      set_engine("zeroinfl")
+  } else if (member == "multi") {
+    mod_spec <- multinom_reg(penalty = tune()) |>
+      set_mode(mode) |>
+      set_engine("nnet")
+  } else if (member == "elasto_multi") {
+    mod_spec <- multinom_reg(penalty = tune(), mixture = tune()) |>
+      set_mode(mode) |>
+      set_engine("glmnet")
+  } else if (member == "knn") {
+    mod_spec <- nearest_neighbor(neighbors = tune(), weight_func = tune(), dist_power = tune()) |>
+      set_mode(mode) |>
+      set_engine("kknn")
+  } else if (member == "boost") {
+    mod_spec <- boost_tree(mtry = tune(), min_n = tune(), trees = 500) |>
+      set_mode(mode) |>
+      set_engine("xgboost")
+  } else if (member == "rf") {
+    mod_spec <- rand_forest(mtry = tune(), min_n = tune(), trees = 500) |>
+      set_mode(mode) |>
+      set_engine("ranger")
+  } else if (member == "nnet") {
+    mod_spec <- mlp(hidden_units = tune(), penalty = tune(), epochs = tune()) |>
+      set_mode(mode) |>
+      set_engine("nnet")
+  } else if (member == "logit") {
+    mod_spec <- logistic_reg() |>
+      set_mode(mode) |>
+      set_engine("glm")
+  } else if (member == "lm") {
+    mod_spec <- linear_reg() |>
+      set_mode(mode) |>
+      set_engine("lm")
+  } else if (member == "elasto_logit") {
+    mod_spec <- logistic_reg(penalty = tune(), mixture = tune()) |>
+      set_mode(mode) |>
+      set_engine("glmnet")
+  } else if (member == "elasto_lm") {
+    mod_spec <- linear_reg(penalty = tune(), mixture = tune()) |>
+      set_mode(mode) |>
+      set_engine("glmnet")
+  } else if (member == "qda") {
+    mod_spec <- discrim_quad() |>
+      set_mode(mode) |>
+      set_engine("MASS")
+  } else if (member == "lsvm") {
+    mod_spec <- svm_linear() |>
+      set_mode(mode) |>
+      set_engine("kernlab")
+  } else if (member == "psvm") {
+    mod_spec <- svm_poly() |>
+      set_mode(mode) |>
+      set_engine("kernlab")
+  } else if (member == "rsvm") {
+    mod_spec <- svm_rbf() |>
+      set_mode(mode) |>
+      set_engine("kernlab")
+  }
+  return(mod_spec)
+}
+```
+
+Now, let us implement the above mentioned 4 steps.
+
+
+``` r
+sl_tidy <- function(formula, data, sl_lib = NULL, cv_v = 5, mode = "bin") {
+  # Check for required packages
+  req_pkg_list <- c("xgboost", "ranger", "nnet", "earth", "stats", "glmnet", "discrim", "kernlab", "kknn", "mgcv", "poissonreg", "mlbench", "COUNT", "pscl")
+  not_installed_pkgs <- setdiff(req_pkg_list, installed.packages()[, 1])
+  if (length(not_installed_pkgs)) {
+    stop(paste0("Please install: install.packages(c('", paste(not_installed_pkgs, collapse = "','"), "'))"))
+  }
+
+  # Define model libraries for different modes
+  sl_lib_cl <- c("boost", "rf", "nnet", "logit", "elasto_logit", "qda", "lsvm", "psvm", "rsvm")
+  sl_lib_reg <- c("boost", "lm", "elasto_lm", "nnet", "knn", "rf", "lsvm", "psvm", "rsvm")
+  sl_lib_multi <- c("boost", "rf", "multi", "elasto_multi", "qda", "lsvm", "psvm", "rsvm")
+  sl_lib_count <- c("boost", "knn", "rf", "lsvm", "psvm", "rsvm", "poisson", "elasto_poisson")
+
+  # Set mode and model library
+  if (mode == "bin") {
+    mode <- "classification"
+    sl_lib_master <- sl_lib_cl
+  } else if (mode == "cont") {
+    mode <- "regression"
+    sl_lib_master <- sl_lib_reg
+  } else if (mode == "multi") {
+    mode <- "classification"
+    sl_lib_master <- sl_lib_multi
+  } else if (mode == "count") {
+    mode <- "regression"
+    sl_lib_master <- sl_lib_count
+  }
+
+  if (is.null(sl_lib)) {
+    sl_lib <- sl_lib_master
+  } else if (!all(sl_lib %in% sl_lib_master)) {
+    stop(paste0("'sl_lib' must be one of: ", paste(sl_lib_master, collapse = ", ")))
+  }
+
+  # Step 1: Create recipe
+  data_rec <- recipe(as.formula(formula), data = data) |>
+    step_dummy(all_nominal_predictors()) |>
+    step_zv(all_predictors())
+
+  # Step 2: Initialize workflow
+  data_wflow <- workflow() |>
+    add_recipe(data_rec)
+
+  # Step 3: Cross-validation folds
+  if (mode == "classification") {
+    folds <- vfold_cv(data, v = cv_v, strata = as.character(formula)[2])
+  } else {
+    folds <- vfold_cv(data, v = cv_v)
+  }
+
+  # Tune models
+  member_list <- lapply(sl_lib, function(member) {
+    mod_spec <- sl_tidy_workflow(member = member, mode = mode)
+    mod_wflow <- data_wflow |> add_model(mod_spec)
+    mod_res <- tryCatch(
+      suppressWarnings(tune_grid(
+        object = mod_wflow,
+        resamples = folds,
+        grid = 10,
+        control = control_stack_grid()
+      )),
+      error = function(e) NULL
+    )
+    if (!is.null(mod_res)) {
+      cat(paste0("Tuned ", member, " model\n"))
+    }
+    return(mod_res)
+  })
+  names(member_list) <- sl_lib
+  member_list <- member_list[lengths(member_list) != 0]
+
+  # Step 4: Stack models
+  data_model_st <- stacks()
+  for (res in names(member_list)) {
+    data_model_st <- data_model_st |>
+      add_candidates(member_list[[res]], name = res)
+  }
+
+  data_model_st <- data_model_st |>
+    blend_predictions() |>
+    fit_members()
+
+  return(data_model_st)
+}
+```
+
+## Real-World Examples
+
+Let’s see this in action with four datasets, covering binary classification, count regression, standard regression, and multi-class classification. Each dataset is chosen to demonstrate the flexibility of our `tidymodels` SuperLearner approach, and I’ll provide some context about each to help you understand their relevance.
+
+### Binary Classification: Pima Indians Diabetes
+
+The `PimaIndiansDiabetes2` dataset, from the `mlbench` package, contains medical data on Pima Indian women, including variables like glucose levels, blood pressure, and body mass index (BMI). The goal is to predict diabetes status (positive or negative), making it a classic binary classification problem. This dataset is widely used in machine learning to study diagnostic prediction models, as it reflects real-world medical data with some missing values and class imbalance.
+
+
+``` r
+data("PimaIndiansDiabetes2", package = "mlbench")
+diabetes_data <- PimaIndiansDiabetes2 |>
+  na.omit() |>
+  mutate(diabetes = factor(if_else(diabetes == "pos", 1, 0)))
+head(diabetes_data)
+```
+
+```
+##    pregnant glucose pressure triceps insulin mass pedigree age diabetes
+## 4         1      89       66      23      94 28.1    0.167  21        0
+## 5         0     137       40      35     168 43.1    2.288  33        1
+## 7         3      78       50      32      88 31.0    0.248  26        1
+## 9         2     197       70      45     543 30.5    0.158  53        1
+## 14        1     189       60      23     846 30.1    0.398  59        1
+## 15        5     166       72      19     175 25.8    0.587  51        1
+```
+
+Let's split the data into training and test sets.
+
+
+``` r
+diabetes_split <- initial_split(diabetes_data, prop = 0.8, strata = "diabetes")
+diabetes_train <- training(diabetes_split)
+diabetes_test <- testing(diabetes_split)
+```
+
+Let's now build the superlearner
+
+
+``` r
+diabetes_SL <- sl_tidy(diabetes ~ ., data = diabetes_train, cv_v = 5, mode = "bin")
+```
+
+```
+## i Creating pre-processing data to finalize unknown parameter: mtry
+```
+
+```
+## Tuned boost model
+```
+
+```
+## i Creating pre-processing data to finalize unknown parameter: mtry
+```
+
+```
+## Tuned rf model
+## Tuned nnet model
+## Tuned logit model
+## Tuned elasto_logit model
+## Tuned qda model
+## Tuned lsvm model
+## Tuned psvm model
+## Tuned rsvm model
+```
+
+```
+## Warning: Predictions from 2 candidates were identical to those from existing candidates
+## and were removed from the data stack.
+```
+
+```
+##  Setting default kernel parameters
+```
+
+```
+## Warning: package 'future' was built under R version 4.5.1
+```
+
+Use the superlearner for prediction
+
+
+``` r
+# Predict
+diabetes_test_pred <- diabetes_test %>%
+  bind_cols(predict(diabetes_SL, ., type = "prob"))
+```
+
+Evaluate the ROC AUC
+
+
+``` r
+# Evaluate with ROC AUC
+library(pROC)
+```
+
+```
+## Type 'citation("pROC")' for a citation.
+```
+
+```
+## 
+## Attaching package: 'pROC'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     cov, smooth, var
+```
+
+``` r
+diabetes_roc <- roc(response = diabetes_test_pred$diabetes, predictor = diabetes_test_pred$.pred_1)
+```
+
+```
+## Setting levels: control = 0, case = 1
+```
+
+```
+## Setting direction: controls < cases
+```
+
+``` r
+auc(diabetes_roc)
+```
+
+```
+## Area under the curve: 0.8106
+```
+
+``` r
+ggroc(diabetes_roc) +
+  theme_minimal()
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+
+This gives you a model that predicts diabetes with a stacked ensemble, and the ROC curve visualizes its performance in distinguishing between diabetic and non-diabetic cases.
+
+### Count Data Regression: Epileptic Seizures
+
+The `epil` dataset, from the `MASS` package, records the number of epileptic seizures in patients over time, along with predictors like treatment type and baseline seizure counts. It’s a great example for count regression, as seizure counts are non-negative integers with potential overdispersion, making Poisson. This dataset is often used to study count data in medical research.
+
+
+``` r
+data("epil", package = "MASS")
+epil_data <- epil |> na.omit() |> dplyr::select(-subject)
+head(epil_data)
+```
+
+```
+##   y     trt base age V4 period      lbase       lage
+## 1 5 placebo   11  31  0      1 -0.7563538 0.11420370
+## 2 3 placebo   11  31  0      2 -0.7563538 0.11420370
+## 3 3 placebo   11  31  0      3 -0.7563538 0.11420370
+## 4 3 placebo   11  31  1      4 -0.7563538 0.11420370
+## 5 3 placebo   11  30  0      1 -0.7563538 0.08141387
+## 6 5 placebo   11  30  0      2 -0.7563538 0.08141387
+```
+
+Let's split the data into training and test sets. 
+
+
+``` r
+epil_split <- initial_split(epil_data, prop = 0.8)
+epil_train <- training(epil_split)
+epil_test <- testing(epil_split)
+```
+
+Let's now build the superlearner
+
+
+``` r
+epil_SL <- sl_tidy(y ~ ., data = epil_train, cv_v = 5, mode = "count")
+```
+
+```
+## i Creating pre-processing data to finalize unknown parameter: mtry
+```
+
+```
+## Tuned boost model
+## Tuned knn model
+```
+
+```
+## i Creating pre-processing data to finalize unknown parameter: mtry
+```
+
+```
+## Tuned rf model
+## Tuned lsvm model
+## Tuned psvm model
+## Tuned rsvm model
+## Tuned poisson model
+## Tuned elasto_poisson model
+##  Setting default kernel parameters  
+##  Setting default kernel parameters
+```
+
+Use the superlearner for prediction
+
+
+``` r
+# Predict
+epil_test_pred <- epil_test %>%
+  bind_cols(predict(epil_SL, ., type = "numeric"))
+```
+
+Now visualize 
+
+
+``` r
+# Visualize
+ggplot(epil_test_pred, aes(x = y, y = round(.pred))) +
+  geom_point() +
+  labs(x = "Observed Seizure Counts", y = "Predicted Seizure Counts") +
+  theme_minimal()
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+
+The scatter plot shows how well our ensemble predicts seizure counts, useful for evaluating treatment effects in epilepsy studies.
+
+### Regression: Birthweight Prediction
+
+The `birthwt` dataset, also from the `MASS` package, contains data on infant birthweights and maternal factors like smoking status, age, and weight. It’s a standard dataset for regression tasks, as birthweight is a continuous outcome influenced by multiple predictors. This dataset is valuable for studying maternal and fetal health, often used in statistical modeling to explore risk factors for low birthweight.
+
+
+``` r
+data("birthwt", package = "MASS")
+bwt_data <- birthwt |> na.omit()
+head(bwt_data)
+```
+
+```
+##    low age lwt race smoke ptl ht ui ftv  bwt
+## 85   0  19 182    2     0   0  0  1   0 2523
+## 86   0  33 155    3     0   0  0  0   3 2551
+## 87   0  20 105    1     1   0  0  0   1 2557
+## 88   0  21 108    1     1   0  0  1   2 2594
+## 89   0  18 107    1     1   0  0  1   0 2600
+## 91   0  21 124    3     0   0  0  0   0 2622
+```
+
+Let's split the data into training and test sets.
+
+
+``` r
+bwt_split <- initial_split(bwt_data, prop = 0.8)
+bwt_train <- training(bwt_split)
+bwt_test <- testing(bwt_split)
+```
+
+And then Build the superlearner
+
+
+``` r
+bwt_SL <- sl_tidy(bwt ~ ., data = bwt_train, cv_v = 5, mode = "cont")
+```
+
+```
+## i Creating pre-processing data to finalize unknown parameter: mtry
+```
+
+```
+## Tuned boost model
+## Tuned lm model
+## Tuned elasto_lm model
+```
+
+```
+## → A | warning: A correlation computation is required, but `estimate` is constant and has 0
+##                standard deviation, resulting in a divide by 0 error. `NA` will be returned.
+```
+
+```
+## 
+There were issues with some computations   A: x1
+
+There were issues with some computations   A: x2
+
+There were issues with some computations   A: x3
+
+There were issues with some computations   A: x4
+
+There were issues with some computations   A: x5
+
+There were issues with some computations   A: x5
+```
+
+```
+## Tuned nnet model
+## Tuned knn model
+```
+
+```
+## i Creating pre-processing data to finalize unknown parameter: mtry
+```
+
+```
+## Tuned rf model
+## Tuned lsvm model
+## Tuned psvm model
+## Tuned rsvm model
+```
+
+```
+## Warning: The inputted `candidates` argument `nnet` generated notes during
+## tuning/resampling. Model stacking may fail due to these issues; see
+## `collect_notes()` (`?tune::collect_notes()`) if so.
+```
+
+Now, use it for prediction
+
+
+``` r
+# Predict
+bwt_test_pred <- bwt_test %>%
+  bind_cols(predict(bwt_SL, ., type = "numeric"))
+```
+
+We can then visualize as follows:
+
+
+``` r
+# Visualize
+ggplot(bwt_test_pred, aes(x = bwt, y = round(.pred))) +
+  geom_point() +
+  labs(x = "Observed Birthweight (grams)", y = "Predicted Birthweight (grams)") +
+  theme_minimal()
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+
+This shows how the ensemble performs in predicting birthweight, which can inform medical interventions for at-risk pregnancies.
+
+### Multi-Class Classification: Iris Species
+
+The `iris` dataset, from the `datasets` package, is a classic in machine learning. It includes measurements of sepal and petal dimensions for three iris species: setosa, versicolor, and virginica. With four continuous predictors and three classes, it’s perfect for multi-class classification. This dataset, introduced by Ronald Fisher, remains a benchmark for testing classification algorithms due to its simplicity and clear class separation.
+
+
+``` r
+data("iris", package = "datasets")
+species_data <- iris |> na.omit()
+head(species_data)
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+```
+
+We split it into training and test sets:
+
+
+``` r
+species_split <- initial_split(species_data, prop = 0.8, strata = "Species")
+species_train <- training(species_split)
+species_test <- testing(species_split)
+```
+
+Build the superlearner
+
+
+``` r
+species_SL <- sl_tidy(Species ~ ., data = species_train, cv_v = 5, mode = "multi")
+```
+
+```
+## i Creating pre-processing data to finalize unknown parameter: mtry
+```
+
+```
+## Tuned boost model
+```
+
+```
+## i Creating pre-processing data to finalize unknown parameter: mtry
+```
+
+```
+## Tuned rf model
+## Tuned multi model
+## Tuned elasto_multi model
+## Tuned qda model
+## Tuned lsvm model
+## Tuned psvm model
+## Tuned rsvm model
+```
+
+```
+## Warning: Predictions from 14 candidates were identical to those from existing candidates
+## and were removed from the data stack.
+```
+
+```
+## Warning: Predictions from 3 candidates were identical to those from existing candidates
+## and were removed from the data stack.
+```
+
+```
+##  Setting default kernel parameters
+```
+
+Use it for prediction
+
+
+``` r
+# Predict
+species_test_pred <- species_test %>%
+  bind_cols(predict(species_SL, ., type = "prob"))
+```
+
+Evaluate the ROC
+
+
+``` r
+# Evaluate with multi-class ROC
+species_roc <- multiclass.roc(
+  response = species_test_pred$Species,
+  predictor = cbind(
+    setosa = species_test_pred$.pred_setosa,
+    versicolor = species_test_pred$.pred_versicolor,
+    virginica = species_test_pred$.pred_virginica
+  )
+)
+auc(species_roc)
+```
+
+```
+## Multi-class area under the curve: 1
+```
+
+This evaluates the ensemble’s ability to distinguish between iris species, a task relevant to botanical classification and algorithm benchmarking.
+
+## Wrapping Up
+
+Using `tidymodels`, you can build a SuperLearner-style ensemble that’s flexible, reproducible, and easy to understand. The `sl_tidy` function simplifies the process, letting you focus on modeling rather than boilerplate code. Whether you’re tackling medical diagnostics (Pima Indians Diabetes), count data (epileptic seizures), health outcomes (birthweight), or classic classification (iris), this approach scales to your needs. Based on github conversations, support for `censored regression` is coming in `stacks`, which will enable extension of this for time-to-event data.
+
+Try it out on your own dataset, tweak the model library, and see how stacking can boost your predictions.
+
+💬 Like this blog? Share your thoughts and use-cases on [LinkedIn](https://www.linkedin.com/in/swarnendu-stat/) and tag [me](https://www.linkedin.com/in/swarnendu-stat/)!
+
+
+
+---
+## Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability
+
+**Date:** April 18, 2025
+**Link:** /post/bnns-binary-classification/
+**Tags:** R, Bayesian Neural Networks, Clinical Trials
+
+
+
+
+> *In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.*
+
+---
+
+## 🔍 The Problem
+
+Diabetes prediction models abound, but they often give us **just a number**. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there's a 73% chance someone has diabetes.
+
+But what if we asked:
+> _"How sure are we about that 73%?"_
+
+Enter **Bayesian Neural Networks** (`bnns`), where uncertainty isn’t a bug—it’s a feature.
+
+---
+
+## 📊 The Data
+
+We used the `PimaIndiansDiabetes2` dataset from the `mlbench` package, containing clinical variables (e.g., glucose, BMI, insulin) and diabetes diagnosis. Missing values were removed, and outcomes were converted to binary.
+
+
+``` r
+library(bnns)
+library(mlbench)
+library(rsample)
+library(ggplot2)
+
+set.seed(123)
+data("PimaIndiansDiabetes2")
+trial_data <- PimaIndiansDiabetes2 |>
+  transform(diabetes = ifelse(diabetes == "pos", 1, 0)) |>
+  na.omit()
+
+trial_data_split <- initial_split(trial_data, strata = diabetes, prop = 0.8)
+trial_data_train <- training(trial_data_split)
+trial_data_test <- testing(trial_data_split)
+```
+
+---
+
+## 🧠 The Model
+
+Our BNN has two hidden layers (24 and 12 nodes) and uses Cauchy priors to encourage sparsity. We used logistic output activation (`out_act_fn = 2`) for binary classification.
+
+
+``` r
+bnn_model <- bnns(
+  diabetes ~ .,
+  data = trial_data_train,
+  L = 2,
+  nodes = c(24, 12),
+  act_fn = c(4, 1),
+  out_act_fn = 2,
+  iter = 0.1e4,
+  warmup = 0.05e4,
+  chains = 4,
+  cores = 4,
+  prior_weights = list(dist = "cauchy", params = list(mu = 0, sigma = 0.3)),
+  prior_bias = list(dist = "cauchy", params = list(mu = 0, sigma = 0.3))
+)
+```
+
+---
+
+## 🎯 The Prediction
+
+We predicted probabilities on the test set and extracted the **posterior median** and **95% credible intervals**.
+
+
+``` r
+pred <- predict(bnn_model, newdata = trial_data_test)
+pred_y <- apply(pred, MARGIN = 1, median)
+pred_quantiles <- apply(pred, 1, function(x) quantile(x, probs = c(0.025, 0.975)), simplify = FALSE) |>
+  do.call(rbind, args = _)
+```
+
+---
+
+## 📏 Model Performance
+
+
+``` r
+measure_bin(trial_data_test$diabetes, pred)
+```
+
+```
+Setting levels: control = 0, case = 1
+```
+
+```
+Setting direction: controls < cases
+```
+
+```
+$conf_mat
+   pred_label
+obs  0  1
+  0 42 11
+  1  7 19
+
+$accuracy
+[1] 0.7721519
+
+$ROC
+
+Call:
+roc.default(response = obs, predictor = pred)
+
+Data: pred in 53 controls (obs 0) < 26 cases (obs 1).
+Area under the curve: 0.8353
+
+$AUC
+[1] 0.8352685
+```
+
+Performance was comparable to classical methods (AUC ~0.835), but with a massive advantage: **uncertainty quantification**.
+
+---
+
+## 🔬 Visualizing Predictions
+
+
+``` r
+plot_data <- data.frame(
+  Actual = trial_data_test$diabetes,
+  Predicted = pred_y,
+  Lower = pred_quantiles[,1],
+  Upper = pred_quantiles[,2]
+) |>
+  transform(width = Upper - Lower) |>
+  dplyr::arrange(width)
+
+ggplot(plot_data, aes(x = Actual, y = Predicted)) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = Lower, ymax = Upper), width = 0.05, color = "steelblue") +
+  labs(
+    title = "BNN Predictions for Patient Status",
+    subtitle = "Error bars show 95% credible intervals",
+    x = "Test Set Patient Status",
+    y = "Predicted Patient Status"
+  ) +
+  theme_minimal()
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+
+---
+
+## 🧠 Why Use `bnns`?
+
+1. **Non-linear modeling**: Captures complex relationships among covariates without heavy pre-specification.
+2. **Credible intervals**: Each prediction comes with its uncertainty.
+3. **Probability of a probability**:
+   - For example: _Pr(Pr(Diabetes) > 0.5) > 0.9_
+   - Translation: "We are 90% confident this person has more than 50% risk."
+   - That’s **clinical-grade insight**.
+
+---
+
+## 📣 Final Thoughts
+
+Bayesian Neural Networks let us move beyond binary thinking and embrace **informed uncertainty**. When the stakes are high (think medicine, finance, or policy), `bnns` offers a probabilistic flashlight in the black box jungle.
+
+> *Ready to stop guessing your predictions? Start modeling your belief about your predictions.*
+
+🔗 [Explore the `bnns` package](https://cran.r-project.org/package=bnns)
+
+💬 Like this blog? Share your thoughts and use-cases on [LinkedIn](https://www.linkedin.com/) and tag [me](https://www.linkedin.com/in/swarnendu-stat/)!
+
+---
+
+
+
+---
+## Using bnns for TMLE
+
+**Date:** January 17, 2025
+**Link:** /post/bnns-for-tmle/
+**Tags:** bnns, neural network, Bayesian, tmle
+
+
+
+
+## Introduction
+
+This document demonstrates how to use the [bnns](https://cran.r-project.org/package=bnns) package with **TMLE** for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the **Average Treatment Effect (ATE)**. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this [tmle tutorial](https://www.khstats.com/blog/tmle/tutorial).
+
+---
+
+## Simulating Data
+
+We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.
+
+
+``` r
+library(bnns)
+
+# Set a random seed for reproducibility
+set.seed(123)
+
+# Simulate data
+n <- 1000  # Number of samples
+X1 <- rnorm(n)
+X2 <- rnorm(n)
+U <- rbinom(n, 1, 0.5)  # Unmeasured confounder
+
+# Treatment mechanism (biased by U)
+ps <- plogis(0.5 * X1 - 0.5 * X2 + 0.8 * U)
+A <- rbinom(n, 1, ps)  # Treatment assignment
+
+# Outcome mechanism (non-linear and confounded by U)
+Y_prob <- plogis(1 + 2 * X1^2 - 1.5 * X2 + 1.2 * A + 1.5 * U)
+Y <- rbinom(n, 1, Y_prob)
+
+# Combine into a dataset
+sim_data <- data.frame(Y, A, X1, X2)
+
+# True ATE for comparison
+true_ate <- mean(plogis(1 + 2 * X1^2 - 1.5 * X2 + 1.2 * 1 + 1.5 * U)) -
+  mean(plogis(1 + 2 * X1^2 - 1.5 * X2 + 1.2 * 0 + 1.5 * U))
+true_ate
+#> [1] 0.07431068
+```
+
+---
+
+## Applying TMLE with `bnns`
+
+### Step 1: Install and Load Required Packages
+
+Ensure that the **`bnns`** and **`tmle`** packages are installed.
+
+
+``` r
+# Install ggplot2 and bnns from CRAN
+# install.packages("ggplot2")
+# install.packages("bnns")
+```
+
+### Step 2: TMLE Implementation
+
+We use `tmle` to estimate the ATE. Both the treatment mechanism (`g`) and the outcome mechanism (`Q`) are modeled using Bayesian Neural Networks via the `bnns` package.
+
+
+``` r
+### Step 1: Estimate Q
+Q <- bnns(Y ~ -1 + ., data = sim_data, L = 2, nodes = c(2, 2), act_fn = c(2, 2), out_act_fn = 2)
+
+Q_A <- predict(Q) # obtain predictions for everyone using the treatment they actually received
+sim_data_1 <- sim_data |> transform(A = 1)  # data set where everyone received treatment
+Q_1 <- predict(Q, newdata = sim_data_1) # predict on that everyone-exposed data set
+sim_data_0 <- sim_data |> transform(A = 0) # data set where no one received treatment
+Q_0 <- predict(Q, newdata = sim_data_0)
+dat_tmle <- lapply(1:dim(Q_A)[2], function(i) data.frame(Y = sim_data$Y, A = sim_data$A, Q_A = Q_A[,i], Q_0 = Q_0[,i], Q_1 = Q_1[,i]))
+
+### Step 2: Estimate g and compute H(A,W)
+g <- bnns(A ~ -1 + . - Y, data = sim_data, L = 2, nodes = c(2, 2), act_fn = c(2, 2), out_act_fn = 2)
+
+g_w <- predict(g) # Pr(A=1|W)
+H_1 <- 1/g_w
+H_0 <- -1/(1-g_w) # Pr(A=0|W) is 1-Pr(A=1|W)
+dat_tmle <- # add clever covariate data to dat_tmle
+  lapply(1:dim(Q_A)[2], function(i) dat_tmle[[i]] |>
+           cbind(
+             H_1 = H_1[,i],
+             H_0 = H_0[,i]) |>
+           transform(H_A = ifelse(A == 1, H_1, # if A is 1 (treated), assign H_1
+                               H_0))  # if A is 0 (not treated), assign H_0
+  )
+
+### Step 3: Estimate fluctuation parameter
+tmle_ate_list <- lapply(1:dim(Q_A)[2], function(i){
+  glm_fit <- glm(Y ~ -1 + offset(qlogis(Q_A)) + H_A, data=dat_tmle[[i]], family=binomial) # fixed intercept logistic regression
+  eps <- coef(glm_fit) # save the only coefficient, called epsilon in TMLE lit
+  
+  ### Step 4: Update Q's
+  Q_A_update <- with(dat_tmle[[i]], plogis(qlogis(Q_A) + eps*H_A)) # updated expected outcome given treatment actually received
+  Q_1_update <- with(dat_tmle[[i]], plogis(qlogis(Q_1) + eps*H_1)) # updated expected outcome for everyone receiving treatment
+  Q_0_update <- with(dat_tmle[[i]], plogis(qlogis(Q_0) + eps*H_0)) # updated expected outcome for everyone not receiving treatment
+  
+  ### Step 5: Compute ATE
+  tmle_ate <- mean(Q_1_update - Q_0_update) # mean diff in updated expected outcome estimates  
+  return(tmle_ate)
+})
+
+tmle_ate <- unlist(tmle_ate_list)
+median(tmle_ate)
+#> [1] 0.08954665
+```
+
+---
+
+## Comparing TMLE to Traditional Methods
+
+To highlight the benefits of TMLE, compare it to other methods such as:
+
+1. **IPTW (Inverse Probability of Treatment Weighting)**
+2. **Naive Comparison (Unadjusted Difference in Means)**
+
+
+``` r
+library(tmle)
+#> Loading required package: glmnet
+#> Loading required package: Matrix
+#> Loaded glmnet 4.1-8
+#> Loading required package: SuperLearner
+#> Loading required package: nnls
+#> Loading required package: gam
+#> Loading required package: splines
+#> Loading required package: foreach
+#> Loaded gam 1.22-5
+#> Super Learner
+#> Version: 2.0-29
+#> Package created on 2024-02-06
+#> Welcome to the tmle package, version 2.0.1.1
+#> 
+#> Use tmleNews() to see details on changes and bug fixes
+freq_tmle <- tmle(
+  Y = sim_data$Y, A = sim_data$A, 
+  W = sim_data[, c("X1", "X2")], 
+  Q.SL.library = c("SL.glm", "SL.ranger"),
+  g.SL.library = c("SL.glm", "SL.ranger")
+)
+#> Loading required namespace: ranger
+
+# Results
+freq_tmle_ate <- freq_tmle$estimates$ATE$psi
+
+# Naive Comparison
+naive_ate <- mean(sim_data$Y[sim_data$A == 1]) - mean(sim_data$Y[sim_data$A == 0])
+
+# Summary of Results
+results <- data.frame(
+  Method = c("True ATE", "BNN_TMLE", "Freq_TMLE", "Naive"),
+  Estimate = c(true_ate, median(tmle_ate), freq_tmle_ate, naive_ate),
+  CI_low = c(true_ate, quantile(tmle_ate, probs = c(0.025)), freq_tmle$estimates$ATE$CI[1], naive_ate),
+  CI_high = c(true_ate, quantile(tmle_ate, probs = c(0.975)), freq_tmle$estimates$ATE$CI[2], naive_ate)
+)
+results
+#>      Method   Estimate     CI_low    CI_high
+#> 1  True ATE 0.07431068 0.07431068 0.07431068
+#> 2  BNN_TMLE 0.08954665 0.08369176 0.09577273
+#> 3 Freq_TMLE 0.09309979 0.05910546 0.12709413
+#> 4     Naive 0.12824940 0.12824940 0.12824940
+```
+
+---
+
+## Visualizing Results
+
+Plot the estimates from different methods to compare their performance.
+
+
+``` r
+library(ggplot2)
+
+ggplot(results, aes(x = forcats::fct_reorder(Method, Estimate), y = Estimate, fill = Method)) +
+  geom_bar(stat = "identity", color = "black") +
+  geom_hline(yintercept = true_ate, linetype = "dashed", color = "red") +
+  geom_errorbar(mapping = aes(ymin = CI_low, ymax = CI_high)) +
+  labs(
+    title = "Comparison of ATE Estimates",
+    y = "ATE Estimate",
+    x = "Method"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/visualization-1.png" width="672" />
+
+---
+
+## Summary
+
+This tutorial demonstrates how to use the [bnns](https://swarnendu-stat.github.io/bnns/) package for TMLE to estimate the Average Treatment Effect (ATE). By leveraging the flexibility of Bayesian Neural Networks, TMLE can handle complex data structures and improve accuracy compared to traditional methods. Use this workflow for applications in clinical trials, epidemiology, and other domains requiring robust causal inference.
+
+
+
+---
+## Power of Base R: A Performance Comparison with dplyr
+
+**Date:** January 17, 2025
+**Link:** /post/power-of-base-r/
+**Tags:** R, dplyr, tidyverse, base R
+
+
+
+
+## Introduction
+
+This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks. 
+
+- While dplyr is renowned for its intuitive syntax and efficiency, 
+- base R functions can sometimes outperform it, particularly in large simulations. 
+
+Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
+
+## The Iris Dataset
+
+- The **iris** dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques. 
+- It contains measurements of flower characteristics for three species of iris: *setosa*, *versicolor*, and *virginica*.
+
+- Key Features:
+
+- **150 observations**: 50 samples for each species.  
+- **4 numeric attributes**: Sepal.Length, Sepal.Width, Petal.Length, Petal.Width  
+- **1 categorical attribute**: Species: The species of the iris flower (*setosa*, *versicolor*, *virginica*).
+
+## The Iris Dataset (continued)
+
+
+```
+    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+1            5.1         3.5          1.4         0.2     setosa
+2            4.9         3.0          1.4         0.2     setosa
+3            4.7         3.2          1.3         0.2     setosa
+51           7.0         3.2          4.7         1.4 versicolor
+52           6.4         3.2          4.5         1.5 versicolor
+53           6.9         3.1          4.9         1.5 versicolor
+101          6.3         3.3          6.0         2.5  virginica
+102          5.8         2.7          5.1         1.9  virginica
+103          7.1         3.0          5.9         2.1  virginica
+```
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+
+## Benchmarking Data Manipulation Tasks
+
+## 1. Filter Rows
+
+Filtering rows is a common operation in data analysis. This section benchmarks the efficiency of base R’s subsetting approaches against the dplyr::filter function. While dplyr provides clean syntax, base R’s performance is more efficient.
+
+
+``` r
+mcb_filter <- microbenchmark(
+base_0 = iris[iris$Species == "setosa", ],
+base_1 = subset(iris, Species == "setosa"),
+dplyr = filter(iris, Species == "setosa"),
+times = 1e3
+)
+mcb_filter
+```
+
+```
+Unit: microseconds
+   expr   min     lq     mean median    uq    max neval
+ base_0  27.3  32.70  43.3981  38.20  50.2 1632.3  1000
+ base_1  37.4  46.65  59.6620  56.30  67.9 1762.0  1000
+  dplyr 365.0 406.55 444.7454 421.35 443.6 3155.3  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_filter) + ggtitle("Filter: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+
+
+``` r
+agg_filter <- aggregate(time ~ expr, data = data.frame(mcb_filter), mean)$time
+```
+
+So, base R code is on average 10 times **faster** than dplyr::filter. The absolute difference in 10k simulations is 4.013473 seconds.
+
+## 2. Select Columns
+
+Selecting specific columns is fundamental to narrowing down datasets. The comparison here shows how base R indexing and the subset function stack up against dplyr::select in terms of speed.
+
+
+``` r
+mcb_select <- microbenchmark(
+base_0 = iris[, c("Sepal.Length", "Petal.Length")],
+base_1 = subset(iris, select = c(Sepal.Length, Petal.Length)),
+dplyr = select(iris, Sepal.Length, Petal.Length),
+times = 1e3
+)
+mcb_select
+```
+
+```
+Unit: microseconds
+   expr   min     lq     mean median    uq    max neval
+ base_0   5.7   6.80   9.2123   9.60  10.8   41.2  1000
+ base_1  25.2  31.85  42.6012  43.05  49.1  163.8  1000
+  dplyr 434.1 470.00 517.3763 483.65 505.2 2877.8  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_select) + ggtitle("Select: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+
+
+``` r
+agg_select <- aggregate(time ~ expr, data = data.frame(mcb_select), mean)$time
+```
+
+So, base R code is on average 56 times **faster** than dplyr::select. The absolute difference in 10k simulations is 5.08164 seconds.
+
+## 3. Add/Modify Columns
+
+Adding or modifying columns is crucial for feature engineering. Base R provides multiple methods for this, which are benchmarked here against dplyr::mutate for their computational efficiency.
+
+
+``` r
+mcb_mutate <- microbenchmark(
+base_0 = {iris$Sepal_LbyW <- iris$Sepal.Length / iris$Sepal.Width},
+base_1 = transform(iris, Sepal_LbyW = Sepal.Length / Sepal.Width),
+dplyr = mutate(iris, Sepal_LbyW = Sepal.Length / Sepal.Width),
+times = 1e3
+)
+mcb_mutate
+```
+
+```
+Unit: microseconds
+   expr   min    lq     mean median     uq    max neval
+ base_0   3.0   4.0   6.2721    6.2   8.00   23.3  1000
+ base_1  26.9  38.6  49.7894   49.3  59.90  159.5  1000
+  dplyr 368.6 401.8 436.5808  416.6 433.35 2068.8  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_mutate) + ggtitle("Mutate: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+
+
+``` r
+agg_mutate <- aggregate(time ~ expr, data = data.frame(mcb_mutate), mean)$time
+```
+
+So, base R code is on average 70 times **faster** than dplyr::mutate. The absolute difference in 10k simulations is 4.303087 seconds.
+
+## 4. Summarise Data
+
+Data summarization helps derive aggregate metrics. This section compares colMeans from base R with dplyr::summarise_if, illustrating their relative performance in summarizing numeric columns.
+
+
+``` r
+mcb_summarise <- microbenchmark(
+base_0 = with(iris, data.frame(Sepal_L_mean = mean(Sepal.Length), Sepal_W_sd = sd(Sepal.Width),
+Petal_L_mean = mean(Petal.Length), Petal_W_sd = sd(Petal.Width))),
+dplyr = summarise(iris, Sepal_L_mean = mean(Sepal.Length), Sepal_W_sd = sd(Sepal.Width),
+Petal_L_mean = mean(Petal.Length), Petal_W_sd = sd(Petal.Width)),
+times = 1e3
+)
+mcb_summarise
+```
+
+```
+Unit: microseconds
+   expr   min     lq     mean median     uq    max neval
+ base_0 114.6 134.50 164.4607  167.4 179.75 1637.3  1000
+  dplyr 607.5 660.35 709.8235  677.2 699.80 3643.8  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_summarise) + ggtitle("Summarise: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+
+
+``` r
+agg_summarise <- aggregate(time ~ expr, data = data.frame(mcb_summarise), mean)$time
+```
+
+So, base R code is on average 4 times **faster** than dplyr::summarise. The absolute difference in 10k simulations is 5.453628 seconds.
+
+## 5. Grouped Summary
+
+Aggregating data by groups is often required for advanced analytics. Base R’s aggregate function is tested here against dplyr's group_by and summarise_all functions to highlight performance differences.
+
+
+``` r
+mcb_grp <- microbenchmark(
+base_0 = aggregate(. ~ Species, data = iris, FUN = mean, na.rm = TRUE),
+dplyr = iris |>
+group_by(Species) |>
+summarise_all(mean, na.rm = TRUE) |>
+ungroup(),
+times = 1e3
+)
+mcb_grp
+```
+
+```
+Unit: microseconds
+   expr    min      lq      mean median   uq     max neval
+ base_0  673.9  724.25  822.9378  756.3  787 39185.9  1000
+  dplyr 2095.8 2181.25 2334.0126 2225.7 2296 14855.4  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_grp) + ggtitle("Grouped Summarise: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+
+
+``` r
+agg_grp <- aggregate(time ~ expr, data = data.frame(mcb_grp), mean)$time
+```
+
+So, base R code is on average 3 times **faster** than dplyr::grp. The absolute difference in 10k simulations is 15.110748 seconds.
+
+## 6. Sort Data
+
+Sorting is essential for ordering data before visualization or further analysis. The benchmarks here compare the classic base R order approach to the elegant dplyr::arrange.
+
+
+``` r
+mcb_sort <- microbenchmark(
+base_0 = iris[with(iris, order(Sepal.Length, Petal.Length)), ],
+dplyr = arrange(iris, Sepal.Length, Petal.Length),
+times = 1e3
+)
+mcb_sort
+```
+
+```
+Unit: microseconds
+   expr    min      lq     mean  median     uq    max neval
+ base_0   39.2   50.60   68.453   70.90   78.2 1642.0  1000
+  dplyr 1311.7 1374.85 1483.152 1403.75 1460.9 4921.1  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_sort) + ggtitle("Sort: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+
+
+``` r
+agg_sort <- aggregate(time ~ expr, data = data.frame(mcb_sort), mean)$time
+```
+
+So, base R code is on average 22 times **faster** than dplyr::arrange. The absolute difference in 10k simulations is 14.146992 seconds.
+
+## 7. Join Data
+
+Data joins are indispensable when working with relational datasets. This section demonstrates the efficiency of base R’s merge function compared to dplyr::left_join.
+
+
+``` r
+iris$id <- sample.int(nrow(iris), replace = FALSE)
+iris2 <- iris[sample(nrow(iris)),]
+mcb_join <- microbenchmark(
+base_0 = merge(iris, iris2, by = "id", all.x = TRUE),
+dplyr = left_join(iris, iris2, by = "id"),
+times = 1e3
+)
+mcb_join
+```
+
+```
+Unit: microseconds
+   expr   min     lq     mean median     uq    max neval
+ base_0 256.0 303.55 350.0250 340.10 355.05 2151.8  1000
+  dplyr 694.1 736.25 806.4005 756.05 799.95 5727.6  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_join) + ggtitle("Join: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+
+
+``` r
+agg_join <- aggregate(time ~ expr, data = data.frame(mcb_join), mean)$time
+```
+
+So, base R code is on average 2 times **faster** than dplyr::left_join. The absolute difference in 10k simulations is 4.563755 seconds.
+
+## 8. Group and Apply Function 1
+
+Applying models or transformations to groups of data is a frequent task in statistical workflows. This benchmark showcases the performance of split and lapply in base R versus dplyr::group_map.
+
+
+``` r
+mcb_grp_map <- microbenchmark(
+base_0 = lapply(split(iris, iris$Species), function(x) lm(Sepal.Length ~ Petal.Length, data = x)),
+dplyr = iris |>
+group_by(Species) |>
+group_map(~ lm(Sepal.Length ~ Petal.Length, data = .x)),
+times = 1e3
+)
+mcb_grp_map
+```
+
+```
+Unit: microseconds
+   expr    min      lq      mean  median      uq    max neval
+ base_0  761.6  850.80  950.6823  884.80  940.45 4405.0  1000
+  dplyr 2447.7 2543.05 2780.8759 2656.45 2811.50 5602.4  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_grp_map) + ggtitle("Group Map: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+
+
+``` r
+agg_grp_map <- aggregate(time ~ expr, data = data.frame(mcb_grp_map), mean)$time
+```
+
+So, base R code is on average 3 times **faster** than dplyr::group_map. The absolute difference in 10k simulations is 18.301936 seconds.
+
+## 9. Group and Apply Function 2
+
+Complex operations on grouped data are common in analytical pipelines. This comparison highlights the performance of base R’s split and lapply with a row-binding step versus dplyr::group_modify.
+
+
+``` r
+mcb_grp_mod <- microbenchmark(
+base_0 = do.call(rbind, lapply(split(iris, iris$Species), function(x) 
+data.frame(summary(lm(Sepal.Length ~ Petal.Length, data = x))$coefficients))),
+dplyr = iris |>
+group_by(Species) |>
+group_modify(~ data.frame(summary(lm(Sepal.Length ~ Petal.Length, data = .x))$coefficients)) |>
+ungroup(),
+times = 1e3
+)
+mcb_grp_mod
+```
+
+```
+Unit: milliseconds
+   expr    min      lq     mean  median      uq     max neval
+ base_0 1.4087 1.50025 1.594760 1.53825 1.59505  3.7525  1000
+  dplyr 4.5044 4.69865 5.065493 4.80680 5.03665 44.4467  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_grp_mod) + ggtitle("Group Modify: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+
+
+``` r
+agg_grp_mod <- aggregate(time ~ expr, data = data.frame(mcb_grp_mod), mean)$time
+```
+
+So, base R code is on average 3 times **faster** than dplyr::group_modify. The absolute difference in 10k simulations is 34.707333 seconds.
+
+## 10. Rowwise
+
+
+``` r
+mcb_rowwise <- microbenchmark(base_0 = transform(iris, 
+Sepal_sd = apply(cbind(Sepal.Length, Sepal.Width), 1, sd),
+Petal_sd = apply(cbind(Petal.Length, Petal.Width), 1, sd)),
+dplyr = iris |>
+dplyr::rowwise() |>
+dplyr::mutate(Sepal_sd = sd(c(Sepal.Length, Sepal.Width)),
+Petal_sd = sd(c(Petal.Length, Petal.Width))) |>
+dplyr::ungroup(),
+times = 1e3)
+```
+
+---
+
+
+``` r
+autoplot(mcb_rowwise) + ggtitle("Rowwise: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+
+
+``` r
+agg_rowwise <- aggregate(time ~ expr, data = data.frame(mcb_rowwise), mean)$time
+```
+
+So, base R code is on average 3 times **faster** than dplyr::rowwise. The absolute difference in 10k simulations is 22.976678 seconds.
+
+## 11. Count Rows by Group
+
+Counting the number of rows by group is a simple yet frequent operation. The comparison here emphasizes the efficiency of base R’s table function against dplyr::count.
+
+
+``` r
+mcb_count <- microbenchmark(
+base_0 = table(iris$Species),
+dplyr = iris |> count(Species),
+times = 1e3
+)
+mcb_count
+```
+
+```
+Unit: microseconds
+   expr    min      lq      mean median     uq    max neval
+ base_0   14.8   21.30   31.7192   36.6   38.8  176.9  1000
+  dplyr 1396.4 1454.55 1585.3359 1502.1 1578.7 4258.1  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_count) + ggtitle("Count: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+
+
+``` r
+agg_count <- aggregate(time ~ expr, data = data.frame(mcb_count), mean)$time
+```
+
+So, base R code is on average 50 times **faster** than dplyr::count. The absolute difference in 10k simulations is 15.536167 seconds.
+
+## 12. Identify Distinct Rows
+
+Identifying unique rows is crucial for deduplication. This benchmark compares base R’s unique function with dplyr::distinct, shedding light on performance differences for this operation.
+
+
+``` r
+mcb_distinct <- microbenchmark(
+base_0 = unique(rbind(iris, iris)),
+dplyr = distinct(rbind(iris, iris)),
+times = 1e3
+)
+mcb_distinct
+```
+
+```
+Unit: microseconds
+   expr   min     lq     mean median     uq     max neval
+ base_0 551.1 587.85 682.7063  608.1 638.45 39456.5  1000
+  dplyr 247.7 285.20 320.7242  298.1 315.30  2128.6  1000
+```
+
+---
+
+
+``` r
+autoplot(mcb_distinct) + ggtitle("Distinct: Base R vs dplyr")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-24-1.png" width="672" />
+
+
+``` r
+agg_distinct <- aggregate(time ~ expr, data = data.frame(mcb_distinct), mean)$time
+```
+
+So, base R code is on average 2 times **slower** than dplyr::distinct. The absolute difference in 10k simulations is 3.619821 seconds. 
+
+## Summary
+
+Given that these functions are very commonly used, it is fair to assume that these functions are used at least 5 times in a standard simulation code. If that simulation is repeated for 10k times, then the total gain we have by using base R is at least 11.7146347 minutes.
+
+## Conclusion
+
+This analysis demonstrates
+
+- that while dplyr offers user-friendly functions and a consistent syntax, 
+- base R can often be **faster** for basic operations, especially with large datasets. 
+
+The choice between base R and dplyr should consider both readability and computational efficiency, dependent on the scale and complexity of your data tasks.
+
+- For intensive data simulations, careful function choice can lead to significant performance gains, 
+- underscoring the importance of benchmarking and profiling in the R language.
+
+
+
+---
+## About
+
+**Date:** January 17, 2025
+**Link:** /posts/about/
+
+
+
+## About Me
+
+Hi, I’m Swarnendu, a statistician and R enthusiast with a passion for unlocking the power of data. Welcome to my blog—a space where I share practical knowledge, tutorials, and insights to help you master R programming and data science.
+
+## My Journey with R
+
+For years, R has been my go-to tool for statistical modeling, data visualization, and machine learning. From analyzing clinical trial data to building interactive Shiny apps, I’ve seen firsthand how R transforms complex problems into elegant solutions. This blog is my way of giving back to the R community by sharing what I’ve learned—and what I’m still discovering.
+What You’ll Find Here
+
+- **Hands-On Tutorials**: Learn R programming with clear, practical examples.
+- **Statistical Modeling**: Dive into advanced techniques for robust analysis.
+- **Data Visualization**: Create stunning visuals with ggplot2 and beyond.
+- **Machine Learning**: Apply R to real-world ML challenges.
+- **Performance Tips**: Optimize code and compare tools like Shiny and dplyr.
+- **Real-World Applications**: Explore case studies from clinical trials, simulations, and more.
+
+## Why I Do This
+
+I believe R is more than a programming language—it’s a gateway to understanding data. My goal is to make R accessible to everyone, whether you’re a beginner writing your first script or an expert tackling complex models. I’m here to simplify concepts, share best practices, and inspire you to push the boundaries of what’s possible with R.
+
+Let’s Connect
+
+Join me on this R journey! Check out my [GitHub](https://github.com/swarnendu-stat/bnns) for code and projects, or follow me on [LinkedIn](https://www.linkedin.com/in/swarnendu-stat/) for updates. Have a question or idea? Drop a comment on any post or reach out directly.
+Thank you for being here—let’s code, analyze, and learn together!
+
+
+

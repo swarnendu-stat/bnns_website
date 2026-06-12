@@ -1,0 +1,64 @@
+baseURL = "https://swarnendu-stat.netlify.app/"
+title = "Welcome to My R Blog"
+theme = "hugo-theme-stack"
+
+[module.hugoVersion]
+    min = "0.146.7"
+
+[mediaTypes]
+  [mediaTypes."text/markdown"]
+    suffixes = ["md"]
+  [mediaTypes."text/plain"]
+    suffixes = ["txt"]
+
+[outputFormats]
+  [outputFormats.Markdown]
+    mediaType = "text/markdown"
+    isPlainText = true
+    isHTML = false
+  [outputFormats.llmstxt]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+    notAlternative = true
+  [outputFormats.llmsfulltxt]
+    mediaType = "text/plain"
+    baseName = "llms-full"
+    isPlainText = true
+    notAlternative = true
+  [outputFormats.RSS]
+    mediatype = "application/rss+xml"
+    baseName = "index"
+
+[outputs]
+  home = ["html", "rss", "llmstxt", "llmsfulltxt"]
+  section = ["html", "rss"]
+  taxonomy = ["html", "rss"]
+  term = ["html", "rss"]
+  page = ["html", "Markdown"]
+  
+[params]
+  mainSections = ["post"]
+  customHead = '''
+    <meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+  '''
+  
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true  
+
+[permalinks]
+  post = "/:year/:month/:slug/"
+
+[params.feed]
+  enable = true
+  limit = 20
+  sections = ["post"]
+  
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+  
+enableRobotsTXT = true  
