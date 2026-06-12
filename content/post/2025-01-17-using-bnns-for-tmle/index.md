@@ -2,6 +2,7 @@
 title: "Using bnns for TMLE"
 author: "Swarnendu Chatterjee"
 date: "2025-01-17T23:24:25+0530"
+draft: false
 slug: "bnns-for-tmle"
 categories: ["R", "bnns", "neural network", "Bayesian", "tmle"]
 tags: ["bnns", "neural network", "Bayesian", "tmle"]
@@ -114,7 +115,7 @@ tmle_ate_list <- lapply(1:dim(Q_A)[2], function(i){
 
 tmle_ate <- unlist(tmle_ate_list)
 median(tmle_ate)
-#> [1] 0.08954665
+#> [1] 0.08953815
 ```
 
 ---
@@ -168,7 +169,7 @@ results <- data.frame(
 results
 #>      Method   Estimate     CI_low    CI_high
 #> 1  True ATE 0.07431068 0.07431068 0.07431068
-#> 2  BNN_TMLE 0.08954665 0.08369176 0.09577273
+#> 2  BNN_TMLE 0.08953815 0.08375025 0.09581528
 #> 3 Freq_TMLE 0.09309979 0.05910546 0.12709413
 #> 4     Naive 0.12824940 0.12824940 0.12824940
 ```

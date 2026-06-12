@@ -33,6 +33,7 @@ As a statistician and R enthusiast, I’m passionate about making R accessible a
   - [The Power of Base R](/post/2025/01/17/power-of-base-R/): Why Base R is still a game-changer.
   - [Using BNNs for TMLE](/post/2025/01/17/bnns-for-tmle/): Targeted Maximum Likelihood Estimation with Bayesian Neural Networks.
   - [BNNs for Binary Classification](/post/2025/04/18/bnns-binary-classification/): Practical guide to binary classification with BNNs.
+  - [Tidy SuperLearner](/post/2025/08/15/tidy-superlearner/): Practical guide to binary classification with BNNs.
 
 ---
 

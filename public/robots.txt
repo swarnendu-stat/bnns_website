@@ -1,1 +1,6 @@
 User-agent: *
+<<<<<<< HEAD
+=======
+Allow: /
+Sitemap: https://swarnendu-stat.netlify.app/sitemap.xml
+>>>>>>> dffbe71674e635bcb2bddd5551656cdea1926e21

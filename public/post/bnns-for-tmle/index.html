@@ -288,7 +288,7 @@ Simulating Data We simulate data where the treatment assignment and outcome are 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>tmle_ate <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">unlist</span>(tmle_ate_list)
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">median</span>(tmle_ate)
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; [1] 0.08954665</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; [1] 0.08953815</span>
 </span></span></code></pre></div><hr>
 <h2 id="comparing-tmle-to-traditional-methods"><a href="#comparing-tmle-to-traditional-methods" class="header-anchor"></a>Comparing TMLE to Traditional Methods
 </h2><p>To highlight the benefits of TMLE, compare it to other methods such as:</p>
@@ -336,7 +336,7 @@ Simulating Data We simulate data where the treatment assignment and outcome are 
 </span></span><span style="display:flex;"><span>results
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;      Method   Estimate     CI_low    CI_high</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 1  True ATE 0.07431068 0.07431068 0.07431068</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 2  BNN_TMLE 0.08954665 0.08369176 0.09577273</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 2  BNN_TMLE 0.08953815 0.08375025 0.09581528</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 3 Freq_TMLE 0.09309979 0.05910546 0.12709413</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 4     Naive 0.12824940 0.12824940 0.12824940</span>
 </span></span></code></pre></div><hr>
@@ -355,7 +355,7 @@ Simulating Data We simulate data where the treatment assignment and outcome are 
 </span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;none&#34;</span>)
-</span></span></code></pre></div><!-- raw HTML omitted -->
+</span></span></code></pre></div><img src="/post/bnns-for-tmle/index_files/figure-html/visualization-1.png" width="672" />
 <hr>
 <h2 id="summary"><a href="#summary" class="header-anchor"></a>Summary
 </h2><p>This tutorial demonstrates how to use the <a class="link" href="https://swarnendu-stat.github.io/bnns/"  target="_blank" rel="noopener"

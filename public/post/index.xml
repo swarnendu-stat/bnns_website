@@ -1,14 +1,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on </title>
-    <link>/post/</link>
-    <description>Recent content in Posts on </description>
+    <title>Welcome to My R Blog</title>
+    <link>https://swarnendu-stat.netlify.app/</link>
+    <description>Recent posts on Welcome to My R Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+<<<<<<< HEAD
     <lastBuildDate>Fri, 12 Jun 2026 09:00:00 +0530</lastBuildDate>
     
         <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+=======
+    <lastBuildDate>Sat, 23 Aug 2025 10:33:35 &#43;0530</lastBuildDate>
+    <atom:link href="https://swarnendu-stat.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+>>>>>>> dffbe71674e635bcb2bddd5551656cdea1926e21
     
+    <item>
+      <title>Tidy SuperLearner</title>
+      <link>https://swarnendu-stat.netlify.app/2025/08/tidy-superlearner/</link>
+      <pubDate>Sun, 17 Aug 2025 09:00:00 &#43;0530</pubDate>
+      <guid>https://swarnendu-stat.netlify.app/2025/08/tidy-superlearner/</guid>
+      <description>Introduction Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The SuperLearner R package is a go-to for this, however it only supports gaussian or binomial to describe the error distribution. Using the clean, flexible tidymodels framework we can implement these functionalities and also extend it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with tidymodels, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.
+</description>
+    </item>
     
     <item>
       <title>bnns 1.0.0 is now on CRAN</title>
@@ -556,6 +569,7 @@ There were issues with some computations   A: x5
     
     <item>
       <title>Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</title>
+<<<<<<< HEAD
       <link>/post/bnns-binary-classification/</link>
       <pubDate>Fri, 18 Apr 2025 22:21:00 +0530</pubDate>
       
@@ -684,25 +698,21 @@ $AUC
     &gt;LinkedIn&lt;/a&gt; and tag &lt;a class=&#34;link&#34; href=&#34;https://www.linkedin.com/in/swarnendu-stat/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;me&lt;/a&gt;!&lt;/p&gt;
 &lt;hr&gt;
+=======
+      <link>https://swarnendu-stat.netlify.app/2025/04/bnns-binary-classification/</link>
+      <pubDate>Fri, 18 Apr 2025 22:21:00 &#43;0530</pubDate>
+      <guid>https://swarnendu-stat.netlify.app/2025/04/bnns-binary-classification/</guid>
+      <description> In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.
+🔍 The Problem Diabetes prediction models abound, but they often give us just a number. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&amp;amp;rsquo;s a 73% chance someone has diabetes.
+But what if we asked:
+&amp;amp;ldquo;How sure are we about that 73%?&amp;amp;rdquo;
+>>>>>>> dffbe71674e635bcb2bddd5551656cdea1926e21
 </description>
-      
-            <category>R</category>
-      
-            <category>Bayesian Neural Networks</category>
-      
-            <category>Clinical Trials</category>
-      
-      
-            <category>Biostatistics</category>
-      
-            <category>Machine Learning</category>
-      
-            <category>Bayesian Methods</category>
-      
     </item>
     
     <item>
       <title>Using bnns for TMLE</title>
+<<<<<<< HEAD
       <link>/post/bnns-for-tmle/</link>
       <pubDate>Fri, 17 Jan 2025 23:24:25 +0530</pubDate>
       
@@ -864,31 +874,19 @@ $AUC
 &lt;h2 id=&#34;summary&#34;&gt;&lt;a href=&#34;#summary&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Summary
 &lt;/h2&gt;&lt;p&gt;This tutorial demonstrates how to use the &lt;a class=&#34;link&#34; href=&#34;https://swarnendu-stat.github.io/bnns/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;bnns&lt;/a&gt; package for TMLE to estimate the Average Treatment Effect (ATE). By leveraging the flexibility of Bayesian Neural Networks, TMLE can handle complex data structures and improve accuracy compared to traditional methods. Use this workflow for applications in clinical trials, epidemiology, and other domains requiring robust causal inference.&lt;/p&gt;
+=======
+      <link>https://swarnendu-stat.netlify.app/2025/01/bnns-for-tmle/</link>
+      <pubDate>Fri, 17 Jan 2025 23:24:25 &#43;0530</pubDate>
+      <guid>https://swarnendu-stat.netlify.app/2025/01/bnns-for-tmle/</guid>
+      <description>Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
+Simulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.
+>>>>>>> dffbe71674e635bcb2bddd5551656cdea1926e21
 </description>
-      
-            <category>bnns</category>
-      
-            <category>neural network</category>
-      
-            <category>Bayesian</category>
-      
-            <category>tmle</category>
-      
-      
-            <category>R</category>
-      
-            <category>bnns</category>
-      
-            <category>neural network</category>
-      
-            <category>Bayesian</category>
-      
-            <category>tmle</category>
-      
     </item>
     
     <item>
       <title>Power of Base R: A Performance Comparison with dplyr</title>
+<<<<<<< HEAD
       <link>/post/power-of-base-r/</link>
       <pubDate>Fri, 17 Jan 2025 22:32:22 +0530</pubDate>
       
@@ -1168,25 +1166,15 @@ $AUC
 &lt;li&gt;For intensive data simulations, careful function choice can lead to significant performance gains,&lt;/li&gt;
 &lt;li&gt;underscoring the importance of benchmarking and profiling in the R language.&lt;/li&gt;
 &lt;/ul&gt;
+=======
+      <link>https://swarnendu-stat.netlify.app/2025/01/power-of-base-r/</link>
+      <pubDate>Fri, 17 Jan 2025 22:32:22 &#43;0530</pubDate>
+      <guid>https://swarnendu-stat.netlify.app/2025/01/power-of-base-r/</guid>
+      <description>Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
+While dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
+The Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.
+>>>>>>> dffbe71674e635bcb2bddd5551656cdea1926e21
 </description>
-      
-            <category>R</category>
-      
-            <category>dplyr</category>
-      
-            <category>tidyverse</category>
-      
-            <category>base R</category>
-      
-      
-            <category>R</category>
-      
-            <category>dplyr</category>
-      
-            <category>tidyverse</category>
-      
-            <category>base R</category>
-      
     </item>
     
   </channel>
