@@ -23,7 +23,7 @@
       {{- $baseURL := trim .Site.BaseURL "/" -}}
       {{- $content := replace .Content "href=\"/" (printf "href=\"%s/" $baseURL) -}}
       {{- $content = replace $content "src=\"/" (printf "src=\"%s/" $baseURL) -}}
-      <content:encoded><![CDATA[{{ $content | safeHTML }}]]></content:encoded>
+      <content:encoded>{{ $content | html }}</content:encoded>
       {{ range .Params.tags }}
             <category>{{ . | html }}</category>
       {{ end }}

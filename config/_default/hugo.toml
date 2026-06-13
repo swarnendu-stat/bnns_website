@@ -20,8 +20,16 @@ googleAnalytics = "G-MEASUREMENT_ID"
 [services.rss]
   limit = 20
 
+# Protect specific file types from Hugo's aggressive minifier
+[minify]
+  disableXML = true
+  disableJSON = false
+  disableHTML = false
+  disableJS = false
+  disableCSS = false
+
 [module.hugoVersion]
-min = "0.128.0"
+min = "0.163.1"
 
 [mediaTypes]
   [mediaTypes."text/markdown"]
