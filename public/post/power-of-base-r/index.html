@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en-US" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.\nWhile dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.\nThe Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.\n">
@@ -17,7 +17,23 @@
 <meta name="twitter:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.\nWhile dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.\nThe Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="text/markdown" href="https://swarnendu-stat.netlify.app/post/power-of-base-r/index.md">
     <link rel="shortcut icon" href="/static/favicon.ico" />
-<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/power-of-base-r/">
+	<meta property="og:site_name" content="Welcome to My R Blog">
+	<meta property="og:title" content="Power of Base R: A Performance Comparison with dplyr">
+	<meta property="og:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
+While dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
+The Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2025-01-17T22:32:22+05:30">
+		<meta property="article:modified_time" content="2025-01-17T22:32:22+05:30">
+		<meta property="article:tag" content="R">
+		<meta property="article:tag" content="Dplyr">
+		<meta property="article:tag" content="Tidyverse">
+		<meta property="article:tag" content="Base R">
+
+
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Power of Base R: A Performance Comparison with dplyr">
 	<meta name="twitter:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
@@ -33,7 +49,24 @@ The Iris Dataset The iris dataset is a classic dataset in statistics and machine
 	<meta itemprop="dateModified" content="2025-01-17T22:32:22+05:30">
 	<meta itemprop="wordCount" content="1786">
 	<meta itemprop="keywords" content="R,Dplyr,Tidyverse,Base R">
-<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/power-of-base-r/">
+	<meta property="og:site_name" content="Welcome to My R Blog">
+	<meta property="og:title" content="Power of Base R: A Performance Comparison with dplyr">
+	<meta property="og:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
+While dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
+The Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2025-01-17T22:32:22+05:30">
+		<meta property="article:modified_time" content="2025-01-17T22:32:22+05:30">
+		<meta property="article:tag" content="R">
+		<meta property="article:tag" content="Dplyr">
+		<meta property="article:tag" content="Tidyverse">
+		<meta property="article:tag" content="Base R">
+
+
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Power of Base R: A Performance Comparison with dplyr">
 	<meta name="twitter:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
@@ -49,6 +82,7 @@ The Iris Dataset The iris dataset is a classic dataset in statistics and machine
 	<meta itemprop="dateModified" content="2025-01-17T22:32:22+05:30">
 	<meta itemprop="wordCount" content="1786">
 	<meta itemprop="keywords" content="R,Dplyr,Tidyverse,Base R">
+
 
     </head>
     <body class="
@@ -103,8 +137,80 @@ The Iris Dataset The iris dataset is a classic dataset in statistics and machine
             <h1 class="site-name"><a href="/">Welcome to My R Blog</a></h1>
             <h2 class="site-description">Statistician &amp; R Enthusiast. Unlocking the power of data. I also love photography!</h2>
         </div>
-    </header><ol class="menu" id="main-menu">
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/swarnendu-stat'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.linkedin.com/in/swarnendu-stat/'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="2" />
+  <line x1="8" y1="11" x2="8" y2="16" />
+  <line x1="8" y1="8" x2="8" y2="8.01" />
+  <line x1="12" y1="16" x2="12" y2="11" />
+  <path d="M16 16v-3a2 2 0 0 0 -4 0" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/shutter.and.stats?utm_source=qr&amp;igsh=bWYwdGFyMnp3M2I4'
+                        target="_blank"
+                        title="Instagram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
         
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                <span>About</span>
+            </a>
+        </li>
         
         <li class="menu-bottom-section">
             <ol class="menu">
@@ -559,7 +665,7 @@ The Iris Dataset The iris dataset is a classic dataset in statistics and machine
         
             2025 - 
         
-        2026 Welcome to My R Blog
+        2026 Swarnendu. All rights reserved.
     </section>
     
     <section class="powerby">

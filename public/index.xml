@@ -1,53 +1,63 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Welcome to My R Blog</title>
     <link>https://swarnendu-stat.netlify.app/</link>
     <description>Recent content on Welcome to My R Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>en-US</language>
+    <managingEditor>swarnendu.stat@gmail.com (Swarnendu)</managingEditor>
+    <webMaster>swarnendu.stat@gmail.com (Swarnendu)</webMaster>
+    <copyright>Swarnendu. All rights reserved.</copyright>
     <lastBuildDate>Fri, 12 Jun 2026 09:00:00 +0530</lastBuildDate>
     
         <atom:link href="https://swarnendu-stat.netlify.app/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Posts</title>
-      <link>https://swarnendu-stat.netlify.app/post/</link>
-      <pubDate>Fri, 12 Jun 2026 09:00:00 +0530</pubDate>
-      
-      <guid>https://swarnendu-stat.netlify.app/post/</guid>
-      <description></description>
+      <title>About</title>
+      <link>https://swarnendu-stat.netlify.app/about/</link>
+      <pubDate>Fri, 17 Jan 2025 00:00:00 +0530</pubDate>
+      <author>swarnendu.stat@gmail.com (Swarnendu)</author>
+      <guid>https://swarnendu-stat.netlify.app/about/</guid>
+      <description>&lt;h2 id=&#34;-hi-there-im-swarnendu&#34;&gt;&lt;a href=&#34;#-hi-there-im-swarnendu&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;👋 Hi there, I’m Swarnendu!
+&lt;/h2&gt;&lt;p&gt;I&amp;rsquo;m a statistician, data scientist, and an unapologetic R enthusiast. Welcome to my digital garden—a space dedicated to unraveling the complexities of data and unlocking the true power of R programming.&lt;/p&gt;
+&lt;h2 id=&#34;-my-journey-with-r&#34;&gt;&lt;a href=&#34;#-my-journey-with-r&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;🚀 My Journey with R
+&lt;/h2&gt;&lt;p&gt;For years, R has been my trusted companion for statistical modeling, data visualization, and machine learning. Whether I&amp;rsquo;m diving deep into clinical trial data or crafting interactive, user-friendly Shiny applications, I&amp;rsquo;ve seen firsthand how R can transform intricate, messy problems into elegant, actionable solutions.&lt;/p&gt;</description>
+      <content:encoded>&lt;![CDATA[<h2 id="-hi-there-im-swarnendu"><a href="#-hi-there-im-swarnendu" class="header-anchor"></a>👋 Hi there, I’m Swarnendu!
+</h2><p>I&rsquo;m a statistician, data scientist, and an unapologetic R enthusiast. Welcome to my digital garden—a space dedicated to unraveling the complexities of data and unlocking the true power of R programming.</p>
+<h2 id="-my-journey-with-r"><a href="#-my-journey-with-r" class="header-anchor"></a>🚀 My Journey with R
+</h2><p>For years, R has been my trusted companion for statistical modeling, data visualization, and machine learning. Whether I&rsquo;m diving deep into clinical trial data or crafting interactive, user-friendly Shiny applications, I&rsquo;ve seen firsthand how R can transform intricate, messy problems into elegant, actionable solutions.</p>
+<p>But here&rsquo;s the thing: learning data science is a never-ending journey. This blog is my way of giving back to the incredible R community, sharing the insights I&rsquo;ve gathered along the way, and documenting the new tricks I&rsquo;m still discovering.</p>
+<h2 id="-what-youll-find-here"><a href="#-what-youll-find-here" class="header-anchor"></a>🧰 What You’ll Find Here
+</h2><p>I believe in learning by doing. Here is what you can expect to explore with me:</p>
+<ul>
+<li><strong>Hands-On Tutorials</strong>: Step-by-step guides with clear, practical, and reproducible code.</li>
+<li><strong>Statistical Modeling</strong>: Deep dives into advanced techniques for robust data analysis (like Bayesian Neural Networks!).</li>
+<li><strong>Data Art &amp; Visualization</strong>: Creating stunning, publication-ready visuals using <code>ggplot2</code> and beyond.</li>
+<li><strong>Machine Learning</strong>: Applying R to solve real-world ML and predictive modeling challenges.</li>
+<li><strong>Performance Hacks</strong>: Optimizing code and mastering essential tools like <code>dplyr</code>, <code>data.table</code>, and Shiny.</li>
+<li><strong>Real-World Applications</strong>: Case studies ranging from clinical trials to complex simulations.</li>
+</ul>
+<h2 id="-why-i-do-this"><a href="#-why-i-do-this" class="header-anchor"></a>💡 Why I Do This
+</h2><p>To me, R is much more than just a programming language—it’s a lens for understanding the world through data. My mission is to make advanced statistical concepts and R programming accessible to <em>everyone</em>. Whether you&rsquo;re a beginner writing your very first <code>print(&quot;Hello World&quot;)</code> script or an expert fine-tuning complex Bayesian models, I&rsquo;m here to simplify the hard stuff, share best practices, and inspire you to push the boundaries of what&rsquo;s possible.</p>
+<h2 id="-lets-connect"><a href="#-lets-connect" class="header-anchor"></a>🤝 Let’s Connect!
+</h2><p>Data science is better together. I&rsquo;d love to connect, collaborate, or just chat about all things R! Check out my GitHub for code and projects, follow me on <a class="link" href="https://www.linkedin.com/in/swarnendu-stat/"  target="_blank" rel="noopener"
+    >LinkedIn</a> for professional updates, or catch my photography and stats journey on <a class="link" href="https://www.instagram.com/shutter.and.stats?utm_source=qr&amp;igsh=bWYwdGFyMnp3M2I4"  target="_blank" rel="noopener"
+    >Instagram</a>. Have a question or idea? Drop a comment on any post or reach out directly.</p>
+<p>Thank you for being here—let’s code, analyze, and learn together!</p>
+]]></content:encoded>
       
       
     </item>
     
     <item>
-      <title>About</title>
-      <link>https://swarnendu-stat.netlify.app/about/</link>
-      <pubDate>Fri, 17 Jan 2025 00:00:00 +0530</pubDate>
-      
-      <guid>https://swarnendu-stat.netlify.app/about/</guid>
-      <description>&lt;h2 id=&#34;about-me&#34;&gt;&lt;a href=&#34;#about-me&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;About Me
-&lt;/h2&gt;&lt;p&gt;Hi, I’m Swarnendu, a statistician and R enthusiast with a passion for unlocking the power of data. Welcome to my blog—a space where I share practical knowledge, tutorials, and insights to help you master R programming and data science.&lt;/p&gt;
-&lt;h2 id=&#34;my-journey-with-r&#34;&gt;&lt;a href=&#34;#my-journey-with-r&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;My Journey with R
-&lt;/h2&gt;&lt;p&gt;For years, R has been my go-to tool for statistical modeling, data visualization, and machine learning. From analyzing clinical trial data to building interactive Shiny apps, I’ve seen firsthand how R transforms complex problems into elegant solutions. This blog is my way of giving back to the R community by sharing what I’ve learned—and what I’m still discovering.
-What You’ll Find Here&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Hands-On Tutorials&lt;/strong&gt;: Learn R programming with clear, practical examples.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Statistical Modeling&lt;/strong&gt;: Dive into advanced techniques for robust analysis.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Data Visualization&lt;/strong&gt;: Create stunning visuals with ggplot2 and beyond.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Machine Learning&lt;/strong&gt;: Apply R to real-world ML challenges.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Performance Tips&lt;/strong&gt;: Optimize code and compare tools like Shiny and dplyr.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Real-World Applications&lt;/strong&gt;: Explore case studies from clinical trials, simulations, and more.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;why-i-do-this&#34;&gt;&lt;a href=&#34;#why-i-do-this&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Why I Do This
-&lt;/h2&gt;&lt;p&gt;I believe R is more than a programming language—it’s a gateway to understanding data. My goal is to make R accessible to everyone, whether you’re a beginner writing your first script or an expert tackling complex models. I’m here to simplify concepts, share best practices, and inspire you to push the boundaries of what’s possible with R.&lt;/p&gt;
-&lt;p&gt;Let’s Connect&lt;/p&gt;
-&lt;p&gt;Join me on this R journey! Check out my &lt;a class=&#34;link&#34; href=&#34;https://github.com/swarnendu-stat/bnns&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GitHub&lt;/a&gt; for code and projects, or follow me on &lt;a class=&#34;link&#34; href=&#34;https://www.linkedin.com/in/swarnendu-stat/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;LinkedIn&lt;/a&gt; for updates. Have a question or idea? Drop a comment on any post or reach out directly.
-Thank you for being here—let’s code, analyze, and learn together!&lt;/p&gt;
-</description>
+      <title>Posts</title>
+      <link>https://swarnendu-stat.netlify.app/post/</link>
+      <pubDate>Fri, 12 Jun 2026 09:00:00 +0530</pubDate>
+      <author>swarnendu.stat@gmail.com (Swarnendu)</author>
+      <guid>https://swarnendu-stat.netlify.app/post/</guid>
+      <description></description>
+      <content:encoded>&lt;![CDATA[]]></content:encoded>
       
       
     </item>
@@ -56,9 +66,10 @@ Thank you for being here—let’s code, analyze, and learn together!&lt;/p&gt;
       <title>Notes</title>
       <link>https://swarnendu-stat.netlify.app/notes/</link>
       <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
-      
+      <author>swarnendu.stat@gmail.com (Swarnendu)</author>
       <guid>https://swarnendu-stat.netlify.app/notes/</guid>
       <description></description>
+      <content:encoded>&lt;![CDATA[]]></content:encoded>
       
       
     </item>
@@ -67,9 +78,10 @@ Thank you for being here—let’s code, analyze, and learn together!&lt;/p&gt;
       <title>Searches</title>
       <link>https://swarnendu-stat.netlify.app/search/</link>
       <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
-      
+      <author>swarnendu.stat@gmail.com (Swarnendu)</author>
       <guid>https://swarnendu-stat.netlify.app/search/</guid>
       <description></description>
+      <content:encoded>&lt;![CDATA[]]></content:encoded>
       
       
     </item>
@@ -78,7 +90,7 @@ Thank you for being here—let’s code, analyze, and learn together!&lt;/p&gt;
       <title>Welcome to My R Blog</title>
       <link>https://swarnendu-stat.netlify.app/_index-chatters/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
+      <author>swarnendu.stat@gmail.com (Swarnendu)</author>
       <guid>https://swarnendu-stat.netlify.app/_index-chatters/</guid>
       <description>&lt;h1 id=&#34;welcome-to-my-r-blog&#34;&gt;&lt;a href=&#34;#welcome-to-my-r-blog&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Welcome to My R Blog
 &lt;/h1&gt;&lt;p&gt;Dive into the world of R programming! This blog is your resource for practical tutorials, expert insights, and tips on statistical modeling, data science, and machine learning with R. Whether you&amp;rsquo;re a beginner or an advanced user, there&amp;rsquo;s something here for you.&lt;/p&gt;
@@ -91,28 +103,42 @@ Thank you for being here—let’s code, analyze, and learn together!&lt;/p&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;why-this-blog&#34;&gt;&lt;a href=&#34;#why-this-blog&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Why This Blog?
-&lt;/h2&gt;&lt;p&gt;As a statistician and R enthusiast, I’m passionate about making R accessible and showcasing its power for data analysis and modeling. My goal is to help you build confidence and skills in R programming.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;get-started&#34;&gt;&lt;a href=&#34;#get-started&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Get Started
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://swarnendu-stat.netlify.app/about/&#34; &gt;About Me&lt;/a&gt;&lt;/strong&gt;: Learn more about my background and mission.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/swarnendu-stat/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GitHub&lt;/a&gt;&lt;/strong&gt;: Explore my R projects and code.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;http://www.r-bloggers.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;R-bloggers&lt;/a&gt;&lt;/strong&gt;: Connect with the broader R community.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Browse Posts&lt;/strong&gt;:
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://swarnendu-stat.netlify.app/post/2025/01/17/power-of-base-R/&#34; &gt;The Power of Base R&lt;/a&gt;: Why Base R is still a game-changer.&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://swarnendu-stat.netlify.app/post/2025/01/17/bnns-for-tmle/&#34; &gt;Using BNNs for TMLE&lt;/a&gt;: Targeted Maximum Likelihood Estimation with Bayesian Neural Networks.&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://swarnendu-stat.netlify.app/post/2025/04/18/bnns-binary-classification/&#34; &gt;BNNs for Binary Classification&lt;/a&gt;: Practical guide to binary classification with BNNs.&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://swarnendu-stat.netlify.app/post/2025/08/15/tidy-superlearner/&#34; &gt;Tidy SuperLearner&lt;/a&gt;: Practical guide to binary classification with BNNs.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;stay-connected&#34;&gt;&lt;a href=&#34;#stay-connected&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Stay Connected
-&lt;/h2&gt;&lt;p&gt;Subscribe to get new tutorials and tips delivered to your inbox, or follow me on [Twitter/GitHub] for updates. Have a question? Drop a comment on any post!&lt;/p&gt;
-</description>
+&lt;/h2&gt;&lt;p&gt;As a statistician and R enthusiast, I’m passionate about making R accessible and showcasing its power for data analysis and modeling. My goal is to help you build confidence and skills in R programming.&lt;/p&gt;</description>
+      <content:encoded>&lt;![CDATA[<h1 id="welcome-to-my-r-blog"><a href="#welcome-to-my-r-blog" class="header-anchor"></a>Welcome to My R Blog
+</h1><p>Dive into the world of R programming! This blog is your resource for practical tutorials, expert insights, and tips on statistical modeling, data science, and machine learning with R. Whether you&rsquo;re a beginner or an advanced user, there&rsquo;s something here for you.</p>
+<hr>
+<h2 id="what-youll-find"><a href="#what-youll-find" class="header-anchor"></a>What You&rsquo;ll Find
+</h2><ul>
+<li><strong>Step-by-Step Tutorials</strong>: Master R with hands-on examples and clear explanations.</li>
+<li><strong>Resources &amp; Tips</strong>: Discover the best R packages, tools, and techniques.</li>
+<li><strong>Real-World Insights</strong>: Explore applications of R in statistics, machine learning, and data visualization.</li>
+</ul>
+<hr>
+<h2 id="why-this-blog"><a href="#why-this-blog" class="header-anchor"></a>Why This Blog?
+</h2><p>As a statistician and R enthusiast, I’m passionate about making R accessible and showcasing its power for data analysis and modeling. My goal is to help you build confidence and skills in R programming.</p>
+<hr>
+<h2 id="get-started"><a href="#get-started" class="header-anchor"></a>Get Started
+</h2><ul>
+<li><strong><a class="link" href="/about/" >About Me</a></strong>: Learn more about my background and mission.</li>
+<li><strong><a class="link" href="https://github.com/swarnendu-stat/"  target="_blank" rel="noopener"
+    >GitHub</a></strong>: Explore my R projects and code.</li>
+<li><strong><a class="link" href="http://www.r-bloggers.com"  target="_blank" rel="noopener"
+    >R-bloggers</a></strong>: Connect with the broader R community.</li>
+<li><strong>Browse Posts</strong>:
+<ul>
+<li><a class="link" href="/post/2025/01/17/power-of-base-R/" >The Power of Base R</a>: Why Base R is still a game-changer.</li>
+<li><a class="link" href="/post/2025/01/17/bnns-for-tmle/" >Using BNNs for TMLE</a>: Targeted Maximum Likelihood Estimation with Bayesian Neural Networks.</li>
+<li><a class="link" href="/post/2025/04/18/bnns-binary-classification/" >BNNs for Binary Classification</a>: Practical guide to binary classification with BNNs.</li>
+<li><a class="link" href="/post/2025/08/15/tidy-superlearner/" >Tidy SuperLearner</a>: Practical guide to binary classification with BNNs.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="stay-connected"><a href="#stay-connected" class="header-anchor"></a>Stay Connected
+</h2><p>Subscribe to get new tutorials and tips delivered to your inbox, or follow me on <a class="link" href="https://www.linkedin.com/in/swarnendu-stat/"  target="_blank" rel="noopener"
+    >LinkedIn</a>, <a class="link" href="https://www.instagram.com/shutter.and.stats?utm_source=qr&amp;igsh=bWYwdGFyMnp3M2I4"  target="_blank" rel="noopener"
+    >Instagram</a>, and GitHub for updates. Have a question? Drop a comment on any post!</p>
+]]></content:encoded>
       
       
     </item>

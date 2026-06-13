@@ -39,4 +39,4 @@ As a statistician and R enthusiast, I’m passionate about making R accessible a
 
 ## Stay Connected
 
-Subscribe to get new tutorials and tips delivered to your inbox, or follow me on [Twitter/GitHub] for updates. Have a question? Drop a comment on any post!
+Subscribe to get new tutorials and tips delivered to your inbox, or follow me on [LinkedIn](https://www.linkedin.com/in/swarnendu-stat/), [Instagram](https://www.instagram.com/shutter.and.stats?utm_source=qr&igsh=bWYwdGFyMnp3M2I4), and GitHub for updates. Have a question? Drop a comment on any post!

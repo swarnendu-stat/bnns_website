@@ -2,6 +2,24 @@ baseURL = "https://swarnendu-stat.netlify.app/"
 title = "Welcome to My R Blog"
 theme = "hugo-theme-stack"
 enableRobotsTXT = true
+languageCode = "en-US"
+copyright = "Swarnendu Chatterjee. All rights reserved."
+
+# Global author config for Hugo's internal templates (like RSS)
+[author]
+  name = "Swarnendu Chatterjee"
+  email = "swarnendu.stat@gmail.com"
+
+# Google Analytics (Replace with your actual G-XXXXXXX measurement ID when ready)
+googleAnalytics = "G-MEASUREMENT_ID"
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+
+[services.rss]
+  limit = 20
+
 [module.hugoVersion]
 min = "0.128.0"
 
@@ -36,6 +54,12 @@ min = "0.128.0"
 
 [params]
   mainSection = "post"
+  description = "A blog about Statistics, R programming, Data Analysis, Data Science, and Photography."
+  keywords = ["R programming", "Statistics", "Data Science", "Data Analysis", "Photography", "R Blog"]
+  
+  [params.author]
+    name = "Swarnendu"
+    email = "swarnendu.stat@gmail.com"
   
   # Author sidebar configuration
   [params.sidebar]
@@ -52,18 +76,24 @@ min = "0.128.0"
     math = true
     readingTime = true
 
-  # Social Links
-  [[params.social]]
-    identifier = "github"
-    name = "GitHub"
-    url = "https://github.com/swarnendu-stat"
+# Social Links
+[[menu.social]]
+  identifier = "github"
+  name = "GitHub"
+  url = "https://github.com/swarnendu-stat"
+  weight = 1
+  params = { icon = "brand-github" }
 
-  [[params.social]]
-    identifier = "linkedin"
-    name = "LinkedIn"
-    url = "https://www.linkedin.com/in/swarnendu-stat/"
+[[menu.social]]
+  identifier = "linkedin"
+  name = "LinkedIn"
+  url = "https://www.linkedin.com/in/swarnendu-stat/"
+  weight = 2
+  params = { icon = "brand-linkedin" }
 
-  [[params.social]]
-    identifier = "instagram"
-    name = "Instagram"
-    url = "https://www.instagram.com/shutter.and.stats?utm_source=qr&igsh=bWYwdGFyMnp3M2I4"
+[[menu.social]]
+  identifier = "instagram"
+  name = "Instagram"
+  url = "https://www.instagram.com/shutter.and.stats?utm_source=qr&igsh=bWYwdGFyMnp3M2I4"
+  weight = 3
+  params = { icon = "brand-instagram" }

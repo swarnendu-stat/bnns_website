@@ -1,6 +1,8 @@
 # Welcome to My R Blog
 
 
+> A blog about Statistics, R programming, Data Analysis, Data Science, and Photography.
+
 
 ## Content
 
