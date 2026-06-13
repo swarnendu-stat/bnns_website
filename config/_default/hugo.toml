@@ -105,3 +105,10 @@ min = "0.163.1"
   url = "https://www.instagram.com/shutter.and.stats?utm_source=qr&igsh=bWYwdGFyMnp3M2I4"
   weight = 3
   params = { icon = "brand-instagram" }
+
+[[menu.social]]
+  identifier = "r-bloggers"
+  name = "R-bloggers"
+  url = "https://www.r-bloggers.com/"
+  weight = 4
+  params = { icon = "brand-r-bloggers" }

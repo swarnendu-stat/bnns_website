@@ -15,7 +15,10 @@
     {{ end }}
     {{- $pages := .Pages -}}
     {{- if .IsHome -}}
-      {{- $pages = where site.RegularPages "Section" "post" -}}
+      {{- $posts := where site.RegularPages "Section" "post" -}}
+      {{- $rTags := where $posts "Params.tags" "intersect" (slice "R") -}}
+      {{- $rCategories := where $posts "Params.categories" "intersect" (slice "R") -}}
+      {{- $pages = union $rTags $rCategories -}}
     {{- end -}}
     {{ range first 20 $pages.ByDate.Reverse }}
     <item>

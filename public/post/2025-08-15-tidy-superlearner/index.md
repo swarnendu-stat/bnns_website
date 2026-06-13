@@ -2,7 +2,7 @@
 
 **Date:** August 17, 2025
 **Link:** https://swarnendu-stat.netlify.app/post/2025-08-15-tidy-superlearner/
-**Tags:** Machine Learning, TidyModels, SuperLearner
+**Tags:** R, Machine Learning, TidyModels, SuperLearner
 
 
 ## Introduction
