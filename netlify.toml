@@ -22,24 +22,15 @@
   for = "/index.xml"
   [headers.values]
     Content-Type = "application/rss+xml"
-
-[[redirects]]
-  from = "/index.xml"
-  to = "/index.xml"
-  status = 200    
+    Cache-Control = "no-cache, must-revalidate"
 
 [[headers]]
   for = "/sitemap.xml"
   [headers.values]
     Content-Type = "application/xml"
-
-[[redirects]]
-  from = "/*"
-  to = "/:splat"
-  status = 200
-  force = false  
+    Cache-Control = "no-cache, must-revalidate"
 
 [params]
   customHead = '''
     <meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
-  '''  
+  '''
