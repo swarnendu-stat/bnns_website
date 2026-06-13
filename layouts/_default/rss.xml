@@ -1,34 +1,34 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>{{ if eq  .Title  .Site.Title }}{{ .Site.Title | html }}{{ else }}{{ with .Title }}{{ . | html }} on {{ end }}{{ .Site.Title | html }}{{ end }}</title>
-    <link>{{ .Permalink }}</link>
-    <description>Recent content {{ if ne  .Title  .Site.Title }}{{ with .Title }}in {{ . | html }} {{ end }}{{ end }}on {{ .Site.Title | html }}</description>
+    <title>{{ if eq  .Title  .Site.Title }}{{ .Site.Title | transform.XMLEscape | safeHTML }}{{ else }}{{ with .Title }}{{ . | transform.XMLEscape | safeHTML }} on {{ end }}{{ .Site.Title | transform.XMLEscape | safeHTML }}{{ end }}</title>
+    <link>{{ .Permalink | transform.XMLEscape | safeHTML }}</link>
+    <description>Recent content {{ if ne  .Title  .Site.Title }}{{ with .Title }}in {{ . | transform.XMLEscape | safeHTML }} {{ end }}{{ end }}on {{ .Site.Title | transform.XMLEscape | safeHTML }}</description>
     <generator>Hugo -- gohugo.io</generator>{{ with .Site.LanguageCode }}
     <language>{{.}}</language>{{end}}{{ with .Site.Params.author.email }}
-    <managingEditor>{{.}}{{ with $.Site.Params.author.name }} ({{ . | html }}){{end}}</managingEditor>{{end}}{{ with .Site.Params.author.email }}
-    <webMaster>{{.}}{{ with $.Site.Params.author.name }} ({{ . | html }}){{end}}</webMaster>{{end}}{{ with .Site.Copyright }}
-    <copyright>{{ . | html }}</copyright>{{end}}{{ if not .Date.IsZero }}
+    <managingEditor>{{ . | transform.XMLEscape | safeHTML }}{{ with $.Site.Params.author.name }} ({{ . | transform.XMLEscape | safeHTML }}){{end}}</managingEditor>{{end}}{{ with .Site.Params.author.email }}
+    <webMaster>{{ . | transform.XMLEscape | safeHTML }}{{ with $.Site.Params.author.name }} ({{ . | transform.XMLEscape | safeHTML }}){{end}}</webMaster>{{end}}{{ with .Site.Copyright }}
+    <copyright>{{ . | transform.XMLEscape | safeHTML }}</copyright>{{end}}{{ if not .Date.IsZero }}
     <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
     {{ with .OutputFormats.Get "RSS" }}
-        {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
+        {{ printf "<atom:link href=%q rel=\"self\" type=%q />" (.Permalink | transform.XMLEscape) (printf "%s" .MediaType | transform.XMLEscape) | safeHTML }}
     {{ end }}
     {{ range .Pages }}
     <item>
-      <title>{{ .Title | html }}</title>
-      <link>{{ .Permalink }}</link>
+      <title>{{ .Title | transform.XMLEscape | safeHTML }}</title>
+      <link>{{ .Permalink | transform.XMLEscape | safeHTML }}</link>
       <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
-      {{ with .Site.Params.author.email }}<author>{{.}}{{ with $.Site.Params.author.name }} ({{ . | html }}){{end}}</author>{{end}}
-      <guid>{{ .Permalink }}</guid>
-      <description>{{ .Summary | html }}</description>
+      {{ with .Site.Params.author.email }}<author>{{ . | transform.XMLEscape | safeHTML }}{{ with $.Site.Params.author.name }} ({{ . | transform.XMLEscape | safeHTML }}){{end}}</author>{{end}}
+      <guid>{{ .Permalink | transform.XMLEscape | safeHTML }}</guid>
+      <description>{{ .Summary | transform.XMLEscape | safeHTML }}</description>
       {{- $baseURL := trim .Site.BaseURL "/" -}}
       {{- $content := replace .Content "href=\"/" (printf "href=\"%s/" $baseURL) -}}
       {{- $content = replace $content "src=\"/" (printf "src=\"%s/" $baseURL) -}}
-      <content:encoded>{{ $content | html }}</content:encoded>
+      <content:encoded>{{ $content | transform.XMLEscape | safeHTML }}</content:encoded>
       {{ range .Params.tags }}
-            <category>{{ . | html }}</category>
+            <category>{{ . | transform.XMLEscape | safeHTML }}</category>
       {{ end }}
       {{ range .Params.categories }}
-            <category>{{ . | html }}</category>
+            <category>{{ . | transform.XMLEscape | safeHTML }}</category>
       {{ end }}
     </item>
     {{ end }}
