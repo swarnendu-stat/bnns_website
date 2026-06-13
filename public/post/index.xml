@@ -7,7 +7,7 @@
     <language>en-US</language>
     <managingEditor>swarnendu.stat@gmail.com (Swarnendu)</managingEditor>
     <webMaster>swarnendu.stat@gmail.com (Swarnendu)</webMaster>
-    <copyright>Swarnendu. All rights reserved.</copyright>
+    <copyright>Swarnendu Chatterjee. All rights reserved.</copyright>
     <lastBuildDate>Fri, 12 Jun 2026 09:00:00 +0530</lastBuildDate>
     
         <atom:link href="https://swarnendu-stat.netlify.app/post/index.xml" rel="self" type="application/rss+xml" />
@@ -26,8 +26,7 @@
 &lt;p&gt;You can install it directly from CRAN:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;install.packages&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bnns&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;what-is-bnns&#34;&gt;&lt;a href=&#34;#what-is-bnns&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;What is &lt;code&gt;bnns&lt;/code&gt;?
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;bnns&lt;/code&gt; is an R package for building Bayesian neural networks with a familiar formula interface. Under the hood, it uses &lt;code&gt;Stan&lt;/code&gt;, so the model output is not just a point prediction: it carries posterior uncertainty with it.&lt;/p&gt;</description>
-      <content:encoded>&lt;![CDATA[<p>I am happy to share that <code>bnns</code> version <code>1.0.0</code> is now available on CRAN:</p>
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;bnns&lt;/code&gt; is an R package for building Bayesian neural networks with a familiar formula interface. Under the hood, it uses &lt;code&gt;Stan&lt;/code&gt;, so the model output is not just a point prediction: it carries posterior uncertainty with it.&lt;/p&gt;</description><content:encoded>&lt;![CDATA[<p>I am happy to share that <code>bnns</code> version <code>1.0.0</code> is now available on CRAN:</p>
 <p><a class="link" href="https://cran.r-project.org/web/packages/bnns/index.html"  target="_blank" rel="noopener"
     >https://cran.r-project.org/web/packages/bnns/index.html</a></p>
 <p>CRAN lists the package publication date as June 7, 2026.</p>
@@ -103,8 +102,7 @@
       <author>swarnendu.stat@gmail.com (Swarnendu)</author>
       <guid>https://swarnendu-stat.netlify.app/post/2025-08-15-tidy-superlearner/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
-&lt;/h2&gt;&lt;p&gt;Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The &lt;code&gt;SuperLearner&lt;/code&gt; R package is a go-to for this, however it only supports &lt;strong&gt;gaussian&lt;/strong&gt; or &lt;strong&gt;binomial&lt;/strong&gt; to describe the error distribution. Using the clean, flexible &lt;code&gt;tidymodels&lt;/code&gt; framework we can implement these functionalities and also &lt;strong&gt;extend&lt;/strong&gt; it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with &lt;code&gt;tidymodels&lt;/code&gt;, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.&lt;/p&gt;</description>
-      <content:encoded>&lt;![CDATA[<h2 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
+&lt;/h2&gt;&lt;p&gt;Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The &lt;code&gt;SuperLearner&lt;/code&gt; R package is a go-to for this, however it only supports &lt;strong&gt;gaussian&lt;/strong&gt; or &lt;strong&gt;binomial&lt;/strong&gt; to describe the error distribution. Using the clean, flexible &lt;code&gt;tidymodels&lt;/code&gt; framework we can implement these functionalities and also &lt;strong&gt;extend&lt;/strong&gt; it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with &lt;code&gt;tidymodels&lt;/code&gt;, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.&lt;/p&gt;</description><content:encoded>&lt;![CDATA[<h2 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
 </h2><p>Ensemble learning is a powerful way to combine multiple machine learning models to boost predictive performance. The <code>SuperLearner</code> R package is a go-to for this, however it only supports <strong>gaussian</strong> or <strong>binomial</strong> to describe the error distribution. Using the clean, flexible <code>tidymodels</code> framework we can implement these functionalities and also <strong>extend</strong> it for multi-class classification, count data regression. In this post, I’ll walk you through how to build a SuperLearner-style ensemble model with <code>tidymodels</code>, keeping things lucid and practical. We’ll cover the key steps, share reusable code, and apply it to real datasets for binary classification, count regression, standard regression, and multi-class classification.</p>
 <h2 id="why-tidymodels-for-ensemble-learning"><a href="#why-tidymodels-for-ensemble-learning" class="header-anchor"></a>Why Tidymodels for Ensemble Learning?
 </h2><p>The <code>SuperLearner</code> package is great, but <code>tidymodels</code> offers a modular, intuitive workflow that’s perfect for building and tuning ensembles. With packages like <code>recipes</code>, <code>workflows</code>, and <code>stacks</code>, you can preprocess data, define models, and stack them into a robust ensemble with ease. Plus, <code>tidymodels</code> integrates seamlessly with modern R tools, making your code clean and reproducible.</p>
@@ -581,8 +579,7 @@ There were issues with some computations   A: x5
 &lt;/h2&gt;&lt;p&gt;Diabetes prediction models abound, but they often give us &lt;strong&gt;just a number&lt;/strong&gt;. Traditional classifiers like logistic regression or random forests will tell you, for instance, that there&amp;rsquo;s a 73% chance someone has diabetes.&lt;/p&gt;
 &lt;p&gt;But what if we asked:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;&amp;ldquo;How sure are we about that 73%?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
-      <content:encoded>&lt;![CDATA[<blockquote>
+&lt;p&gt;&lt;em&gt;&amp;ldquo;How sure are we about that 73%?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description><content:encoded>&lt;![CDATA[<blockquote>
 <p><em>In critical applications like healthcare, knowing the probability isn’t enough. Knowing how confident we are in that probability makes all the difference.</em></p>
 </blockquote>
 <hr>
@@ -735,8 +732,7 @@ $AUC
     &gt;tmle tutorial&lt;/a&gt;.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;simulating-data&#34;&gt;&lt;a href=&#34;#simulating-data&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Simulating Data
-&lt;/h2&gt;&lt;p&gt;We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.&lt;/p&gt;</description>
-      <content:encoded>&lt;![CDATA[<h2 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
+&lt;/h2&gt;&lt;p&gt;We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.&lt;/p&gt;</description><content:encoded>&lt;![CDATA[<h2 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
 </h2><p>This document demonstrates how to use the <a class="link" href="https://cran.r-project.org/package=bnns"  target="_blank" rel="noopener"
     >bnns</a> package with <strong>TMLE</strong> for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the <strong>Average Treatment Effect (ATE)</strong>. The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this <a class="link" href="https://www.khstats.com/blog/tmle/tutorial"  target="_blank" rel="noopener"
     >tmle tutorial</a>.</p>
@@ -932,8 +928,7 @@ $AUC
 &lt;h2 id=&#34;the-iris-dataset&#34;&gt;&lt;a href=&#34;#the-iris-dataset&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Iris Dataset
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;The &lt;strong&gt;iris&lt;/strong&gt; dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.&lt;/p&gt;</description>
-      <content:encoded>&lt;![CDATA[<h2 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
+&lt;p&gt;The &lt;strong&gt;iris&lt;/strong&gt; dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.&lt;/p&gt;</description><content:encoded>&lt;![CDATA[<h2 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
 </h2><p>This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.</p>
 <ul>
 <li>While dplyr is renowned for its intuitive syntax and efficiency,</li>
