@@ -30,6 +30,18 @@
     Content-Type = "application/xml; charset=UTF-8"
     Cache-Control = "no-cache, must-revalidate"
 
+[[headers]]
+  for = "/google-sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=UTF-8"
+    Cache-Control = "no-cache, must-revalidate"
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/google-sitemap.xml"
+  status = 200
+  force = true
+
 [params]
   customHead = '''
     <meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://swarnendu-stat.netlify.app/sitemap.xml
+Sitemap: https://swarnendu-stat.netlify.app/google-sitemap.xml
