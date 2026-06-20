@@ -1,0 +1,345 @@
+---
+title: "Forecasting Bike Demand with bnns 1.0.0: When the Interval Matters"
+author: "Swarnendu Chatterjee"
+date: "2026-06-20T00:01:00+0530"
+draft: false
+slug: bnns-100-bike-demand-forecasting
+categories: ["R", "Bayesian Methods", "Machine Learning"]
+tags: ["bnns", "Bayesian Neural Networks", "tidymodels", "HMC", "Forecasting"]
+description: "A practical look at bnns 1.0.0 using public bike sharing data, with tidymodels workflows, HMC-based uncertainty, custom priors, model comparison, and posterior predictive intervals."
+output: hugodown::md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4.8,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+Forecasting is rarely about producing one tidy number.
+
+If a city bike-share operator has to prepare for tomorrow morning, the next question after "what is expected demand?" is immediate: how uncertain is that forecast? A narrow interval and a wide interval can lead to different staffing, rebalancing, and maintenance decisions, even when their central forecasts are similar.
+
+That is the kind of problem where Bayesian neural networks are useful. We still want flexible non-linear prediction, but we also want uncertainty attached to each forecast. `bnns` 1.0.0 makes that workflow feel much more natural in R: it brings Bayesian neural networks into the orbit of familiar formula modeling, `tidymodels`, Stan-based HMC sampling, custom priors, posterior prediction, model comparison, plotting, and save/load workflows.
+
+In this post, we will use a publicly available dataset: the [UCI Bike Sharing dataset](https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset). It contains hourly and daily rental counts from the Capital Bikeshare system in 2011 and 2012, along with weather, calendar, and seasonal variables. The target is `cnt`, the total number of bike rentals in an hour.
+
+## The applied question
+
+Imagine we are planning bike availability across a city. We care about:
+
+1. Expected hourly rental demand.
+2. Which hours have wide uncertainty.
+3. Whether weather and calendar effects interact in ways a linear model might miss.
+4. Whether the model is confident enough for operational decisions.
+
+A point forecast can answer the first item. A Bayesian neural network can help with all four.
+
+## Getting the public data
+
+The UCI dataset is distributed as a zip file containing `hour.csv`, `day.csv`, and a readme. The hourly file is the natural choice here because bike demand changes sharply across the day.
+
+```{r load-data}
+library(readr)
+library(dplyr)
+library(lubridate)
+
+url <- "https://archive.ics.uci.edu/static/public/275/bike+sharing+dataset.zip"
+tmp <- tempfile(fileext = ".zip")
+download.file(url, tmp, mode = "wb")
+unzip(tmp, files = "hour.csv", exdir = tempdir())
+
+bikes <- read_csv(file.path(tempdir(), "hour.csv"), show_col_types = FALSE) |>
+  mutate(
+    dteday = ymd(dteday),
+    season = factor(
+      season,
+      levels = 1:4,
+      labels = c("winter", "spring", "summer", "fall")
+    ),
+    yr = factor(
+      yr,
+      levels = 0:1,
+      labels = c("2011", "2012")
+    ),
+    mnth = factor(
+      mnth,
+      levels = 1:12,
+      labels = month.abb
+    ),
+    hr = factor(
+      hr,
+      levels = 0:23,
+      labels = paste0("hour_", sprintf("%02d", 0:23))
+    ),
+    holiday = factor(
+      holiday,
+      levels = 0:1,
+      labels = c("not_holiday", "holiday")
+    ),
+    weekday = factor(
+      weekday,
+      levels = 0:6,
+      labels = c("sun", "mon", "tue", "wed", "thu", "fri", "sat")
+    ),
+    workingday = factor(
+      workingday,
+      levels = 0:1,
+      labels = c("off_day", "working_day")
+    ),
+    weathersit = factor(
+      weathersit,
+      levels = 1:4,
+      labels = c("clear", "mist", "light_precip", "heavy_precip")
+    )
+  ) |>
+  select(
+    cnt, dteday, season, yr, mnth, hr, holiday, weekday,
+    workingday, weathersit, temp, atemp, hum, windspeed
+  )
+
+dplyr::glimpse(bikes)
+```
+
+The variables are exactly the kind that make demand forecasting interesting: time of day, day type, season, temperature, humidity, wind speed, and weather situation. The original public data stores many categorical variables as integer codes, but here we immediately recode them into readable character labels before turning them into factors. That keeps the modeling recipe easier to audit, and it matches the newer `bnns` style of accepting clear string inputs instead of forcing users to remember numeric encodings.
+
+## Why `bnns` 1.0.0 fits this problem
+
+The new release is not just about fitting a neural network. The useful part is that it fits into an applied modeling loop:
+
+1. Use `recipes` to encode and normalize predictors.
+2. Use `workflows` to keep preprocessing and modeling together.
+3. Use `tune` and resampling to compare reasonable architectures.
+4. Use the `bnns` parsnip engine to run Stan-backed HMC instead of returning a single set of weights.
+5. Use posterior predictive draws to make intervals for each hour.
+6. Use `loo.bnns()` or `waic.bnns()` when comparing Bayesian fits.
+7. Save the fitted workflow with `saveRDS()` and reload it later with `readRDS()`.
+
+That is a nice change in feel. The model becomes less like a one-off script and more like an analysis object you can inspect, compare, and reuse.
+
+## A tidymodels-shaped workflow
+
+The preprocessing step is a strong use case for `tidymodels`. Categorical fields such as hour, weather situation, weekday, and season need encoding; numeric weather variables should be normalized; and the date field can be turned into useful calendar features.
+
+```{r preprocess}
+library(tidymodels)
+library(bnns)
+
+set.seed(2026)
+
+bike_split <- initial_time_split(bikes, prop = 0.8)
+bike_train <- training(bike_split)
+bike_test <- testing(bike_split)
+
+bike_recipe <-
+  recipe(cnt ~ ., data = bike_train) |>
+  step_date(dteday, features = c("dow", "month"), keep_original_cols = FALSE) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_normalize(all_numeric_predictors())
+
+prepared <- prep(bike_recipe)
+train_processed <- bake(prepared, new_data = bike_train)
+test_processed <- bake(prepared, new_data = bike_test)
+```
+
+From here, we can keep the preprocessing and model specification inside a single `workflow()`. The `bnns` engine is registered for `parsnip::mlp()`, so the model is fit through the same interface used by the rest of the `tidymodels` ecosystem. Notice that the model uses character strings such as `"relu"` and `"normal"` rather than numeric activation or prior codes. That is a small change with a large readability payoff.
+
+```{r fit-bnn, cache=TRUE}
+bnn_spec <-
+  mlp(
+    mode = "regression",
+    hidden_units = 16,
+    epochs = 400,
+    activation = "relu"
+  ) |>
+  set_engine(
+    "bnns",
+    chains = 4,
+    cores = 4,
+    warmup = 200,
+    refresh = 0,
+    seed = 2026,
+    prior_weights = list(dist = "normal", params = list(mean = 0, sd = 0.5)),
+    prior_bias = list(dist = "normal", params = list(mean = 0, sd = 1)),
+    prior_sigma = list(dist = "inv_gamma", params = list(alpha = 2, beta = 1))
+  )
+
+bnn_wf <-
+  workflow() |>
+  add_recipe(bike_recipe) |>
+  add_model(bnn_spec)
+
+fit_bnn <- fit(bnn_wf, data = bike_train)
+```
+
+The priors matter. Bike demand is not a problem where we want the model to believe every small wiggle is a real signal. Moderately regularizing priors can keep the network from overreacting to unusual hours while still allowing non-linear patterns in weather and commute timing.
+
+The sampling settings are intentionally more serious than a toy example: four chains, four cores, a long sampling run, and a substantial warmup. That gives HMC room to explore the posterior and gives us enough independent chains to check whether they agree. If the diagnostics are weak, the answer is not to trust the plot harder; it is to simplify the model, regularize more strongly, tune `hidden_units`, regularize more carefully, or run longer.
+
+## HMC is the quiet workhorse
+
+In ordinary neural networks, training usually gives us one set of weights. With `bnns`, inference is Bayesian: the model explores plausible weights and biases using HMC through Stan. That distinction changes the output.
+
+Instead of asking:
+
+> What is the predicted demand for a given hour?
+
+we can ask:
+
+> Across posterior draws, how often does demand exceed the available capacity?
+
+That second question is operational. The exact answer should come from the posterior draws, not from a made-up example in the prose.
+
+## Forecasts as distributions
+
+The prediction object contains posterior predictive draws. We can summarize each hour with a median and a credible interval.
+
+```{r predictions}
+pred_mean <- predict(fit_bnn, new_data = bike_test)
+pred_raw <- predict(fit_bnn, new_data = bike_test, type = "raw")
+pred_draws <- pred_raw$.pred[[1]]
+
+forecast <- bike_test |>
+  bind_cols(pred_mean) |>
+  mutate(
+    pred_median = apply(pred_draws, 1, median),
+    pred_lower = apply(pred_draws, 1, quantile, probs = 0.10),
+    pred_upper = apply(pred_draws, 1, quantile, probs = 0.90),
+    interval_width = pred_upper - pred_lower
+  )
+```
+
+Now the interesting cases are not only the largest forecasts. They are the largest uncertain forecasts.
+
+```{r widest-intervals}
+forecast |>
+  arrange(desc(interval_width)) |>
+  select(cnt, pred_median, pred_lower, pred_upper, interval_width) |>
+  slice_head(n = 10)
+```
+
+That table is where a Bayesian neural network starts to earn its keep. A high median with a tight interval says "prepare for this." A high median with a wide interval says "prepare, but keep an eye on the conditions." A moderate median with a wide upper tail says "this could surprise us."
+
+## Diagnostics before decisions
+
+Before using the forecast for planning, inspect convergence. The summary should show stable chains, with `Rhat` close to 1 and healthy effective sample sizes for the key parameters.
+
+```{r model-summary}
+fit_bnn |>
+  extract_fit_engine() |>
+  summary()
+```
+
+The default plot method is a good first diagnostic pass.
+
+```{r model-plot}
+fit_bnn_engine <- extract_fit_engine(fit_bnn)
+
+plot.bnns(fit_bnn_engine)
+```
+
+For the forecasting task, I also like two applied diagnostic plots: observed versus posterior median prediction, and interval width over time. The first catches systematic bias. The second shows when the model becomes uncertain.
+
+```{r observed-vs-predicted}
+library(ggplot2)
+
+forecast_plot <- forecast |>
+  mutate(row_id = row_number())
+
+ggplot(forecast_plot, aes(x = cnt, y = pred_median)) +
+  geom_abline(slope = 1, intercept = 0, color = "firebrick", linewidth = 0.8) +
+  geom_point(alpha = 0.35) +
+  labs(
+    title = "Observed vs posterior median bike demand",
+    x = "Observed hourly rentals",
+    y = "Posterior median forecast"
+  ) +
+  theme_minimal()
+```
+
+```{r interval-width}
+ggplot(forecast_plot, aes(x = row_id, y = interval_width)) +
+  geom_line(color = "steelblue", linewidth = 0.5) +
+  labs(
+    title = "Posterior predictive interval width over the test period",
+    x = "Test-set hour",
+    y = "80% interval width"
+  ) +
+  theme_minimal()
+```
+
+And for a planner, the most useful plot is often a short window of forecasts with intervals. It turns uncertainty into something you can discuss in a meeting.
+
+```{r forecast-window}
+forecast_plot |>
+  slice(1:168) |>
+  ggplot(aes(x = row_id)) +
+  geom_ribbon(aes(ymin = pred_lower, ymax = pred_upper), fill = "skyblue", alpha = 0.35) +
+  geom_line(aes(y = pred_median), color = "navy", linewidth = 0.7) +
+  geom_point(aes(y = cnt), size = 0.9, alpha = 0.55) +
+  labs(
+    title = "One week of hourly bike-demand forecasts",
+    subtitle = "Ribbon shows the 80% posterior predictive interval",
+    x = "Test-set hour",
+    y = "Bike rentals"
+  ) +
+  theme_minimal()
+```
+
+## LOO and WAIC
+
+`bnns` 1.0.0 also includes functions that are easy to forget when writing the first model but valuable when doing real work. LOO and WAIC can be time consuming for Bayesian neural networks, so I usually keep these as deliberate follow-up diagnostics rather than running them automatically while rendering a blog post.
+
+```{r loo-waic, eval=FALSE}
+fit_bnn_loo <- loo.bnns(fit_bnn_engine)
+fit_bnn_waic <- waic.bnns(fit_bnn_engine)
+
+fit_bnn_loo
+fit_bnn_waic
+```
+
+LOO and WAIC give Bayesian model-comparison summaries, which are helpful when deciding between a compact one-layer network and a more flexible two-layer network.
+
+For example, I would compare:
+
+1. A small network with one hidden layer.
+2. A two-layer network like the one above.
+3. A model with stronger priors if intervals look too wide.
+4. A model with softer priors if the forecast is consistently underfitting peak hours.
+
+The point is not to worship the most complex architecture. The point is to find a model whose predictions and uncertainty are both credible.
+
+## Saving the fitted model
+
+For an operational forecasting workflow, refitting from scratch every time you open R is painful. A fitted `tidymodels` workflow can be saved and loaded like any other R object.
+
+```{r save-load, eval=FALSE}
+saveRDS(fit_bnn, "bike_demand_bnn_workflow.rds")
+
+fit_bnn <- readRDS("bike_demand_bnn_workflow.rds")
+```
+
+That is useful if you fit the model once, inspect forecasts later, and then use the same object for diagnostics or reporting.
+
+## What makes this different from a standard neural network?
+
+For this bike-share example, the practical difference is not philosophical. It shows up in decisions:
+
+1. A standard neural network can identify busy periods.
+2. A Bayesian neural network can identify busy periods and show how uncertain each forecast is.
+3. A `tidymodels` workflow keeps the feature engineering reproducible.
+4. HMC gives posterior draws that make uncertainty visible instead of implied.
+5. LOO, WAIC, plotting, and save/load helpers make the analysis easier to audit.
+
+That combination is what makes `bnns` 1.0.0 feel ready for applied prediction problems. It is still a neural network, but it behaves like a statistical model you can question.
+
+## Closing thought
+
+Bike-share demand is a small example, but the same structure appears everywhere: emergency room arrivals, call-center volume, retail stockouts, grid load, package delivery, and public transport demand. The hard part is often not predicting the center of the distribution. The hard part is knowing when the next hour might be ordinary, and when it might stretch the system.
+
+That is where a Bayesian neural network becomes more than a flexible curve-fitting machine. With `bnns` 1.0.0, the forecast comes with a useful amount of humility.

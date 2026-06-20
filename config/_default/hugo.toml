@@ -31,6 +31,14 @@ googleAnalytics = "G-MEASUREMENT_ID"
 [module.hugoVersion]
 min = "0.163.1"
 
+# knitr/hugodown emits figures as HTML <img> tags. Goldmark removes raw HTML
+# unless it is explicitly enabled, which makes successfully generated plots
+# disappear from rendered posts.
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [mediaTypes]
   [mediaTypes."text/markdown"]
     suffixes = ["md"]

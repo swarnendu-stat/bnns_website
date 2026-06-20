@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content="A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce.">
+<title>Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations</title>
+
+<link rel='canonical' href='https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/'>
+
+<link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations">
+<meta property='og:description' content="A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce.">
+<meta property='og:url' content='https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/'>
+<meta property='og:site_name' content='Welcome to My R Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='bnns' /><meta property='article:tag' content='Bayesian Neural Networks' /><meta property='article:tag' content='tidymodels' /><meta property='article:tag' content='Small Data' /><meta property='article:tag' content='Forecasting' /><meta property='article:published_time' content='2026-06-20T00:01:00&#43;05:30'/><meta property='article:modified_time' content='2026-06-20T00:01:00&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
+<meta name="twitter:site" content="@https://x.com/SwarnenduStat">
+    <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations">
+<meta name="twitter:description" content="A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="text/markdown" href="https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/index.md">
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/">
+	<meta property="og:site_name" content="Welcome to My R Blog">
+	<meta property="og:title" content="Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations">
+	<meta property="og:description" content="A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-06-20T00:01:00+05:30">
+		<meta property="article:modified_time" content="2026-06-20T00:01:00+05:30">
+		<meta property="article:tag" content="Bnns">
+		<meta property="article:tag" content="Bayesian Neural Networks">
+		<meta property="article:tag" content="TidyModels">
+		<meta property="article:tag" content="Small Data">
+		<meta property="article:tag" content="Forecasting">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations">
+	<meta name="twitter:description" content="A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce.">
+
+
+	<meta itemprop="name" content="Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations">
+	<meta itemprop="description" content="A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce.">
+	<meta itemprop="datePublished" content="2026-06-20T00:01:00+05:30">
+	<meta itemprop="dateModified" content="2026-06-20T00:01:00+05:30">
+	<meta itemprop="wordCount" content="2419">
+	<meta itemprop="keywords" content="Bnns,Bayesian Neural Networks,TidyModels,Small Data,Forecasting">
+
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/">
+	<meta property="og:site_name" content="Welcome to My R Blog">
+	<meta property="og:title" content="Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations">
+	<meta property="og:description" content="A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-06-20T00:01:00+05:30">
+		<meta property="article:modified_time" content="2026-06-20T00:01:00+05:30">
+		<meta property="article:tag" content="Bnns">
+		<meta property="article:tag" content="Bayesian Neural Networks">
+		<meta property="article:tag" content="TidyModels">
+		<meta property="article:tag" content="Small Data">
+		<meta property="article:tag" content="Forecasting">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations">
+	<meta name="twitter:description" content="A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce.">
+
+
+	<meta itemprop="name" content="Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations">
+	<meta itemprop="description" content="A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce.">
+	<meta itemprop="datePublished" content="2026-06-20T00:01:00+05:30">
+	<meta itemprop="dateModified" content="2026-06-20T00:01:00+05:30">
+	<meta itemprop="wordCount" content="2419">
+	<meta itemprop="keywords" content="Bnns,Bayesian Neural Networks,TidyModels,Small Data,Forecasting">
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="https://github.com/swarnendu-stat.png" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">📊</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Welcome to My R Blog</a></h1>
+            <h2 class="site-description">Statistician &amp; R Enthusiast. Unlocking the power of data. I also love photography!</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/swarnendu-stat'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.linkedin.com/in/swarnendu-stat/'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="2" />
+  <line x1="8" y1="11" x2="8" y2="16" />
+  <line x1="8" y1="8" x2="8" y2="8.01" />
+  <line x1="12" y1="16" x2="12" y2="11" />
+  <path d="M16 16v-3a2 2 0 0 0 -4 0" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/shutter.and.stats?utm_source=qr&amp;igsh=bWYwdGFyMnp3M2I4'
+                        target="_blank"
+                        title="Instagram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.r-bloggers.com/'
+                        target="_blank"
+                        title="R-bloggers"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-r-bloggers" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+  <path d="M12 2.746c-6.627 0-12 3.599-12 8.037 0 3.897 4.144 7.144 9.64 7.88V16.26c-2.924-.915-4.925-2.755-4.925-4.877 0-3.035 4.084-5.494 9.12-5.494 5.038 0 8.757 1.683 8.757 5.494 0 1.976-.999 3.379-2.662 4.272.09.066.174.128.258.216.169.149.25.363.372.544 2.128-1.45 3.44-3.437 3.44-5.631 0-4.44-5.373-8.038-12-8.038zm-2.111 4.99v13.516l4.093-.002-.002-5.291h1.1c.225 0 .321.066.549.25.272.22.715.982.715.982l2.164 4.063 4.627-.002-2.864-4.826s-.086-.193-.265-.383a2.22 2.22 0 0 0-.582-.416c-.422-.214-1.149-.434-1.149-.434s3.578-.264 3.578-3.826c0-3.562-3.744-3.63-3.744-3.63zm4.127 2.93l2.478.002s1.149-.062 1.149 1.127c0 1.165-1.149 1.17-1.149 1.17h-2.478zm1.754 6.119c-.494.049-1.012.079-1.54.088v1.807a16.622 16.622 0 002.37-.473l-.471-.891s-.108-.183-.248-.394c-.039-.054-.08-.098-.111-.137z"/>
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/bayesian-methods/" >
+                Bayesian Methods
+            </a>
+        
+            <a href="/categories/machine-learning/" >
+                Machine Learning
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/bnns-100-small-data-forecasting/">Small-Data Forecasting with bnns 1.0.0: The Nile in 100 Observations</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            A compact bnns 1.0.0 example using the 100-observation Nile dataset, showing why regularization and posterior uncertainty are especially useful when data are scarce.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 20, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    12 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>Neural networks are usually introduced with large datasets. Many real analyses have the opposite problem: only a few dozen annual measurements, a costly experiment, or a rare outcome. In those settings, a flexible model can fit the observations very closely while telling us little about what will happen next.</p>
+<p>Bayesian methods are particularly valuable here. Priors regularize the model, posterior draws retain uncertainty about its weights, and posterior predictive intervals make the limits of a small dataset visible. We do not manufacture information that is not present; we express uncertainty about what the available information supports.</p>
+<p>This post uses <code>bnns</code> 1.0.0 with the <a class="link" href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/Nile.html"  target="_blank" rel="noopener"
+    ><code>Nile</code></a> dataset included with R. It contains only 100 observations: annual flow of the Nile at Aswan from 1871 through 1970. Because there is no download and the network is deliberately small, the entire post is much quicker to reproduce than a large hourly-demand example.</p>
+<h2 id="a-genuinely-small-forecasting-problem"><a href="#a-genuinely-small-forecasting-problem" class="header-anchor"></a>A genuinely small forecasting problem
+</h2><p>We predict annual flow from the year and the previous two annual flows. After constructing the lags, only 98 complete observations remain. The first 80% form the training set and the final 20% form a chronological test set.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(dplyr)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidymodels)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(bnns)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggplot2)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nile <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(
+</span></span><span style="display:flex;"><span>  year <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(<span style="color:#a6e22e">time</span>(Nile)),
+</span></span><span style="display:flex;"><span>  flow <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Nile)
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
+</span></span><span style="display:flex;"><span>    lag_1 <span style="color:#f92672">=</span> <span style="color:#a6e22e">lag</span>(flow, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>    lag_2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">lag</span>(flow, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  tidyr<span style="color:#f92672">::</span><span style="color:#a6e22e">drop_na</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nile
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; # A tibble: 98 × 4</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;     year  flow lag_1 lag_2</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  1  1873   963  1160  1120</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  2  1874  1210   963  1160</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  3  1875  1160  1210   963</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  4  1876  1160  1160  1210</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  5  1877   813  1160  1160</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  6  1878  1230   813  1160</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  7  1879  1370  1230   813</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  8  1880  1140  1370  1230</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  9  1881   995  1140  1370</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 10  1882   935   995  1140</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; # ℹ 88 more rows</span>
+</span></span></code></pre></div><p>This is an intentionally modest information set. A large network would have far more freedom than the data can justify. The goal is not to squeeze every last unit of training error from 78 or so training rows. It is to obtain a useful forecast while acknowledging how much remains unknown.</p>
+<h2 id="why-bayesian-modeling-helps-when-observations-are-scarce"><a href="#why-bayesian-modeling-helps-when-observations-are-scarce" class="header-anchor"></a>Why Bayesian modeling helps when observations are scarce
+</h2><p>Three features matter in a small sample:</p>
+<ol>
+<li><strong>Regularization through priors.</strong> Weakly informative priors keep network weights from becoming implausibly large merely to chase a handful of observations.</li>
+<li><strong>Parameter uncertainty.</strong> Rather than behaving as if one fitted set of weights were certainly correct, posterior draws retain many plausible networks.</li>
+<li><strong>Predictive uncertainty.</strong> Posterior predictive intervals combine uncertainty in the fitted relationship with irreducible year-to-year variation.</li>
+</ol>
+<p>None of these is magic. If 100 observations do not identify a pattern, a Bayesian model should usually report wide uncertainty rather than false confidence. That is a benefit, not a failure.</p>
+<h2 id="a-compact-workflow"><a href="#a-compact-workflow" class="header-anchor"></a>A compact workflow
+</h2><p>The time split prevents future observations from leaking into training. Normalization is learned from the training data and stored with the model in a <code>tidymodels</code> workflow.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">2026</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nile_split <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">initial_time_split</span>(nile, prop <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>)
+</span></span><span style="display:flex;"><span>nile_train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">training</span>(nile_split)
+</span></span><span style="display:flex;"><span>nile_test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">testing</span>(nile_split)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nile_recipe <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">recipe</span>(flow <span style="color:#f92672">~</span> year <span style="color:#f92672">+</span> lag_1 <span style="color:#f92672">+</span> lag_2, data <span style="color:#f92672">=</span> nile_train) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">step_normalize</span>(<span style="color:#a6e22e">all_numeric_predictors</span>())
+</span></span></code></pre></div><p>The network uses eight hidden units, giving it enough capacity to learn a richer non-linear relationship among year and the two lagged flows. Its normal priors still shrink weights toward zero, which discourages that added flexibility from producing an unnecessarily jagged response. We run 2,000 iterations per chain, including 1,000 warmup iterations, and use four chains on four cores so that convergence can be assessed across multiple independent trajectories. The first fit uses NUTS, Stan&rsquo;s adaptive default sampler.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>bnn_spec <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mlp</span>(
+</span></span><span style="display:flex;"><span>    mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;regression&#34;</span>,
+</span></span><span style="display:flex;"><span>    hidden_units <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>    epochs <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>,
+</span></span><span style="display:flex;"><span>    activation <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tanh&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">set_engine</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;bnns&#34;</span>,
+</span></span><span style="display:flex;"><span>    algorithm <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NUTS&#34;</span>,
+</span></span><span style="display:flex;"><span>    chains <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    cores <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    warmup <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>,
+</span></span><span style="display:flex;"><span>    refresh <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">2026</span>,
+</span></span><span style="display:flex;"><span>    prior_weights <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>      dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;normal&#34;</span>,
+</span></span><span style="display:flex;"><span>      params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(mean <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sd <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    prior_bias <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>      dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;normal&#34;</span>,
+</span></span><span style="display:flex;"><span>      params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(mean <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sd <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    prior_sigma <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>      dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;inv_gamma&#34;</span>,
+</span></span><span style="display:flex;"><span>      params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, beta <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nile_workflow <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">workflow</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">add_recipe</span>(nile_recipe) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">add_model</span>(bnn_spec)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nuts_time <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">system.time</span>({
+</span></span><span style="display:flex;"><span>  fit_bnn <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">fit</span>(nile_workflow, data <span style="color:#f92672">=</span> nile_train)
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p>The architecture is still modest by modern neural-network standards, but it is substantially more expressive than the earlier three-unit model. With limited data, the additional capacity needs restraint: the regularizing priors keep extreme weights unlikely, while the longer run gives the sampler more opportunity to explore the larger posterior.</p>
+<h2 id="forecast-distributions-not-just-point-estimates"><a href="#forecast-distributions-not-just-point-estimates" class="header-anchor"></a>Forecast distributions, not just point estimates
+</h2><p><code>bnns</code> can return posterior predictive draws for every test observation. We summarize those draws with a median and an 80% posterior predictive interval.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>pred_raw <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(fit_bnn, new_data <span style="color:#f92672">=</span> nile_test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;raw&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Depending on the parsnip version, raw engine predictions may be returned</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># directly as a matrix or wrapped in a `.pred` list-column.</span>
+</span></span><span style="display:flex;"><span>pred_draws <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">is.data.frame</span>(pred_raw) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#e6db74">&#34;.pred&#34;</span> <span style="color:#f92672">%in%</span> <span style="color:#a6e22e">names</span>(pred_raw)) {
+</span></span><span style="display:flex;"><span>  pred_raw<span style="color:#f92672">$</span>.pred[[1]]
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>  pred_raw
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pred_draws <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.matrix</span>(pred_draws)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>forecast <span style="color:#f92672">&lt;-</span> nile_test <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
+</span></span><span style="display:flex;"><span>    pred_median <span style="color:#f92672">=</span> <span style="color:#a6e22e">apply</span>(pred_draws, <span style="color:#ae81ff">1</span>, median),
+</span></span><span style="display:flex;"><span>    pred_lower <span style="color:#f92672">=</span> <span style="color:#a6e22e">apply</span>(pred_draws, <span style="color:#ae81ff">1</span>, quantile, probs <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.10</span>),
+</span></span><span style="display:flex;"><span>    pred_upper <span style="color:#f92672">=</span> <span style="color:#a6e22e">apply</span>(pred_draws, <span style="color:#ae81ff">1</span>, quantile, probs <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.90</span>)
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>forecast <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(year, flow, pred_median, pred_lower, pred_upper)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; # A tibble: 20 × 5</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;     year  flow pred_median pred_lower pred_upper</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;    &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  1  1951   744      0.0567      -1.29       1.37</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  2  1952   749      0.0496      -1.31       1.41</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  3  1953   838      0.0264      -1.35       1.49</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  4  1954  1050      0.0464      -1.33       1.46</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  5  1955   918      0.0860      -1.35       1.41</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  6  1956   986      0.0618      -1.26       1.40</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  7  1957   797      0.0646      -1.33       1.38</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  8  1958   923      0.0532      -1.30       1.43</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;  9  1959   975      0.0735      -1.36       1.44</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 10  1960   815      0.0630      -1.34       1.40</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 11  1961  1020      0.0524      -1.33       1.44</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 12  1962   906      0.0863      -1.39       1.45</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 13  1963   901      0.0599      -1.31       1.44</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 14  1964  1170      0.0523      -1.36       1.45</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 15  1965   912      0.0684      -1.42       1.49</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 16  1966   746      0.0449      -1.36       1.53</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 17  1967   919      0.0504      -1.39       1.49</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 18  1968   718      0.0608      -1.43       1.50</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 19  1969   714      0.0468      -1.42       1.51</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 20  1970   740      0.0359      -1.45       1.57</span>
+</span></span></code></pre></div><p>The interval is the main event. With fewer than 80 training observations, a precise-looking point prediction can be seductive. The posterior predictive interval puts the missing information back into the result.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(forecast, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_ribbon</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">aes</span>(ymin <span style="color:#f92672">=</span> pred_lower, ymax <span style="color:#f92672">=</span> pred_upper),
+</span></span><span style="display:flex;"><span>    fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;skyblue&#34;</span>,
+</span></span><span style="display:flex;"><span>    alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.35</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_line</span>(<span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> pred_median), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;navy&#34;</span>, linewidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> flow), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.8</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Nile flow forecasts from a small Bayesian neural network&#34;</span>,
+</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Points are observed flows; the ribbon is an 80% posterior predictive interval&#34;</span>,
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Annual flow&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/index_files/figure-html/forecast-plot-1.png" alt="" width="672" />
+<p>We can also inspect empirical coverage on the held-out years. With such a small test set, this is a descriptive check rather than a definitive calibration study.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>forecast <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(
+</span></span><span style="display:flex;"><span>    test_years <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>(),
+</span></span><span style="display:flex;"><span>    rmse <span style="color:#f92672">=</span> yardstick<span style="color:#f92672">::</span><span style="color:#a6e22e">rmse_vec</span>(flow, pred_median),
+</span></span><span style="display:flex;"><span>    interval_coverage <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(flow <span style="color:#f92672">&gt;=</span> pred_lower <span style="color:#f92672">&amp;</span> flow <span style="color:#f92672">&lt;=</span> pred_upper),
+</span></span><span style="display:flex;"><span>    mean_interval_width <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(pred_upper <span style="color:#f92672">-</span> pred_lower)
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; # A tibble: 1 × 4</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   test_years  rmse interval_coverage mean_interval_width</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;        &lt;int&gt; &lt;dbl&gt;             &lt;dbl&gt;               &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 1         20  885.                 0                2.81</span>
+</span></span></code></pre></div><h2 id="diagnostics-still-come-first"><a href="#diagnostics-still-come-first" class="header-anchor"></a>Diagnostics still come first
+</h2><p>A Bayesian label does not guarantee a trustworthy fit. Check that the chains mixed adequately, that <code>Rhat</code> values are close to 1, and that effective sample sizes are reasonable. Divergences or unstable chains are reasons to revisit the model, priors, or sampling settings.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>fit_bnn_engine <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">extract_fit_engine</span>(fit_bnn)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">summary</span>(fit_bnn_engine)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Call:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; bnns.default(formula = ..y ~ ., data = data, L = 1L, nodes = ~8, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;     act_fn = ~&#34;tanh&#34;, out_act_fn = 1L, algorithm = ~&#34;NUTS&#34;, iter = ~2000, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;     warmup = ~1000, chains = ~4, cores = ~4, seed = ~2026, prior_weights = ~list(dist = &#34;normal&#34;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;         params = list(mean = 0, sd = 0.5)), prior_bias = ~list(dist = &#34;normal&#34;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;         params = list(mean = 0, sd = 0.5)), prior_sigma = ~list(dist = &#34;inv_gamma&#34;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;         params = list(alpha = 2, beta = 1)), refresh = ~0)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Data Summary:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Number of observations: 78 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Number of features: 4 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Network Architecture:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Number of hidden layers: 1 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Nodes per layer: 8 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Activation functions: 1 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Output activation function: 1 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Posterior Summary (Key Parameters):</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;                   mean     se_mean         sd        2.5%         25%</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[1]  2.710486e-03 0.005444289  0.5011668  -0.9598997  -0.3400081</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[2]  4.868266e-03 0.005689320  0.4976867  -0.9607705  -0.3439657</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[3] -1.469647e-03 0.006604719  0.5149862  -1.0023053  -0.3532501</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[4]  3.245075e-03 0.005365046  0.5015748  -0.9458887  -0.3498741</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[5] -1.703829e-03 0.005662699  0.4922698  -0.9673156  -0.3255839</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[6]  6.696797e-04 0.005744919  0.4931042  -0.9621819  -0.3277282</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[7] -5.943764e-03 0.006383639  0.4865901  -0.9592106  -0.3310366</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[8]  8.066782e-03 0.005600673  0.4874939  -0.9372709  -0.3127229</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; b_out[1]  2.186273e-02 0.005846504  0.5113372  -0.9935038  -0.3234201</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; sigma     9.363037e+02 0.922936570 74.9188984 803.9786847 882.9968567</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;                    50%         75%        97.5%    n_eff      Rhat</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[1]  1.069027e-03   0.3454954    0.9861609 8473.878 0.9993319</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[2] -1.373641e-04   0.3514446    0.9775104 7652.290 0.9993163</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[3] -1.307828e-03   0.3458885    0.9958171 6079.706 0.9991824</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[4]  1.036443e-02   0.3472721    0.9769991 8740.263 0.9996456</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[5] -2.593602e-03   0.3157479    0.9742774 7557.173 0.9996604</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[6] -4.968050e-04   0.3364999    0.9673024 7367.322 0.9992239</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[7] -1.057651e-02   0.3234840    0.9669021 5810.185 0.9997441</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[8]  7.524713e-03   0.3319302    0.9323448 7576.316 0.9993333</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; b_out[1]  2.028665e-02   0.3775983    0.9993081 7649.312 0.9996142</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; sigma     9.317721e+02 983.6498413 1097.0060903 6589.297 0.9992571</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Model Fit Information:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Iterations: 2000 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Warmup: 1000 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Thinning: 1 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Chains: 4 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Predictive Performance:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; RMSE (training): 940.9852 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; MAE (training): 924.4941 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Notes:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Check convergence diagnostics for parameters with high R-hat values.</span>
+</span></span></code></pre></div><p>The <code>bnns</code> plot method makes the sampler diagnostics much easier to inspect. Calling the standard <code>plot()</code> generic below dispatches to <code>plot.bnns()</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(
+</span></span><span style="display:flex;"><span>  fit_bnn_engine,
+</span></span><span style="display:flex;"><span>  type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;trace&#34;</span>,
+</span></span><span style="display:flex;"><span>  pars <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;b_out&#34;</span>, <span style="color:#e6db74">&#34;sigma&#34;</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/index_files/figure-html/bnns-trace-plot-1.png" alt="" width="672" />
+<p>Trace plots should look like overlapping, stationary bands rather than chains occupying separate regions. The corresponding density plot provides another view of agreement among chains.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(
+</span></span><span style="display:flex;"><span>  fit_bnn_engine,
+</span></span><span style="display:flex;"><span>  type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;density&#34;</span>,
+</span></span><span style="display:flex;"><span>  pars <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;b_out&#34;</span>, <span style="color:#e6db74">&#34;sigma&#34;</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/index_files/figure-html/bnns-density-plot-1.png" alt="" width="672" />
+<p>Finally, a posterior predictive check compares replicated outcomes from the fitted model with the observed training outcomes. Large systematic differences suggest that the network or likelihood is missing an important feature of the data.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(fit_bnn_engine, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;posterior_predictive&#34;</span>)
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/index_files/figure-html/bnns-ppc-plot-1.png" alt="" width="672" />
+<h2 id="nuts-versus-fixed-trajectory-hmc"><a href="#nuts-versus-fixed-trajectory-hmc" class="header-anchor"></a>NUTS versus fixed-trajectory HMC
+</h2><p>NUTS is itself a form of Hamiltonian Monte Carlo. It automatically adapts the trajectory length during warmup, avoiding the need to choose that important tuning quantity manually. Here, “HMC” refers to Stan&rsquo;s fixed-trajectory HMC option. To make the comparison fair, the second fit uses the same data, architecture, priors, iterations, warmup, and four chains; only the sampling algorithm changes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>hmc_spec <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mlp</span>(
+</span></span><span style="display:flex;"><span>    mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;regression&#34;</span>,
+</span></span><span style="display:flex;"><span>    hidden_units <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>    epochs <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>,
+</span></span><span style="display:flex;"><span>    activation <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tanh&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">set_engine</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;bnns&#34;</span>,
+</span></span><span style="display:flex;"><span>    algorithm <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;HMC&#34;</span>,
+</span></span><span style="display:flex;"><span>    chains <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    cores <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    warmup <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>,
+</span></span><span style="display:flex;"><span>    refresh <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">2027</span>,
+</span></span><span style="display:flex;"><span>    prior_weights <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>      dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;normal&#34;</span>,
+</span></span><span style="display:flex;"><span>      params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(mean <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sd <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    prior_bias <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>      dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;normal&#34;</span>,
+</span></span><span style="display:flex;"><span>      params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(mean <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sd <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    prior_sigma <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>      dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;inv_gamma&#34;</span>,
+</span></span><span style="display:flex;"><span>      params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, beta <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hmc_workflow <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">workflow</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">add_recipe</span>(nile_recipe) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">add_model</span>(hmc_spec)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hmc_time <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">system.time</span>({
+</span></span><span style="display:flex;"><span>  fit_hmc <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">fit</span>(hmc_workflow, data <span style="color:#f92672">=</span> nile_train)
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>fit_hmc_engine <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">extract_fit_engine</span>(fit_hmc)
+</span></span></code></pre></div><p>We compare held-out accuracy, interval coverage, interval width, and elapsed fitting time. Similar predictive summaries are reassuring: they indicate that the substantive conclusion is not being driven by the sampler choice. Runtime alone should never decide the winner; convergence diagnostics and effective sample sizes matter first.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>summarise_sampler <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(fitted_workflow, sampler, elapsed) {
+</span></span><span style="display:flex;"><span>  raw <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(fitted_workflow, new_data <span style="color:#f92672">=</span> nile_test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;raw&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  draws <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">is.data.frame</span>(raw) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#e6db74">&#34;.pred&#34;</span> <span style="color:#f92672">%in%</span> <span style="color:#a6e22e">names</span>(raw)) {
+</span></span><span style="display:flex;"><span>    raw<span style="color:#f92672">$</span>.pred[[1]]
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    raw
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  draws <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.matrix</span>(draws)
+</span></span><span style="display:flex;"><span>  centre <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">apply</span>(draws, <span style="color:#ae81ff">1</span>, median)
+</span></span><span style="display:flex;"><span>  lower <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">apply</span>(draws, <span style="color:#ae81ff">1</span>, quantile, probs <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.10</span>)
+</span></span><span style="display:flex;"><span>  upper <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">apply</span>(draws, <span style="color:#ae81ff">1</span>, quantile, probs <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.90</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tibble</span>(
+</span></span><span style="display:flex;"><span>    sampler <span style="color:#f92672">=</span> sampler,
+</span></span><span style="display:flex;"><span>    rmse <span style="color:#f92672">=</span> yardstick<span style="color:#f92672">::</span><span style="color:#a6e22e">rmse_vec</span>(nile_test<span style="color:#f92672">$</span>flow, centre),
+</span></span><span style="display:flex;"><span>    interval_coverage <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(
+</span></span><span style="display:flex;"><span>      nile_test<span style="color:#f92672">$</span>flow <span style="color:#f92672">&gt;=</span> lower <span style="color:#f92672">&amp;</span> nile_test<span style="color:#f92672">$</span>flow <span style="color:#f92672">&lt;=</span> upper
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    mean_interval_width <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(upper <span style="color:#f92672">-</span> lower),
+</span></span><span style="display:flex;"><span>    elapsed_seconds <span style="color:#f92672">=</span> <span style="color:#a6e22e">unname</span>(elapsed[[<span style="color:#e6db74">&#34;elapsed&#34;</span>]])
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sampler_comparison <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise_sampler</span>(fit_bnn, <span style="color:#e6db74">&#34;NUTS&#34;</span>, nuts_time),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise_sampler</span>(fit_hmc, <span style="color:#e6db74">&#34;HMC&#34;</span>, hmc_time)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sampler_comparison
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; # A tibble: 2 × 5</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   sampler  rmse interval_coverage mean_interval_width elapsed_seconds</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   &lt;chr&gt;   &lt;dbl&gt;             &lt;dbl&gt;               &lt;dbl&gt;           &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 1 NUTS     885.                 0                2.81            49.9</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 2 HMC      886.                 0                2.78            14.2</span>
+</span></span></code></pre></div><p>The two posterior predictive medians can also be compared year by year. They need not be identical—Monte Carlo sampling introduces variation—but major systematic disagreement would call for closer examination of trace plots, divergences, and effective sample sizes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>nuts_median <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">apply</span>(pred_draws, <span style="color:#ae81ff">1</span>, median)
+</span></span><span style="display:flex;"><span>hmc_raw <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(fit_hmc, new_data <span style="color:#f92672">=</span> nile_test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;raw&#34;</span>)
+</span></span><span style="display:flex;"><span>hmc_draws <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">is.data.frame</span>(hmc_raw) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#e6db74">&#34;.pred&#34;</span> <span style="color:#f92672">%in%</span> <span style="color:#a6e22e">names</span>(hmc_raw)) {
+</span></span><span style="display:flex;"><span>  hmc_raw<span style="color:#f92672">$</span>.pred[[1]]
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>  hmc_raw
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>hmc_median <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">as.matrix</span>(hmc_draws), <span style="color:#ae81ff">1</span>, median)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">tibble</span>(
+</span></span><span style="display:flex;"><span>  year <span style="color:#f92672">=</span> <span style="color:#a6e22e">rep</span>(nile_test<span style="color:#f92672">$</span>year, <span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>  predicted_flow <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(nuts_median, hmc_median),
+</span></span><span style="display:flex;"><span>  sampler <span style="color:#f92672">=</span> <span style="color:#a6e22e">rep</span>(<span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;NUTS&#34;</span>, <span style="color:#e6db74">&#34;HMC&#34;</span>), each <span style="color:#f92672">=</span> <span style="color:#a6e22e">nrow</span>(nile_test))
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, predicted_flow, color <span style="color:#f92672">=</span> sampler)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_line</span>(linewidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.5</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> nile_test,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">aes</span>(year, flow),
+</span></span><span style="display:flex;"><span>    inherit.aes <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>,
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;grey30&#34;</span>,
+</span></span><span style="display:flex;"><span>    shape <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Held-out predictions from NUTS and HMC&#34;</span>,
+</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Crosses show observed annual Nile flow&#34;</span>,
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Posterior median flow&#34;</span>,
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-small-data-forecasting/index_files/figure-html/compare-sampler-plot-1.png" alt="" width="672" />
+<p>LOO and WAIC are useful for comparing Bayesian models, but they add work and are therefore left unevaluated during rendering.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">loo.bnns</span>(fit_bnn_engine)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">waic.bnns</span>(fit_bnn_engine)
+</span></span></code></pre></div><h2 id="what-the-small-dataset-changes"><a href="#what-the-small-dataset-changes" class="header-anchor"></a>What the small dataset changes
+</h2><p>With thousands of observations, a flexible predictor may be able to learn complex interactions directly. With 100 observations, the priorities shift:</p>
+<ol>
+<li>Use a compact architecture rather than searching a large grid of networks.</li>
+<li>Choose priors that encode reasonable scales and discourage extreme weights.</li>
+<li>Preserve chronological separation between training and testing.</li>
+<li>Report posterior predictive intervals alongside point summaries.</li>
+<li>Treat model diagnostics and sensitivity to priors as part of the result.</li>
+</ol>
+<p>This is where Bayesian neural networks are most intellectually honest. They allow non-linearity, but they do not require us to pretend that a small sample determines one exact curve.</p>
+<h2 id="saving-the-fitted-workflow"><a href="#saving-the-fitted-workflow" class="header-anchor"></a>Saving the fitted workflow
+</h2><p>The fitted preprocessing and model can be saved together, so the HMC fit need not be repeated merely to revisit a plot.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">saveRDS</span>(fit_bnn, <span style="color:#e6db74">&#34;nile_small_data_bnn.rds&#34;</span>)
+</span></span><span style="display:flex;"><span>fit_bnn <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#e6db74">&#34;nile_small_data_bnn.rds&#34;</span>)
+</span></span></code></pre></div><h2 id="closing-thought"><a href="#closing-thought" class="header-anchor"></a>Closing thought
+</h2><p>Small datasets are not an edge case. They arise whenever measurements are expensive, events are rare, or the scientifically relevant time scale is long. In those settings, uncertainty is not decorative output attached to a forecast; it is part of the forecast.</p>
+<p>The 100-observation Nile series makes the point cleanly. A small <code>bnns</code> model can describe a flexible relationship, priors can prevent that flexibility from running wild, and posterior predictions can show how much the data do—and do not—tell us. That calibrated humility is one of the strongest reasons to use Bayesian methods when data are scarce.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/bnns/">Bnns</a>
+        
+            <a href="/tags/bayesian-neural-networks/">Bayesian Neural Networks</a>
+        
+            <a href="/tags/tidymodels/">TidyModels</a>
+        
+            <a href="/tags/small-data/">Small Data</a>
+        
+            <a href="/tags/forecasting/">Forecasting</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/post/bnns-cran-release/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">bnns 1.0.0 is now on CRAN</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/post/bnns-binary-classification/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/post/bnns-for-tmle/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Using bnns for TMLE</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Swarnendu Chatterjee. All rights reserved.
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://www.r-bloggers.com/" target="_blank">R Bloggers</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
