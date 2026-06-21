@@ -1,7 +1,4 @@
-[params]
-  customHead = '''
-    <meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
-  '''  
+favicon = "/favicon.ico"
 
 [ananke]
 show_recent_posts = true # show recent posts on the homepage
