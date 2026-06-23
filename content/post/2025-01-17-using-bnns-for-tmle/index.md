@@ -5,7 +5,7 @@ date: "2025-01-17T23:24:25+0530"
 draft: false
 slug: "bnns-for-tmle"
 categories: ["R", "bnns", "neural network", "Bayesian", "tmle"]
-tags: ["bnns", "neural network", "Bayesian", "tmle"]
+tags: ["R", "bnns", "neural network", "Bayesian", "tmle"]
 output: hugodown::md_document
 ---
 

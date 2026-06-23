@@ -3,14 +3,14 @@ title: Tidy SuperLearner
 author: 'Swarnendu Chatterjee'
 date: '2025-08-17T09:00:00+0530'
 draft: false
-slug: [tidy-superlearner]
+slug: tidy-superlearner
 categories: ["Machine Learning", "TidyModels", "SuperLearner"]
 tags: ["R", "Machine Learning", "TidyModels", "SuperLearner"]
 description: ~
 image: ~
 math: ~
 license: ~
-hidden: no
+hidden: false
 comments: yes
 ---
 

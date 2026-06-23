@@ -5,7 +5,7 @@ date: "2026-06-20T00:01:00+0530"
 draft: false
 slug: bnns-100-wisconsin-breast-cancer
 categories: ["R", "Bayesian Methods", "Machine Learning"]
-tags: ["bnns", "Bayesian Neural Networks", "Small Data", "Classification", "Breast Cancer"]
+tags: ["R", "bnns", "Bayesian Neural Networks", "Small Data", "Classification", "Breast Cancer"]
 description: "A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0."
 output: hugodown::md_document
 ---
