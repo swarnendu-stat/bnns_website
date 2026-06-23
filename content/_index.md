@@ -1,10 +1,10 @@
 ---
-title: "Welcome to My R Blog"
+title: "Welcome to SC Perspective"
 description: "Your go-to resource for R programming tutorials, statistical modeling, and data science insights."
 type: docs
 ---
 
-# Welcome to My R Blog
+# Welcome to SC Perspective
 
 Dive into the world of R programming! This blog is your resource for practical tutorials, expert insights, and tips on statistical modeling, data science, and machine learning with R. Whether you're a beginner or an advanced user, there's something here for you.
 

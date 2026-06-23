@@ -2,27 +2,31 @@
 <html lang="en-US" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.\nWhile dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.\nThe Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.\n">
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content="Introduction\rThis presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.\nWhile dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.\nThe Iris Dataset\rThe iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.\n">
 <title>Power of Base R: A Performance Comparison with dplyr</title>
 
 <link rel='canonical' href='https://swarnendu-stat.netlify.app/post/power-of-base-r/'>
 
-<link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Power of Base R: A Performance Comparison with dplyr">
-<meta property='og:description' content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.\nWhile dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.\nThe Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.\n">
+<link rel="stylesheet" href="/scss/style.min.b1a5b48e9268da293f0e82d09fd1299e5ecbd5ea47ba1f408b3687d520ce0c2b.css"><meta property='og:title' content="Power of Base R: A Performance Comparison with dplyr">
+<meta property='og:description' content="Introduction\rThis presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.\nWhile dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.\nThe Iris Dataset\rThe iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.\n">
 <meta property='og:url' content='https://swarnendu-stat.netlify.app/post/power-of-base-r/'>
-<meta property='og:site_name' content='Welcome to My R Blog'>
+<meta property='og:site_name' content='SC Perspective'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='R' /><meta property='article:tag' content='dplyr' /><meta property='article:tag' content='tidyverse' /><meta property='article:tag' content='base R' /><meta property='article:published_time' content='2025-01-17T22:32:22&#43;05:30'/><meta property='article:modified_time' content='2025-01-17T22:32:22&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
 <meta name="twitter:site" content="@https://x.com/SwarnenduStat">
     <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="Power of Base R: A Performance Comparison with dplyr">
-<meta name="twitter:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.\nWhile dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.\nThe Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Introduction\rThis presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.\nWhile dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.\nThe Iris Dataset\rThe iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="text/markdown" href="https://swarnendu-stat.netlify.app/post/power-of-base-r/index.md">
-    <link rel="shortcut icon" href="/static/favicon.ico" />
-<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/power-of-base-r/">
-	<meta property="og:site_name" content="Welcome to My R Blog">
+    <link rel="shortcut icon" href="/favicon.ico" />
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/power-of-base-r/">
+	<meta property="og:site_name" content="SC Perspective">
 	<meta property="og:title" content="Power of Base R: A Performance Comparison with dplyr">
-	<meta property="og:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
+	<meta property="og:description" content="IntroductionThis presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
 While dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
-The Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
+The Iris DatasetThe iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
 	<meta property="og:locale" content="en_US">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="post">
@@ -36,26 +40,30 @@ The Iris Dataset The iris dataset is a classic dataset in statistics and machine
 
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Power of Base R: A Performance Comparison with dplyr">
-	<meta name="twitter:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
+	<meta name="twitter:description" content="IntroductionThis presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
 While dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
-The Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
+The Iris DatasetThe iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
 
 
 	<meta itemprop="name" content="Power of Base R: A Performance Comparison with dplyr">
-	<meta itemprop="description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
+	<meta itemprop="description" content="IntroductionThis presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
 While dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
-The Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
+The Iris DatasetThe iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
 	<meta itemprop="datePublished" content="2025-01-17T22:32:22+05:30">
 	<meta itemprop="dateModified" content="2025-01-17T22:32:22+05:30">
 	<meta itemprop="wordCount" content="1786">
 	<meta itemprop="keywords" content="R,Dplyr,Tidyverse,Base R">
 
-<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/power-of-base-r/">
-	<meta property="og:site_name" content="Welcome to My R Blog">
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/power-of-base-r/">
+	<meta property="og:site_name" content="SC Perspective">
 	<meta property="og:title" content="Power of Base R: A Performance Comparison with dplyr">
-	<meta property="og:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
+	<meta property="og:description" content="IntroductionThis presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
 While dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
-The Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
+The Iris DatasetThe iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
 	<meta property="og:locale" content="en_US">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="post">
@@ -69,15 +77,15 @@ The Iris Dataset The iris dataset is a classic dataset in statistics and machine
 
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Power of Base R: A Performance Comparison with dplyr">
-	<meta name="twitter:description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
+	<meta name="twitter:description" content="IntroductionThis presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
 While dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
-The Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
+The Iris DatasetThe iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
 
 
 	<meta itemprop="name" content="Power of Base R: A Performance Comparison with dplyr">
-	<meta itemprop="description" content="Introduction This presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
+	<meta itemprop="description" content="IntroductionThis presentation explores the performance differences between base R and the dplyr package for various data manipulation tasks.
 While dplyr is renowned for its intuitive syntax and efficiency, base R functions can sometimes outperform it, particularly in large simulations. Understanding these differences can aid in making informed decisions when choosing data wrangling techniques.
-The Iris Dataset The iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
+The Iris DatasetThe iris dataset is a classic dataset in statistics and machine learning, often used for demonstrating data manipulation and analysis techniques.">
 	<meta itemprop="datePublished" content="2025-01-17T22:32:22+05:30">
 	<meta itemprop="dateModified" content="2025-01-17T22:32:22+05:30">
 	<meta itemprop="wordCount" content="1786">
@@ -134,7 +142,7 @@ The Iris Dataset The iris dataset is a classic dataset in statistics and machine
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">Welcome to My R Blog</a></h1>
+            <h1 class="site-name"><a href="/">SC Perspective</a></h1>
             <h2 class="site-description">Statistician &amp; R Enthusiast. Unlocking the power of data. I also love photography!</h2>
         </div>
     </header><ol class="menu-social">
@@ -216,7 +224,9 @@ The Iris Dataset The iris dataset is a classic dataset in statistics and machine
                     </a>
                 </li>
             
-        </ol><ol class="menu" id="main-menu">
+        </ol><div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="swarnendu-stat" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://in.linkedin.com/in/swarnendu-stat?trk=profile-badge">swarnendu chatterjee</a></div>
+
+    <ol class="menu" id="main-menu">
         
         
         

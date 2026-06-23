@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content="A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0.">
+<title>bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations</title>
+
+<link rel='canonical' href='https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/'>
+
+<link rel="stylesheet" href="/scss/style.min.b1a5b48e9268da293f0e82d09fd1299e5ecbd5ea47ba1f408b3687d520ce0c2b.css"><meta property='og:title' content="bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations">
+<meta property='og:description' content="A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0.">
+<meta property='og:url' content='https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/'>
+<meta property='og:site_name' content='SC Perspective'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='bnns' /><meta property='article:tag' content='Bayesian Neural Networks' /><meta property='article:tag' content='Small Data' /><meta property='article:tag' content='Classification' /><meta property='article:tag' content='Breast Cancer' /><meta property='article:published_time' content='2026-06-20T00:01:00&#43;05:30'/><meta property='article:modified_time' content='2026-06-20T00:01:00&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
+<meta name="twitter:site" content="@https://x.com/SwarnenduStat">
+    <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations">
+<meta name="twitter:description" content="A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="text/markdown" href="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/index.md">
+    <link rel="shortcut icon" href="/favicon.ico" />
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/">
+	<meta property="og:site_name" content="SC Perspective">
+	<meta property="og:title" content="bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations">
+	<meta property="og:description" content="A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-06-20T00:01:00+05:30">
+		<meta property="article:modified_time" content="2026-06-20T00:01:00+05:30">
+		<meta property="article:tag" content="Bnns">
+		<meta property="article:tag" content="Bayesian Neural Networks">
+		<meta property="article:tag" content="Small Data">
+		<meta property="article:tag" content="Classification">
+		<meta property="article:tag" content="Breast Cancer">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations">
+	<meta name="twitter:description" content="A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0.">
+
+
+	<meta itemprop="name" content="bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations">
+	<meta itemprop="description" content="A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0.">
+	<meta itemprop="datePublished" content="2026-06-20T00:01:00+05:30">
+	<meta itemprop="dateModified" content="2026-06-20T00:01:00+05:30">
+	<meta itemprop="wordCount" content="3061">
+	<meta itemprop="keywords" content="Bnns,Bayesian Neural Networks,Small Data,Classification,Breast Cancer">
+
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/">
+	<meta property="og:site_name" content="SC Perspective">
+	<meta property="og:title" content="bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations">
+	<meta property="og:description" content="A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-06-20T00:01:00+05:30">
+		<meta property="article:modified_time" content="2026-06-20T00:01:00+05:30">
+		<meta property="article:tag" content="Bnns">
+		<meta property="article:tag" content="Bayesian Neural Networks">
+		<meta property="article:tag" content="Small Data">
+		<meta property="article:tag" content="Classification">
+		<meta property="article:tag" content="Breast Cancer">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations">
+	<meta name="twitter:description" content="A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0.">
+
+
+	<meta itemprop="name" content="bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations">
+	<meta itemprop="description" content="A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0.">
+	<meta itemprop="datePublished" content="2026-06-20T00:01:00+05:30">
+	<meta itemprop="dateModified" content="2026-06-20T00:01:00+05:30">
+	<meta itemprop="wordCount" content="3061">
+	<meta itemprop="keywords" content="Bnns,Bayesian Neural Networks,Small Data,Classification,Breast Cancer">
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="https://github.com/swarnendu-stat.png" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">📊</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">SC Perspective</a></h1>
+            <h2 class="site-description">Statistician &amp; R Enthusiast. Unlocking the power of data. I also love photography!</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/swarnendu-stat'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.linkedin.com/in/swarnendu-stat/'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="2" />
+  <line x1="8" y1="11" x2="8" y2="16" />
+  <line x1="8" y1="8" x2="8" y2="8.01" />
+  <line x1="12" y1="16" x2="12" y2="11" />
+  <path d="M16 16v-3a2 2 0 0 0 -4 0" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/shutter.and.stats?utm_source=qr&amp;igsh=bWYwdGFyMnp3M2I4'
+                        target="_blank"
+                        title="Instagram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.r-bloggers.com/'
+                        target="_blank"
+                        title="R-bloggers"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-r-bloggers" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+  <path d="M12 2.746c-6.627 0-12 3.599-12 8.037 0 3.897 4.144 7.144 9.64 7.88V16.26c-2.924-.915-4.925-2.755-4.925-4.877 0-3.035 4.084-5.494 9.12-5.494 5.038 0 8.757 1.683 8.757 5.494 0 1.976-.999 3.379-2.662 4.272.09.066.174.128.258.216.169.149.25.363.372.544 2.128-1.45 3.44-3.437 3.44-5.631 0-4.44-5.373-8.038-12-8.038zm-2.111 4.99v13.516l4.093-.002-.002-5.291h1.1c.225 0 .321.066.549.25.272.22.715.982.715.982l2.164 4.063 4.627-.002-2.864-4.826s-.086-.193-.265-.383a2.22 2.22 0 0 0-.582-.416c-.422-.214-1.149-.434-1.149-.434s3.578-.264 3.578-3.826c0-3.562-3.744-3.63-3.744-3.63zm4.127 2.93l2.478.002s1.149-.062 1.149 1.127c0 1.165-1.149 1.17-1.149 1.17h-2.478zm1.754 6.119c-.494.049-1.012.079-1.54.088v1.807a16.622 16.622 0 002.37-.473l-.471-.891s-.108-.183-.248-.394c-.039-.054-.08-.098-.111-.137z"/>
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+        </ol><div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="swarnendu-stat" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://in.linkedin.com/in/swarnendu-stat?trk=profile-badge">swarnendu chatterjee</a></div>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/r/" >
+                R
+            </a>
+        
+            <a href="/categories/bayesian-methods/" >
+                Bayesian Methods
+            </a>
+        
+            <a href="/categories/machine-learning/" >
+                Machine Learning
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/bnns-100-wisconsin-breast-cancer/">bnns 1.0.0 with tidymodels: Wisconsin Breast Cancer in 100 Observations</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            A small-data classification example highlighting the new tidymodels integration, prediction methods, diagnostics, and model utilities in bnns 1.0.0.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 20, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    15 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>Neural networks are usually introduced with large datasets. Many real analyses have the opposite problem: observations may be expensive, outcomes may be rare, or only a small pilot study may be available. In those settings, a flexible classifier can fit the training cases closely while being much less certain about new ones.</p>
+<p>Bayesian methods are particularly valuable here. Priors regularize the model, posterior draws retain uncertainty about its weights, and intervals around predicted probabilities make the limits of a small dataset visible. We do not manufacture information that is not present; we express uncertainty about what the available information supports.</p>
+<p>This post uses a stratified 100-case sample from the Wisconsin Breast Cancer dataset to highlight what is new in <code>bnns</code> 1.0.0. Most importantly, <code>bnns</code> is now a fully registered <code>parsnip</code> engine. Bayesian neural networks can be specified with <code>mlp()</code>, combined with <code>recipes</code> and <code>workflows</code>, evaluated with <code>yardstick</code>, and tuned with the broader tidymodels ecosystem.</p>
+<p>Version 1.0.0 also adds <code>plot.bnns()</code> diagnostics, LOO and WAIC model assessment, dedicated save/load helpers, character activation names, and optional GPU acceleration through OpenCL and <code>cmdstanr</code>. The example below keeps the model deliberately compact while demonstrating the features that fit naturally into one reproducible workflow.</p>
+<p>This is an educational demonstration, not a clinical decision tool. The data describe digitized characteristics of fine-needle aspirates, and a real diagnostic workflow requires external validation, careful calibration, and clinical oversight.</p>
+<h2 id="a-genuinely-small-classification-problem"><a href="#a-genuinely-small-classification-problem" class="header-anchor"></a>A genuinely small classification problem
+</h2><p>The <code>BreastCancer</code> data in the <code>mlbench</code> package contain 699 cases before incomplete rows are removed. Nine ordinal cytology measurements take values from 1 to 10, and the outcome records whether the tumor was benign or malignant. We remove the sample identifier, discard rows with missing measurements, convert the predictors to numeric values, and encode malignancy as 1.</p>
+<p>To preserve the small-data theme, we draw 100 cases with roughly the same class balance as the complete dataset: 65 benign and 35 malignant observations. This deliberate restriction mimics an early-stage study in which only a modest labeled sample is available.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(bnns)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(mlbench)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidymodels)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">data</span>(<span style="color:#e6db74">&#34;BreastCancer&#34;</span>, package <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;mlbench&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>breast_cancer_all <span style="color:#f92672">&lt;-</span> BreastCancer <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>Id) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  tidyr<span style="color:#f92672">::</span><span style="color:#a6e22e">drop_na</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">across</span>(<span style="color:#f92672">-</span>Class, <span style="color:#f92672">~</span> <span style="color:#a6e22e">as.numeric</span>(<span style="color:#a6e22e">as.character</span>(.x))),
+</span></span><span style="display:flex;"><span>    diagnosis <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(Class, levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;malignant&#34;</span>, <span style="color:#e6db74">&#34;benign&#34;</span>))
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>Class)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">2026</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>breast_cancer <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(
+</span></span><span style="display:flex;"><span>  breast_cancer_all <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(diagnosis <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;benign&#34;</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">slice_sample</span>(n <span style="color:#f92672">=</span> <span style="color:#ae81ff">65</span>),
+</span></span><span style="display:flex;"><span>  breast_cancer_all <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(diagnosis <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;malignant&#34;</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">slice_sample</span>(n <span style="color:#f92672">=</span> <span style="color:#ae81ff">35</span>)
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">slice_sample</span>(prop <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>breast_cancer <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(
+</span></span><span style="display:flex;"><span>    cases <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>(),
+</span></span><span style="display:flex;"><span>    malignant <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(diagnosis <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;malignant&#34;</span>),
+</span></span><span style="display:flex;"><span>    benign <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(diagnosis <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;benign&#34;</span>)
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   cases malignant benign</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 1   100        35     65</span>
+</span></span></code></pre></div><p>Only about 80 cases will be available for training. A large network would therefore have far more freedom than the data can justify. The class distribution is also uneven, so the train/test split is stratified to preserve approximately the same malignant proportion in both sets.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">2026</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cancer_split <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">initial_split</span>(
+</span></span><span style="display:flex;"><span>  breast_cancer,
+</span></span><span style="display:flex;"><span>  prop <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>,
+</span></span><span style="display:flex;"><span>  strata <span style="color:#f92672">=</span> diagnosis
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>cancer_train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">training</span>(cancer_split)
+</span></span><span style="display:flex;"><span>cancer_test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">testing</span>(cancer_split)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bind_rows</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(cancer_train, set <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Training&#34;</span>, n <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>(), malignant_rate <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(diagnosis <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;malignant&#34;</span>)),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(cancer_test, set <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Test&#34;</span>, n <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>(), malignant_rate <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(diagnosis <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;malignant&#34;</span>))
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;        set  n malignant_rate</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 1 Training 80           0.35</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 2     Test 20           0.35</span>
+</span></span></code></pre></div><h2 id="why-bayesian-modeling-helps-when-observations-are-scarce"><a href="#why-bayesian-modeling-helps-when-observations-are-scarce" class="header-anchor"></a>Why Bayesian modeling helps when observations are scarce
+</h2><p>Three features matter in this small sample:</p>
+<ol>
+<li><strong>Regularization through priors.</strong> Weakly informative priors keep network weights from becoming implausibly large merely to classify a handful of observations.</li>
+<li><strong>Parameter uncertainty.</strong> Posterior draws retain many plausible networks instead of treating one fitted set of weights as certainly correct.</li>
+<li><strong>Predictive uncertainty.</strong> Intervals around malignancy probabilities reveal cases for which plausible networks disagree.</li>
+</ol>
+<p>None of these is magic. If 100 observations do not identify a pattern, a Bayesian model should express that limitation rather than produce false confidence.</p>
+<h2 id="the-new-tidymodels-engine"><a href="#the-new-tidymodels-engine" class="header-anchor"></a>The new tidymodels engine
+</h2><p>The central addition in <code>bnns</code> 1.0.0 is its native tidymodels integration. Loading <code>bnns</code> registers <code>&quot;bnns&quot;</code> as an engine for <code>parsnip::mlp()</code>. The familiar parsnip arguments map to Bayesian neural-network settings: <code>hidden_units</code> controls the nodes, <code>epochs</code> controls the total Stan iterations, and <code>activation</code> sets the hidden-layer activation function.</p>
+<p>The recipe learns normalization values from the training data and stores them inside the fitted workflow. This replaces the manual preprocessing code that would otherwise have to be kept in sync with the fitted model.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>cancer_recipe <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">recipe</span>(diagnosis <span style="color:#f92672">~</span> ., data <span style="color:#f92672">=</span> cancer_train) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">step_normalize</span>(<span style="color:#a6e22e">all_numeric_predictors</span>())
+</span></span></code></pre></div><p>The model has one hidden layer with eight nodes and uses the newly supported character activation name <code>&quot;relu&quot;</code>. Because the outcome is a two-level factor and the mode is classification, the engine automatically uses the appropriate binary output activation. Normal priors shrink weights and biases toward zero, restraining a flexible network fitted to only about 80 training cases.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>bnn_spec <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mlp</span>(
+</span></span><span style="display:flex;"><span>    mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;classification&#34;</span>,
+</span></span><span style="display:flex;"><span>    hidden_units <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>    epochs <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>,
+</span></span><span style="display:flex;"><span>    activation <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;relu&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">set_engine</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;bnns&#34;</span>,
+</span></span><span style="display:flex;"><span>    algorithm <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NUTS&#34;</span>,
+</span></span><span style="display:flex;"><span>    chains <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    cores <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    warmup <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>,
+</span></span><span style="display:flex;"><span>    refresh <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">2026</span>,
+</span></span><span style="display:flex;"><span>    prior_weights <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>      dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;normal&#34;</span>,
+</span></span><span style="display:flex;"><span>      params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(mean <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sd <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    prior_bias <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>      dist <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;normal&#34;</span>,
+</span></span><span style="display:flex;"><span>      params <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(mean <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sd <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  )
+</span></span></code></pre></div><p>The recipe and model specification become one workflow. From this point onward, preprocessing and fitting travel together.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>cancer_workflow <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">workflow</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">add_recipe</span>(cancer_recipe) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">add_model</span>(bnn_spec)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>fit_bnn <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">fit</span>(cancer_workflow, data <span style="color:#f92672">=</span> cancer_train)
+</span></span></code></pre></div><h2 id="standard-tidymodels-predictions"><a href="#standard-tidymodels-predictions" class="header-anchor"></a>Standard tidymodels predictions
+</h2><p>The new engine supports standard parsnip prediction types. Class predictions return a <code>.pred_class</code> column, while probability predictions return one column per outcome level. These results can be passed directly to <code>yardstick</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>class_predictions <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(
+</span></span><span style="display:flex;"><span>  fit_bnn,
+</span></span><span style="display:flex;"><span>  new_data <span style="color:#f92672">=</span> cancer_test,
+</span></span><span style="display:flex;"><span>  type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>probability_predictions <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(
+</span></span><span style="display:flex;"><span>  fit_bnn,
+</span></span><span style="display:flex;"><span>  new_data <span style="color:#f92672">=</span> cancer_test,
+</span></span><span style="display:flex;"><span>  type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;prob&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>predictions <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_cols</span>(
+</span></span><span style="display:flex;"><span>  cancer_test <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">select</span>(diagnosis),
+</span></span><span style="display:flex;"><span>  class_predictions,
+</span></span><span style="display:flex;"><span>  probability_predictions
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>predictions
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;     diagnosis .pred_class .pred_malignant .pred_benign</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 381    benign      benign      0.01742681   0.98257319</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 528    benign      benign      0.03384616   0.96615384</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 55  malignant   malignant      0.90882191   0.09117809</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 563    benign      benign      0.02269826   0.97730174</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 341 malignant   malignant      0.85197508   0.14802492</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 590    benign      benign      0.03213257   0.96786743</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 668    benign      benign      0.02865862   0.97134138</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 6   malignant   malignant      0.98902098   0.01097902</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 247 malignant   malignant      0.98777402   0.01222598</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 579    benign      benign      0.01950734   0.98049266</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 102 malignant      benign      0.36800429   0.63199571</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 665    benign      benign      0.03473679   0.96526321</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 425    benign      benign      0.02213016   0.97786984</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 183    benign      benign      0.05246825   0.94753175</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 249    benign      benign      0.09874160   0.90125840</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 72  malignant   malignant      0.85861506   0.14138494</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 516 malignant   malignant      0.94863974   0.05136026</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 344    benign      benign      0.01742681   0.98257319</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 197    benign   malignant      0.91789219   0.08210781</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 14     benign      benign      0.03413819   0.96586181</span>
+</span></span></code></pre></div><h2 id="recovering-posterior-uncertainty"><a href="#recovering-posterior-uncertainty" class="header-anchor"></a>Recovering posterior uncertainty
+</h2><p>The parsnip probability prediction is the posterior mean and is ideal for standard metrics. For the distinctly Bayesian part of the analysis, we extract the fitted <code>bnns</code> engine from the workflow and retain all posterior probability draws. We use a prepared copy of the same recipe so that these engine-level predictions receive exactly the preprocessing specified by the workflow.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>fit_bnn_engine <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">extract_fit_engine</span>(fit_bnn)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prepared_recipe <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">prep</span>(cancer_recipe, training <span style="color:#f92672">=</span> cancer_train)
+</span></span><span style="display:flex;"><span>cancer_test_baked <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bake</span>(
+</span></span><span style="display:flex;"><span>  prepared_recipe,
+</span></span><span style="display:flex;"><span>  new_data <span style="color:#f92672">=</span> cancer_test
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>diagnosis)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>probability_draws <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(
+</span></span><span style="display:flex;"><span>  fit_bnn_engine,
+</span></span><span style="display:flex;"><span>  newdata <span style="color:#f92672">=</span> cancer_test_baked
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The raw binary draws represent the second factor level (benign).</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Malignant is the first level, matching yardstick&#39;s event convention.</span>
+</span></span><span style="display:flex;"><span>malignant_draws <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> probability_draws
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>predictions <span style="color:#f92672">&lt;-</span> predictions <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
+</span></span><span style="display:flex;"><span>    posterior_median <span style="color:#f92672">=</span> <span style="color:#a6e22e">apply</span>(malignant_draws, <span style="color:#ae81ff">1</span>, median),
+</span></span><span style="display:flex;"><span>    lower <span style="color:#f92672">=</span> <span style="color:#a6e22e">apply</span>(malignant_draws, <span style="color:#ae81ff">1</span>, quantile, probs <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.10</span>),
+</span></span><span style="display:flex;"><span>    upper <span style="color:#f92672">=</span> <span style="color:#a6e22e">apply</span>(malignant_draws, <span style="color:#ae81ff">1</span>, quantile, probs <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.90</span>),
+</span></span><span style="display:flex;"><span>    uncertainty <span style="color:#f92672">=</span> upper <span style="color:#f92672">-</span> lower
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>predictions <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(uncertainty)) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">slice_head</span>(n <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;     diagnosis .pred_class .pred_malignant .pred_benign posterior_median</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 102 malignant      benign      0.36800429   0.63199571       0.34787947</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 72  malignant   malignant      0.85861506   0.14138494       0.95757404</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 341 malignant   malignant      0.85197508   0.14802492       0.91003852</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 55  malignant   malignant      0.90882191   0.09117809       0.94572235</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 249    benign      benign      0.09874160   0.90125840       0.06793513</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 197    benign   malignant      0.91789219   0.08210781       0.94413702</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 516 malignant   malignant      0.94863974   0.05136026       0.98356243</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 183    benign      benign      0.05246825   0.94753175       0.04050935</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 14     benign      benign      0.03413819   0.96586181       0.02382586</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 665    benign      benign      0.03473679   0.96526321       0.02649521</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;           lower      upper uncertainty</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 102 0.124741920 0.64421534  0.51947342</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 72  0.550706300 0.99917403  0.44846773</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 341 0.626825133 0.99096914  0.36414401</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 55  0.771190591 0.99286018  0.22166958</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 249 0.014310794 0.22595297  0.21164218</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 197 0.810634126 0.99022943  0.17959531</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 516 0.854550930 0.99906252  0.14451159</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 183 0.009927198 0.11089559  0.10096839</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 14  0.004647709 0.07666086  0.07201315</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 665 0.006710708 0.07400600  0.06729530</span>
+</span></span></code></pre></div><p>The widest intervals identify cases for which plausible networks disagree most. These are often more informative than the easiest correctly classified cases.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>predictions <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(posterior_median) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(case <span style="color:#f92672">=</span> <span style="color:#a6e22e">row_number</span>()) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(case, posterior_median, color <span style="color:#f92672">=</span> diagnosis)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_linerange</span>(<span style="color:#a6e22e">aes</span>(ymin <span style="color:#f92672">=</span> lower, ymax <span style="color:#f92672">=</span> upper), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.55</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.4</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_color_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(malignant <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#B2182B&#34;</span>, benign <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#2166AC&#34;</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Posterior malignancy probabilities&#34;</span>,
+</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Points are medians; vertical lines are 80% credible intervals&#34;</span>,
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Held-out cases, ordered by predicted probability&#34;</span>,
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Probability of malignancy&#34;</span>,
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Observed class&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/index_files/figure-html/uncertainty-plot-1.png" alt="" width="672" />
+<h2 id="held-out-classification-performance"><a href="#held-out-classification-performance" class="header-anchor"></a>Held-out classification performance
+</h2><p>Threshold-free ROC AUC summarizes ranking performance. Sensitivity and specificity use a 0.5 decision threshold. In a clinical application, that threshold should reflect the relative consequences of missed malignancies and unnecessary follow-up rather than being accepted automatically.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">metric_set</span>(roc_auc, accuracy, sens, spec)(
+</span></span><span style="display:flex;"><span>  predictions,
+</span></span><span style="display:flex;"><span>  truth <span style="color:#f92672">=</span> diagnosis,
+</span></span><span style="display:flex;"><span>  estimate <span style="color:#f92672">=</span> .pred_class,
+</span></span><span style="display:flex;"><span>  .pred_malignant,
+</span></span><span style="display:flex;"><span>  event_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;first&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; # A tibble: 4 × 3</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   .metric  .estimator .estimate</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 1 accuracy binary         0.9  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 2 sens     binary         0.857</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 3 spec     binary         0.923</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 4 roc_auc  binary         0.956</span>
+</span></span></code></pre></div><p>A confusion matrix makes the errors concrete.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">conf_mat</span>(predictions, truth <span style="color:#f92672">=</span> diagnosis, estimate <span style="color:#f92672">=</span> .pred_class)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;            Truth</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Prediction  malignant benign</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   malignant         6      1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   benign            1     12</span>
+</span></span></code></pre></div><p>We can also inspect the ROC curve without committing to one threshold.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>predictions <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">roc_curve</span>(diagnosis, .pred_malignant, event_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;first&#34;</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">autoplot</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coord_equal</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Held-out ROC curve&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/index_files/figure-html/roc-plot-1.png" alt="" width="672" />
+<h2 id="diagnostics-still-come-first"><a href="#diagnostics-still-come-first" class="header-anchor"></a>Diagnostics still come first
+</h2><p>Good predictive scores do not prove that the posterior computation is reliable. <code>Rhat</code> values should be close to 1, effective sample sizes should be adequate, and chains should mix without persistent separation. Divergences are a reason to revisit the architecture, priors, or sampler settings.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">summary</span>(fit_bnn_engine)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Call:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; bnns.default(formula = ..y ~ ., data = data, L = 1L, nodes = ~8, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;     act_fn = ~&#34;relu&#34;, algorithm = ~&#34;NUTS&#34;, iter = ~2000, warmup = ~1000, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;     chains = ~4, cores = ~4, seed = ~2026, prior_weights = ~list(dist = &#34;normal&#34;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;         params = list(mean = 0, sd = 0.5)), prior_bias = ~list(dist = &#34;normal&#34;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;         params = list(mean = 0, sd = 0.5)), refresh = ~0)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Data Summary:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Number of observations: 80 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Number of features: 10 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Network Architecture:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Number of hidden layers: 1 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Nodes per layer: 8 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Activation functions: 4 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Output activation function: 2 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Posterior Summary (Key Parameters):</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;                 mean     se_mean        sd       2.5%         25%          50%</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[1] 0.028844860 0.019191434 0.6991684 -1.2424880 -0.51268616  0.015508952</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[2] 0.058431359 0.018337014 0.6964167 -1.1879923 -0.45974240  0.039753657</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[3] 0.006523585 0.016797527 0.6907952 -1.2549198 -0.51024479 -0.023465156</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[4] 0.014178503 0.017017933 0.6772062 -1.1821364 -0.48136029 -0.008610242</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[5] 0.015720911 0.017845036 0.6877341 -1.2564939 -0.48277253 -0.025188606</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[6] 0.032982679 0.018024245 0.6819240 -1.2060555 -0.47120944 -0.007720606</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[7] 0.034698134 0.018348716 0.6975313 -1.2144981 -0.49327675  0.007603325</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[8] 0.080964090 0.019716039 0.7095801 -1.2222687 -0.45825968  0.062261822</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; b_out[1] 0.220139464 0.007494657 0.4764362 -0.7455428 -0.08967655  0.224026274</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;                75%    97.5%    n_eff     Rhat</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[1] 0.5387738 1.355115 1327.238 1.000629</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[2] 0.5695861 1.376773 1442.385 1.005517</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[3] 0.5057600 1.318353 1691.250 1.000217</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[4] 0.4843138 1.333012 1583.537 1.001160</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[5] 0.4879317 1.386777 1485.273 1.000589</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[6] 0.5181018 1.367569 1431.389 1.001106</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[7] 0.5455285 1.374319 1445.160 1.000757</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; w_out[8] 0.6058601 1.425332 1295.280 1.000624</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; b_out[1] 0.5332228 1.147598 4041.159 1.000727</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Model Fit Information:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Iterations: 2000 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Warmup: 1000 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Thinning: 1 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Chains: 4 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Predictive Performance:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Confusion matrix (training with 0.5 cutoff): 28 1 0 51 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Accuracy (training with 0.5 cutoff): 0.9875 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; AUC (training): 0.9986264 </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Notes:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Check convergence diagnostics for parameters with high R-hat values.</span>
+</span></span></code></pre></div><p>Trace and density plots provide complementary views of chain behavior.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(fit_bnn_engine, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;trace&#34;</span>, pars <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;b_out&#34;</span>)
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/index_files/figure-html/trace-plot-1.png" alt="" width="672" />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(fit_bnn_engine, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;density&#34;</span>, pars <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;b_out&#34;</span>)
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/index_files/figure-html/density-plot-1.png" alt="" width="672" />
+<p>A posterior predictive check asks whether outcomes replicated from the fitted model resemble the observed training outcomes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(fit_bnn_engine, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;posterior_predictive&#34;</span>)
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/index_files/figure-html/posterior-predictive-check-1.png" alt="" width="672" />
+<h2 id="leave-one-out-evaluation-in-version-100"><a href="#leave-one-out-evaluation-in-version-100" class="header-anchor"></a>Leave-one-out evaluation in version 1.0.0
+</h2><p><code>bnns</code> 1.0.0 adds a method for Pareto-smoothed importance-sampling leave-one-out cross-validation (PSIS-LOO). Calling the exported <code>loo::loo()</code> generic dispatches automatically to the package&rsquo;s <code>bnns</code> method. It estimates how well the fitted model predicts each training observation when that observation is treated as left out, without refitting the network 80 separate times.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>loo_result <span style="color:#f92672">&lt;-</span> loo<span style="color:#f92672">::</span><span style="color:#a6e22e">loo</span>(fit_bnn_engine)
+</span></span><span style="display:flex;"><span>loo_result
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Computed from 4000 by 80 log-likelihood matrix.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;          Estimate  SE</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; elpd_loo     -8.2 1.8</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; p_loo         1.6 0.5</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; looic        16.4 3.5</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; ------</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; MCSE of elpd_loo is 0.0.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; MCSE and ESS estimates assume MCMC draws (r_eff in [0.8, 1.1]).</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; All Pareto k estimates are good (k &lt; 0.7).</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; See help(&#39;pareto-k-diagnostic&#39;) for details.</span>
+</span></span></code></pre></div><p>The printed result reports three useful summaries:</p>
+<ol>
+<li><strong><code>elpd_loo</code></strong> is the expected log predictive density. Larger values indicate better expected out-of-sample prediction when models are compared on the same observations.</li>
+<li><strong><code>p_loo</code></strong> estimates the model&rsquo;s effective number of parameters.</li>
+<li><strong><code>looic</code></strong> is <code>-2 * elpd_loo</code>, so smaller values are preferred.</li>
+</ol>
+<p>The absolute values are less informative than differences between candidate models. The standard errors show whether an apparent difference is large relative to its uncertainty.</p>
+<h3 id="pareto-k-diagnostics"><a href="#pareto-k-diagnostics" class="header-anchor"></a>Pareto-k diagnostics
+</h3><p>PSIS-LOO also produces a Pareto-$k$ diagnostic for every observation. Values below 0.5 are ideal, values between 0.5 and 0.7 deserve attention, values above 0.7 indicate that the approximation may be unreliable, and values above 1 are especially problematic.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>loo_diagnostics <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">as_tibble</span>(loo_result<span style="color:#f92672">$</span>pointwise) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
+</span></span><span style="display:flex;"><span>    observation <span style="color:#f92672">=</span> <span style="color:#a6e22e">row_number</span>(),
+</span></span><span style="display:flex;"><span>    pareto_k <span style="color:#f92672">=</span> loo_result<span style="color:#f92672">$</span>diagnostics<span style="color:#f92672">$</span>pareto_k,
+</span></span><span style="display:flex;"><span>    reliability <span style="color:#f92672">=</span> <span style="color:#a6e22e">cut</span>(
+</span></span><span style="display:flex;"><span>      pareto_k,
+</span></span><span style="display:flex;"><span>      breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#f92672">-</span><span style="color:#66d9ef">Inf</span>, <span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">0.7</span>, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">Inf</span>),
+</span></span><span style="display:flex;"><span>      labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Good&#34;</span>, <span style="color:#e6db74">&#34;Okay&#34;</span>, <span style="color:#e6db74">&#34;Bad&#34;</span>, <span style="color:#e6db74">&#34;Very bad&#34;</span>)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>loo_diagnostics <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">count</span>(reliability, .drop <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; # A tibble: 4 × 2</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   reliability     n</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;   &lt;fct&gt;       &lt;int&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 1 Good           77</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 2 Okay            3</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 3 Bad             0</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; 4 Very bad        0</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(
+</span></span><span style="display:flex;"><span>  loo_diagnostics,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">aes</span>(observation, pareto_k, color <span style="color:#f92672">=</span> reliability)
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_hline</span>(
+</span></span><span style="display:flex;"><span>    yintercept <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">0.7</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>    linetype <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;dotted&#34;</span>, <span style="color:#e6db74">&#34;dashed&#34;</span>, <span style="color:#e6db74">&#34;solid&#34;</span>),
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;grey60&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_color_manual</span>(
+</span></span><span style="display:flex;"><span>    values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;Good&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#2166AC&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;Okay&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#FDAE61&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;Bad&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#D73027&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;Very bad&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#7F0000&#34;</span>
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    drop <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;PSIS-LOO influence diagnostics&#34;</span>,
+</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Large Pareto-k values identify influential training cases&#34;</span>,
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Training observation&#34;</span>,
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Pareto k&#34;</span>,
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Reliability&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/index_files/figure-html/pareto-k-plot-1.png" alt="" width="672" />
+<p>The plot matters more than a single pass/fail rule. A few high values can reveal unusual tumors that strongly influence the fitted network. If any values exceed 0.7, inspect those cases and consider exact leave-one-out refitting, stronger priors, or a simpler architecture before trusting the approximate LOO result.</p>
+<h3 id="which-observations-are-hardest-to-predict"><a href="#which-observations-are-hardest-to-predict" class="header-anchor"></a>Which observations are hardest to predict?
+</h3><p>The pointwise <code>elpd_loo</code> contributions show where the model predicts poorly under leave-one-out evaluation. More negative values indicate observations assigned lower predictive probability. The following plot displays the 15 weakest contributions and colors them by their Pareto-$k$ reliability.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>loo_diagnostics <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">slice_min</span>(elpd_loo, n <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
+</span></span><span style="display:flex;"><span>    observation <span style="color:#f92672">=</span> <span style="color:#a6e22e">reorder</span>(<span style="color:#a6e22e">factor</span>(observation), elpd_loo)
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(elpd_loo, observation, color <span style="color:#f92672">=</span> reliability)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, xend <span style="color:#f92672">=</span> elpd_loo, yend <span style="color:#f92672">=</span> observation),
+</span></span><span style="display:flex;"><span>    linewidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.5</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_color_manual</span>(
+</span></span><span style="display:flex;"><span>    values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;Good&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#2166AC&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;Okay&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#FDAE61&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;Bad&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#D73027&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;Very bad&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#7F0000&#34;</span>
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    drop <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Weakest leave-one-out predictions&#34;</span>,
+</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;More negative pointwise ELPD indicates lower predictive accuracy&#34;</span>,
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Pointwise ELPD-LOO&#34;</span>,
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Training observation&#34;</span>,
+</span></span><span style="display:flex;"><span>    color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Reliability&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/index_files/figure-html/pointwise-elpd-plot-1.png" alt="" width="672" />
+<p>WAIC is available through the corresponding <code>loo::waic()</code> generic. It is included for comparison, although PSIS-LOO is generally more informative because its Pareto-$k$ values directly diagnose influential observations.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>waic_result <span style="color:#f92672">&lt;-</span> loo<span style="color:#f92672">::</span><span style="color:#a6e22e">waic</span>(fit_bnn_engine)
+</span></span><span style="display:flex;"><span>waic_result
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; Computed from 4000 by 80 log-likelihood matrix.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt;           Estimate  SE</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; elpd_waic     -8.2 1.7</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; p_waic         1.5 0.5</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; waic          16.3 3.5</span>
+</span></span></code></pre></div><h2 id="tuning-through-tidymodels"><a href="#tuning-through-tidymodels" class="header-anchor"></a>Tuning through tidymodels
+</h2><p>Because <code>bnns</code> is a registered <code>mlp()</code> engine, model arguments can use the usual <code>tune()</code> placeholders. The example below defines a search over hidden units and activation functions. A real Bayesian tuning run can be expensive because every candidate and resample requires posterior sampling, so the code is illustrative rather than evaluated during rendering.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>tunable_spec <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mlp</span>(
+</span></span><span style="display:flex;"><span>    mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;classification&#34;</span>,
+</span></span><span style="display:flex;"><span>    hidden_units <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>(),
+</span></span><span style="display:flex;"><span>    epochs <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>,
+</span></span><span style="display:flex;"><span>    activation <span style="color:#f92672">=</span> <span style="color:#a6e22e">tune</span>()
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">set_engine</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;bnns&#34;</span>,
+</span></span><span style="display:flex;"><span>    chains <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    cores <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    warmup <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>,
+</span></span><span style="display:flex;"><span>    refresh <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tunable_workflow <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>  cancer_workflow <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">update_model</span>(tunable_spec)
+</span></span></code></pre></div><h2 id="what-the-small-dataset-changes"><a href="#what-the-small-dataset-changes" class="header-anchor"></a>What the small dataset changes
+</h2><p>With thousands of observations, a flexible predictor may learn complex interactions directly. With 100 observations, the priorities shift:</p>
+<ol>
+<li>Use a compact architecture rather than searching a large grid of networks.</li>
+<li>Choose priors that discourage extreme weights.</li>
+<li>Keep test cases completely separate from preprocessing and fitting.</li>
+<li>Report posterior intervals alongside central probability estimates.</li>
+<li>Treat sampler diagnostics and sensitivity checks as part of the result.</li>
+</ol>
+<p>Posterior uncertainty also separates three questions that are easy to collapse into one:</p>
+<ol>
+<li><strong>Which class is predicted?</strong> The 0.5 threshold supplies a binary decision.</li>
+<li><strong>How high is the estimated risk?</strong> The posterior median supplies a central probability estimate.</li>
+<li><strong>How stable is that estimate?</strong> The posterior interval shows how much the prediction changes across plausible network weights.</li>
+</ol>
+<p>An interval that crosses 0.5 is especially useful to flag. It indicates that posterior uncertainty alone is sufficient to change the assigned class. A narrow interval far from 0.5 describes a much more stable prediction, although it does not protect against dataset shift or model misspecification.</p>
+<h2 id="saving-the-fitted-model"><a href="#saving-the-fitted-model" class="header-anchor"></a>Saving the fitted model
+</h2><p>Version 1.0.0 introduces <code>save_bnns()</code> and <code>load_bnns()</code> for fitted engine objects. When the preprocessing recipe must travel with the model, save the complete fitted workflow as well.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">save_bnns</span>(fit_bnn_engine, <span style="color:#e6db74">&#34;wisconsin_breast_cancer_bnns.rds&#34;</span>)
+</span></span><span style="display:flex;"><span>restored_engine <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">load_bnns</span>(<span style="color:#e6db74">&#34;wisconsin_breast_cancer_bnns.rds&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">saveRDS</span>(fit_bnn, <span style="color:#e6db74">&#34;wisconsin_breast_cancer_workflow.rds&#34;</span>)
+</span></span><span style="display:flex;"><span>restored_workflow <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#e6db74">&#34;wisconsin_breast_cancer_workflow.rds&#34;</span>)
+</span></span></code></pre></div><h2 id="closing-thought"><a href="#closing-thought" class="header-anchor"></a>Closing thought
+</h2><p>Small datasets are not an edge case. They arise whenever measurements are expensive, outcomes are rare, or a study is still at an early stage. In those settings, uncertainty is not decorative output attached to a classification; it is part of the classification.</p>
+<p>The 100-case Wisconsin sample makes the point cleanly. A compact Bayesian neural network can be expressed entirely through <code>mlp()</code>, a recipe can protect the preprocessing boundary, and a workflow can carry both into fitting and prediction. Standard tidymodels outputs support familiar performance metrics, while the extracted engine retains posterior draws and the new <code>bnns</code> diagnostics.</p>
+<p>That combination is the main advance in <code>bnns</code> 1.0.0: Bayesian neural-network inference no longer requires giving up the consistent modeling grammar of tidymodels.</p>
+<p>That uncertainty is not a substitute for external validation or clinical judgment. It is a clearer account of what this model, trained on these data, actually knows.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/bnns/">Bnns</a>
+        
+            <a href="/tags/bayesian-neural-networks/">Bayesian Neural Networks</a>
+        
+            <a href="/tags/small-data/">Small Data</a>
+        
+            <a href="/tags/classification/">Classification</a>
+        
+            <a href="/tags/breast-cancer/">Breast Cancer</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/post/bnns-cran-release/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">bnns 1.0.0 is now on CRAN</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/post/bnns-binary-classification/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/post/bnns-for-tmle/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Using bnns for TMLE</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Swarnendu Chatterjee. All rights reserved.
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://www.r-bloggers.com/" target="_blank">R Bloggers</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

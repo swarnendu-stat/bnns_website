@@ -2,26 +2,30 @@
 <html lang="en-US" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content="Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.\nSimulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.\n">
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content="Introduction\rThis document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.\nSimulating Data\rWe simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.\n">
 <title>Using bnns for TMLE</title>
 
 <link rel='canonical' href='https://swarnendu-stat.netlify.app/post/bnns-for-tmle/'>
 
-<link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Using bnns for TMLE">
-<meta property='og:description' content="Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.\nSimulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.\n">
+<link rel="stylesheet" href="/scss/style.min.b1a5b48e9268da293f0e82d09fd1299e5ecbd5ea47ba1f408b3687d520ce0c2b.css"><meta property='og:title' content="Using bnns for TMLE">
+<meta property='og:description' content="Introduction\rThis document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.\nSimulating Data\rWe simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.\n">
 <meta property='og:url' content='https://swarnendu-stat.netlify.app/post/bnns-for-tmle/'>
-<meta property='og:site_name' content='Welcome to My R Blog'>
+<meta property='og:site_name' content='SC Perspective'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='bnns' /><meta property='article:tag' content='neural network' /><meta property='article:tag' content='Bayesian' /><meta property='article:tag' content='tmle' /><meta property='article:published_time' content='2025-01-17T23:24:25&#43;05:30'/><meta property='article:modified_time' content='2025-01-17T23:24:25&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
 <meta name="twitter:site" content="@https://x.com/SwarnenduStat">
     <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="Using bnns for TMLE">
-<meta name="twitter:description" content="Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.\nSimulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Introduction\rThis document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.\nSimulating Data\rWe simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="text/markdown" href="https://swarnendu-stat.netlify.app/post/bnns-for-tmle/index.md">
-    <link rel="shortcut icon" href="/static/favicon.ico" />
-<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/bnns-for-tmle/">
-	<meta property="og:site_name" content="Welcome to My R Blog">
+    <link rel="shortcut icon" href="/favicon.ico" />
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/bnns-for-tmle/">
+	<meta property="og:site_name" content="SC Perspective">
 	<meta property="og:title" content="Using bnns for TMLE">
-	<meta property="og:description" content="Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
-Simulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
+	<meta property="og:description" content="IntroductionThis document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
+Simulating DataWe simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
 	<meta property="og:locale" content="en_US">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="post">
@@ -35,23 +39,27 @@ Simulating Data We simulate data where the treatment assignment and outcome are 
 
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Using bnns for TMLE">
-	<meta name="twitter:description" content="Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
-Simulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
+	<meta name="twitter:description" content="IntroductionThis document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
+Simulating DataWe simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
 
 
 	<meta itemprop="name" content="Using bnns for TMLE">
-	<meta itemprop="description" content="Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
-Simulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
+	<meta itemprop="description" content="IntroductionThis document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
+Simulating DataWe simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
 	<meta itemprop="datePublished" content="2025-01-17T23:24:25+05:30">
 	<meta itemprop="dateModified" content="2025-01-17T23:24:25+05:30">
 	<meta itemprop="wordCount" content="968">
 	<meta itemprop="keywords" content="Bnns,Neural Network,Bayesian,Tmle">
 
-<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/bnns-for-tmle/">
-	<meta property="og:site_name" content="Welcome to My R Blog">
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/bnns-for-tmle/">
+	<meta property="og:site_name" content="SC Perspective">
 	<meta property="og:title" content="Using bnns for TMLE">
-	<meta property="og:description" content="Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
-Simulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
+	<meta property="og:description" content="IntroductionThis document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
+Simulating DataWe simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
 	<meta property="og:locale" content="en_US">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="post">
@@ -65,13 +73,13 @@ Simulating Data We simulate data where the treatment assignment and outcome are 
 
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Using bnns for TMLE">
-	<meta name="twitter:description" content="Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
-Simulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
+	<meta name="twitter:description" content="IntroductionThis document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
+Simulating DataWe simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
 
 
 	<meta itemprop="name" content="Using bnns for TMLE">
-	<meta itemprop="description" content="Introduction This document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
-Simulating Data We simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
+	<meta itemprop="description" content="IntroductionThis document demonstrates how to use the bnns package with TMLE for causal inference. TMLE combines machine learning-based flexible models with statistical principles to produce unbiased and efficient estimators of causal effects, such as the Average Treatment Effect (ATE). The example also highlights how the flexibility of Bayesian Neural Networks (BNNs) can improve TMLE results when handling complex data-generating mechanisms. This tutorial borrows from this tmle tutorial.
+Simulating DataWe simulate data where the treatment assignment and outcome are influenced by multiple covariates, and the true ATE is known.">
 	<meta itemprop="datePublished" content="2025-01-17T23:24:25+05:30">
 	<meta itemprop="dateModified" content="2025-01-17T23:24:25+05:30">
 	<meta itemprop="wordCount" content="968">
@@ -128,7 +136,7 @@ Simulating Data We simulate data where the treatment assignment and outcome are 
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">Welcome to My R Blog</a></h1>
+            <h1 class="site-name"><a href="/">SC Perspective</a></h1>
             <h2 class="site-description">Statistician &amp; R Enthusiast. Unlocking the power of data. I also love photography!</h2>
         </div>
     </header><ol class="menu-social">
@@ -210,7 +218,9 @@ Simulating Data We simulate data where the treatment assignment and outcome are 
                     </a>
                 </li>
             
-        </ol><ol class="menu" id="main-menu">
+        </ol><div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="swarnendu-stat" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://in.linkedin.com/in/swarnendu-stat?trk=profile-badge">swarnendu chatterjee</a></div>
+
+    <ol class="menu" id="main-menu">
         
         
         

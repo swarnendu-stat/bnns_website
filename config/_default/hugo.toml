@@ -1,5 +1,5 @@
 baseURL = "https://swarnendu-stat.netlify.app/"
-title = "Welcome to My R Blog"
+title = "SC Perspective"
 theme = "hugo-theme-stack"
 enableRobotsTXT = true
 languageCode = "en-US"
