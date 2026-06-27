@@ -1,4 +1,4 @@
-title: "Statistically Speaking: An R Journey"
+title: "SC Perspective"
 baseURL: "https://swarnendu-stat.netlify.app/"
 defaultContentLanguage: "en"
 languageCode: "en-us"
@@ -46,7 +46,7 @@ params:
         emoji: "🌱"
         subtitle: |
             Biostat, Bayes & Blogdown  
-            ✨Statistically Speaking
+            ✨SC Perspective
             📍 India
         avatar:
             enabled: true
