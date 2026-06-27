@@ -5,7 +5,7 @@
 **Tags:** clinical trials, biostatistician, early phase, drug development
 
 
-It's 9 PM, and the safety review call starts in ten minutes. The numbers on my screen don't agree with what the clinical team is about to say.
+It's almost 9 PM, and the safety review call starts in ten minutes. The numbers on my screen don't agree with what the clinical team is about to say.
 
 There are eight patients in the cohort: six on active, two on placebo. One patient on active had a mild lab abnormality that resolved on its own. Across the cohort, the rate is still within what we pre-specified as acceptable, so the rule says proceed to the next dose. The principal investigator has a feeling that says slow down.
 

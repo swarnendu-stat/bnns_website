@@ -50,3 +50,8 @@ keys: [
 ]
 \```
 
+tags",
+  "categories"
+]
+\```
+

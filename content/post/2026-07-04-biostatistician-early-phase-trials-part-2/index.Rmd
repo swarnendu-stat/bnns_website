@@ -8,7 +8,15 @@ tags: ["clinical trials", "biostatistician", "early phase", "phase 1", "6+2 desi
 description: "A walkthrough of the 6+2 active-plus-placebo cohort design common in non-oncology, non-vaccine first-in-human trials, with R code simulating a cohort safety review."
 ---
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 7,
+  fig.height = 4.5
+)
+```
 
 In [Part 1](/post/biostatistician-early-phase-trials-part-1/), the call hadn't happened yet. The model said proceed; the PI's instinct said wait. Both were reacting to the same cohort, read two different ways.
 
@@ -29,8 +37,7 @@ The trade-off is the one from Part 1: pause too readily and the trial slows down
 
 Let's build one cohort of dummy data: 6 active, 2 placebo, with a binary safety flag (say, a clinically notable lab abnormality) and a continuous response measure.
 
-
-``` r
+```{r simulate-cohort}
 library(dplyr)
 
 simulate_cohort <- function(n_active = 6, n_placebo = 2,
@@ -68,28 +75,13 @@ cohort_1 <- tibble(
 cohort_1
 ```
 
-```
-## # A tibble: 8 × 4
-##   arm     subject_id ae_flag response
-##   <chr>   <chr>        <dbl>    <dbl>
-## 1 active  A1               1     2.76
-## 2 active  A2               0     2.49
-## 3 active  A3               0     1.87
-## 4 active  A4               0     3.81
-## 5 active  A5               0     1.89
-## 6 active  A6               0     4.42
-## 7 placebo P1               0     1.57
-## 8 placebo P2               0     2.74
-```
-
 This single cohort is exactly the kind of dataset a safety review would actually look at: small, mixed-arm, and not obviously decisive in either direction.
 
 ## Summarizing a cohort the way a safety review would
 
 A safety review doesn't run a hypothesis test on 8 people. It looks at rates, compares them to placebo, and checks them against pre-specified thresholds.
 
-
-``` r
+```{r cohort-summary}
 summarize_cohort <- function(cohort_data) {
   cohort_data %>%
     group_by(arm) %>%
@@ -105,14 +97,6 @@ summarize_cohort <- function(cohort_data) {
 summarize_cohort(cohort_1)
 ```
 
-```
-## # A tibble: 2 × 5
-##   arm         n ae_count ae_rate mean_response
-##   <chr>   <int>    <dbl>   <dbl>         <dbl>
-## 1 active      6        1   0.167          2.87
-## 2 placebo     2        0   0              2.16
-```
-
 That's the entire table a reviewer sees for this cohort: small numbers, an active-arm AE rate that may or may not be worth pausing for, and a placebo arm sitting there as the anchor. This is the table behind the call in Part 1.
 
 ## Pre-specifying a stopping rule
@@ -121,8 +105,7 @@ The point of designing this in advance is that nobody is deciding what counts as
 
 > Pause dose escalation if the active-arm AE rate in a cohort exceeds a pre-specified threshold **and** exceeds the placebo-arm rate by a pre-specified margin. Otherwise, proceed.
 
-
-``` r
+```{r stopping-rule}
 apply_stopping_rule <- function(cohort_summary,
                                  ae_threshold = 0.30,
                                  margin_over_placebo = 0.20) {
@@ -151,13 +134,6 @@ cohort_1_summary <- summarize_cohort(cohort_1)
 apply_stopping_rule(cohort_1_summary)
 ```
 
-```
-## # A tibble: 1 × 5
-##   active_ae_rate placebo_ae_rate exceeds_threshold exceeds_margin decision
-##            <dbl>           <dbl> <lgl>             <lgl>          <chr>   
-## 1          0.167               0 FALSE             FALSE          PROCEED
-```
-
 With one active-arm AE out of six (a rate of about 0.17), this cohort doesn't cross either threshold — the rule says proceed. That's the quiet, structural version of what the model was saying in Part 1's 9 PM call, before anyone's instinct entered the room.
 
 ## Why the rule still isn't the whole story
@@ -166,8 +142,7 @@ Notice what the rule does *not* see: it doesn't know that the one AE was a borde
 
 That's worth checking directly — not by feel, but by simulating several cohorts in sequence and watching the rate.
 
-
-``` r
+```{r multi-cohort, fig.alt="Active-arm AE rate across five simulated cohorts, compared against placebo"}
 set.seed(8)
 
 cohorts <- lapply(1:5, function(i) simulate_cohort())
@@ -202,8 +177,6 @@ ggplot(trend, aes(x = cohort, y = ae_rate, color = arm, group = arm)) +
   ) +
   theme_minimal()
 ```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/multi-cohort-1.png" alt="Active-arm AE rate across five simulated cohorts, compared against placebo" width="672" />
 
 No single cohort here triggers the stopping rule on its own — but watching the active-arm line across cohorts is a different question than watching any one cohort in isolation, and it's exactly the kind of pattern a careful reviewer (or a slightly more sophisticated rule, layering in cumulative evidence rather than per-cohort snapshots) would want to catch.
 
