@@ -2,7 +2,7 @@
 
 **Date:** January 17, 2025
 **Link:** https://swarnendu-stat.netlify.app/post/bnns-for-tmle/
-**Tags:** bnns, neural network, Bayesian, tmle
+**Tags:** R, bnns, neural network, Bayesian, tmle
 
 
 

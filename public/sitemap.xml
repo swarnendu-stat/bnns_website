@@ -2,8 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://swarnendu-stat.netlify.app/post/bnns-100-wisconsin-breast-cancer/</loc>
-    <lastmod>2026-06-20</lastmod>
+    <loc>https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-1/</loc>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -16,7 +16,7 @@
   </url>
   
   <url>
-    <loc>https://swarnendu-stat.netlify.app/post/2025-08-15-tidy-superlearner/</loc>
+    <loc>https://swarnendu-stat.netlify.app/post/tidy-superlearner/</loc>
     <lastmod>2025-08-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -46,7 +46,7 @@
   
   <url>
     <loc>https://swarnendu-stat.netlify.app/</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

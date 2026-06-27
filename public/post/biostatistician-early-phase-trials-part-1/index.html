@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content="What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series.">
+<title>A Biostatistician in Early Phase Trials — Part 1</title>
+
+<link rel='canonical' href='https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-1/'>
+
+<link rel="stylesheet" href="/scss/style.min.b1a5b48e9268da293f0e82d09fd1299e5ecbd5ea47ba1f408b3687d520ce0c2b.css"><meta property='og:title' content="A Biostatistician in Early Phase Trials — Part 1">
+<meta property='og:description' content="What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series.">
+<meta property='og:url' content='https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-1/'>
+<meta property='og:site_name' content='SC Perspective'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='clinical trials' /><meta property='article:tag' content='biostatistician' /><meta property='article:tag' content='early phase' /><meta property='article:tag' content='drug development' /><meta property='article:published_time' content='2026-06-27T09:00:00&#43;05:30'/><meta property='article:modified_time' content='2026-06-27T09:00:00&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
+<meta name="twitter:site" content="@https://x.com/SwarnenduStat">
+    <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="A Biostatistician in Early Phase Trials — Part 1">
+<meta name="twitter:description" content="What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="text/markdown" href="https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-1/index.md">
+    <link rel="shortcut icon" href="/favicon.ico" />
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-1/">
+	<meta property="og:site_name" content="SC Perspective">
+	<meta property="og:title" content="A Biostatistician in Early Phase Trials — Part 1">
+	<meta property="og:description" content="What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-06-27T09:00:00+05:30">
+		<meta property="article:modified_time" content="2026-06-27T09:00:00+05:30">
+		<meta property="article:tag" content="Clinical Trials">
+		<meta property="article:tag" content="Biostatistician">
+		<meta property="article:tag" content="Early Phase">
+		<meta property="article:tag" content="Drug Development">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="A Biostatistician in Early Phase Trials — Part 1">
+	<meta name="twitter:description" content="What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series.">
+
+
+	<meta itemprop="name" content="A Biostatistician in Early Phase Trials — Part 1">
+	<meta itemprop="description" content="What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series.">
+	<meta itemprop="datePublished" content="2026-06-27T09:00:00+05:30">
+	<meta itemprop="dateModified" content="2026-06-27T09:00:00+05:30">
+	<meta itemprop="wordCount" content="810">
+	<meta itemprop="keywords" content="Clinical Trials,Biostatistician,Early Phase,Drug Development">
+
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-1/">
+	<meta property="og:site_name" content="SC Perspective">
+	<meta property="og:title" content="A Biostatistician in Early Phase Trials — Part 1">
+	<meta property="og:description" content="What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-06-27T09:00:00+05:30">
+		<meta property="article:modified_time" content="2026-06-27T09:00:00+05:30">
+		<meta property="article:tag" content="Clinical Trials">
+		<meta property="article:tag" content="Biostatistician">
+		<meta property="article:tag" content="Early Phase">
+		<meta property="article:tag" content="Drug Development">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="A Biostatistician in Early Phase Trials — Part 1">
+	<meta name="twitter:description" content="What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series.">
+
+
+	<meta itemprop="name" content="A Biostatistician in Early Phase Trials — Part 1">
+	<meta itemprop="description" content="What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series.">
+	<meta itemprop="datePublished" content="2026-06-27T09:00:00+05:30">
+	<meta itemprop="dateModified" content="2026-06-27T09:00:00+05:30">
+	<meta itemprop="wordCount" content="810">
+	<meta itemprop="keywords" content="Clinical Trials,Biostatistician,Early Phase,Drug Development">
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="https://github.com/swarnendu-stat.png" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">📊</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">SC Perspective</a></h1>
+            <h2 class="site-description">Statistician &amp; R Enthusiast. Unlocking the power of data. I also love photography!</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/swarnendu-stat'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.linkedin.com/in/swarnendu-stat/'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="2" />
+  <line x1="8" y1="11" x2="8" y2="16" />
+  <line x1="8" y1="8" x2="8" y2="8.01" />
+  <line x1="12" y1="16" x2="12" y2="11" />
+  <path d="M16 16v-3a2 2 0 0 0 -4 0" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/shutter.and.stats?utm_source=qr&amp;igsh=bWYwdGFyMnp3M2I4'
+                        target="_blank"
+                        title="Instagram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.r-bloggers.com/'
+                        target="_blank"
+                        title="R-bloggers"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-r-bloggers" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+  <path d="M12 2.746c-6.627 0-12 3.599-12 8.037 0 3.897 4.144 7.144 9.64 7.88V16.26c-2.924-.915-4.925-2.755-4.925-4.877 0-3.035 4.084-5.494 9.12-5.494 5.038 0 8.757 1.683 8.757 5.494 0 1.976-.999 3.379-2.662 4.272.09.066.174.128.258.216.169.149.25.363.372.544 2.128-1.45 3.44-3.437 3.44-5.631 0-4.44-5.373-8.038-12-8.038zm-2.111 4.99v13.516l4.093-.002-.002-5.291h1.1c.225 0 .321.066.549.25.272.22.715.982.715.982l2.164 4.063 4.627-.002-2.864-4.826s-.086-.193-.265-.383a2.22 2.22 0 0 0-.582-.416c-.422-.214-1.149-.434-1.149-.434s3.578-.264 3.578-3.826c0-3.562-3.744-3.63-3.744-3.63zm4.127 2.93l2.478.002s1.149-.062 1.149 1.127c0 1.165-1.149 1.17-1.149 1.17h-2.478zm1.754 6.119c-.494.049-1.012.079-1.54.088v1.807a16.622 16.622 0 002.37-.473l-.471-.891s-.108-.183-.248-.394c-.039-.054-.08-.098-.111-.137z"/>
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+        </ol><div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="swarnendu-stat" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://in.linkedin.com/in/swarnendu-stat?trk=profile-badge">swarnendu chatterjee</a></div>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/clinical-trials/" >
+                Clinical Trials
+            </a>
+        
+            <a href="/categories/biostatistics/" >
+                Biostatistics
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/biostatistician-early-phase-trials-part-1/">A Biostatistician in Early Phase Trials — Part 1</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            What a statistician actually does in an early-phase clinical trial — and why the hardest part happens long before the data arrives. Part 1 of a series.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 27, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    4 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>It&rsquo;s 9 PM, and the safety review call starts in ten minutes. The numbers on my screen don&rsquo;t agree with what the clinical team is about to say.</p>
+<p>There are eight patients in the cohort: six on active, two on placebo. One patient on active had a mild lab abnormality that resolved on its own. Across the cohort, the rate is still within what we pre-specified as acceptable, so the rule says proceed to the next dose. The principal investigator has a feeling that says slow down.</p>
+<p>Neither read is wrong. That&rsquo;s the part people don&rsquo;t expect.</p>
+<p>A lot of my work is about making decisions when a single number isn&rsquo;t enough to trust. It&rsquo;s the reason I built <a class="link" href="https://swarnendu-stat.github.io/bnns/"  target="_blank" rel="noopener"
+    ><code>bnns</code></a>, where the output carries its uncertainty with it instead of reporting a clean point estimate. A Phase I safety review is the same problem in a simpler form: very little data, a real decision, and no honest way to remove the uncertainty.</p>
+<p>This is a Phase I trial, first-in-human. No one has been given this molecule at this dose before. There is no efficacy signal yet and no large sample to average away the noise. Every cohort carries a placebo arm so that any signal we see isn&rsquo;t just an artifact of attention or coincidence. Every data point is a person, and the decision about the next dose rests on a design that was fixed in the protocol months earlier.</p>
+<p>In the next ten minutes I have to either defend what the design says, or explain why it might be missing something it was never built to see.</p>
+<h2 id="what-people-think-the-job-is"><a href="#what-people-think-the-job-is" class="header-anchor"></a>What people think the job is
+</h2><p>Ask most people what a biostatistician does on a clinical trial, and you&rsquo;ll get some version of &ldquo;runs the numbers after the data comes in.&rdquo; Tests for significance, builds a table, writes a report.</p>
+<p>That&rsquo;s part of it. It is not the part that matters most in early-phase work.</p>
+<h2 id="what-the-job-actually-is"><a href="#what-the-job-actually-is" class="header-anchor"></a>What the job actually is
+</h2><p>By the time that 9 PM call happens, the real work is already months old. In a lot of non-oncology, non-vaccine first-in-human work, the design is a cohort-based 6+2 structure: six patients on active, two on placebo, reviewed together before anyone moves to the next dose. The statistician&rsquo;s job starts long before the first patient is dosed:</p>
+<ul>
+<li>Choosing the 6+2 cohort itself: what it buys you in interim safety review, and why pairing active with placebo in every cohort matters even when efficacy isn&rsquo;t the question yet.</li>
+<li>Pre-specifying what a cohort&rsquo;s safety data has to look like to justify moving on, what triggers a pause, and what falls into the grey zone that needs a human in the room.</li>
+<li>Pressure-testing that stopping logic with simulation, so everyone knows how the design should behave before real data arrives.</li>
+<li>Translating pharmacological priors and clinical judgment into review criteria the protocol can commit to in writing, weeks before anyone sees a borderline result.</li>
+</ul>
+<p>None of that shows up in a results table. All of it shows up at 9 PM, when the design and the room have to agree on what happens next.</p>
+<h2 id="why-this-moment-is-hard"><a href="#why-this-moment-is-hard" class="header-anchor"></a>Why this moment is hard
+</h2><p>A cohort safety review in a Phase I trial is not a hypothesis test. It&rsquo;s closer to a decision made with very little data, where the cost of being wrong in either direction is a person.</p>
+<p>Proceed too cautiously, and the trial drags on. Useful dose levels go untested, and a potentially effective regimen takes longer to reach the patients who need it.</p>
+<p>Proceed too readily, and you risk missing a real signal that a more careful read of the cohort, placebo included, would have caught.</p>
+<p>The design exists to make that decision defensible. It doesn&rsquo;t remove the judgment; it gives the judgment some structure to stand on. On a good day, the design and the clinical instinct agree. On a harder day, like this one, they don&rsquo;t, and the statistician&rsquo;s job is to know exactly why the cohort data says what it says: well enough to trust it under pressure, or to explain its blind spot in real time.</p>
+<h2 id="coming-up"><a href="#coming-up" class="header-anchor"></a>Coming up
+</h2><p>That&rsquo;s the part of the job nobody sees: not the code and not the report, but the structure built weeks in advance that has to hold up in a single tense conversation.</p>
+<p>In Part 2, I&rsquo;ll open up that structure. We&rsquo;ll walk through a 6+2 active-plus-placebo cohort design with R code and dummy data, simulate and review a cohort, and see how that design would have informed the decision in tonight&rsquo;s call.</p>
+<p>💬 If you&rsquo;ve sat on either side of a call like this, the design side or the clinical side, I&rsquo;d love to hear how you read it. Share your take on <a class="link" href="https://www.linkedin.com/in/swarnendu-stat/"  target="_blank" rel="noopener"
+    >LinkedIn</a> and tag <a class="link" href="https://www.linkedin.com/in/swarnendu-stat/"  target="_blank" rel="noopener"
+    >me</a>.</p>
+<p><em>This post describes a composite, anonymized scenario representative of early-phase trial work, not any specific trial or patient.</em></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/clinical-trials/">Clinical Trials</a>
+        
+            <a href="/tags/biostatistician/">Biostatistician</a>
+        
+            <a href="/tags/early-phase/">Early Phase</a>
+        
+            <a href="/tags/drug-development/">Drug Development</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Swarnendu Chatterjee. All rights reserved.
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://www.r-bloggers.com/" target="_blank">R Bloggers</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
