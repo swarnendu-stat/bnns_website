@@ -9,7 +9,15 @@ tags: ["clinical trials", "biostatistician", "early phase", "phase 1", "BLRM", "
 math: true
 ---
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 7,
+  fig.height = 4.5
+)
+```
 
 [Part 1](/post/biostatistician-early-phase-trials-part-1/) was a 9 PM call built on a 6+2 cohort. [Part 2](/post/biostatistician-early-phase-trials-part-2/) opened up that design: fixed cohort size, active paired with placebo, a stopping rule pre-specified before anyone had real data to argue about.
 
@@ -32,20 +40,19 @@ Two consequences follow:
 
 A 6+2 cohort review asks, in effect, "did this dose's data cross a pre-specified line." A BLRM asks a continuous version of the same question: "given everything we've seen across all doses so far, what's the probability that *this* dose causes a dose-limiting toxicity (DLT), and how does that change as dose increases."
 
-The classic form models the probability of DLT at dose `\(d\)` using a two-parameter logistic curve:
+The classic form models the probability of DLT at dose $d$ using a two-parameter logistic curve:
 
 $$
 \text{logit}\big(p(d)\big) = \log\alpha + \beta \log(d / d^*)
 $$
 
-where `\(d^*\)` is a reference dose, and `\(\alpha, \beta\)` have priors informed by preclinical data and clinical judgment. As each cohort's data comes in, the posterior over the whole curve updates — not just the verdict on one dose, but the model's belief about every dose simultaneously, including ones nobody has tried yet.
+where $d^*$ is a reference dose, and $\alpha, \beta$ have priors informed by preclinical data and clinical judgment. As each cohort's data comes in, the posterior over the whole curve updates — not just the verdict on one dose, but the model's belief about every dose simultaneously, including ones nobody has tried yet.
 
 ### A basic BLRM in R and Stan
 
 Dummy data first: a handful of doses, a small number of patients per dose, and a DLT count, simulated under a true (but to the model, unknown) dose-toxicity curve.
 
-
-``` r
+```{r simulate-blrm-data}
 library(dplyr)
 
 set.seed(30)
@@ -73,21 +80,9 @@ dlt_data <- tibble(
 dlt_data
 ```
 
-```
-## # A tibble: 5 × 4
-##    dose     n true_p   dlt
-##   <dbl> <dbl>  <dbl> <int>
-## 1    50     3 0.0613     0
-## 2   100     3 0.123      0
-## 3   200     6 0.231      1
-## 4   400     6 0.391      2
-## 5   800     3 0.580      2
-```
+Now the Stan model itself. This mirrors the standard two-parameter BLRM, with weakly informative priors on $\log\alpha$ and $\log\beta$. Writing the slope as $\beta = \exp(\log\beta)$ keeps it positive, which forces the toxicity curve to rise monotonically with dose.
 
-Now the Stan model itself. This mirrors the standard two-parameter BLRM, with weakly informative priors on `\(\log\alpha\)` and `\(\log\beta\)`. Writing the slope as `\(\beta = \exp(\log\beta)\)` keeps it positive, which forces the toxicity curve to rise monotonically with dose.
-
-
-``` r
+```{r blrm-stan-code}
 blrm_code <- "
 data {
   int<lower=1> N;
@@ -118,8 +113,7 @@ generated quantities {
 "
 ```
 
-
-``` r
+```{r blrm-fit}
 library(rstan)
 rstan_options(auto_write = TRUE)
 
@@ -144,23 +138,7 @@ blrm_fit <- stan(
 print(blrm_fit, pars = c("log_alpha", "log_beta"))
 ```
 
-```
-## Inference for Stan model: anon_model.
-## 4 chains, each with iter=2000; warmup=1000; thin=1; 
-## post-warmup draws per chain=1000, total post-warmup draws=4000.
-## 
-##            mean se_mean   sd  2.5%  25%   50%   75% 97.5% n_eff Rhat
-## log_alpha -1.44    0.01 0.54 -2.55 -1.8 -1.42 -1.07 -0.42  1445    1
-## log_beta   0.12    0.02 0.62 -1.40 -0.2  0.22  0.55  1.05  1254    1
-## 
-## Samples were drawn using NUTS(diag_e) at Sat Jun 27 17:53:19 2026.
-## For each parameter, n_eff is a crude measure of effective sample size,
-## and Rhat is the potential scale reduction factor on split chains (at 
-## convergence, Rhat=1).
-```
-
-
-``` r
+```{r blrm-summary-plot, fig.alt="Posterior dose-toxicity curve from the BLRM, with a 95% credible band and observed DLT rates by dose"}
 library(ggplot2)
 
 p_dlt_summary <- summary(blrm_fit, pars = "p_dlt")$summary %>%
@@ -181,9 +159,7 @@ ggplot(p_dlt_summary, aes(x = dose, y = mean)) +
   theme_minimal()
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/blrm-summary-plot-1.png" alt="Posterior dose-toxicity curve from the BLRM, with a 95% credible band and observed DLT rates by dose" width="672" />
-
-Running this needs `rstan` and a one-time model compilation, but the payoff is the whole point: the output is a full posterior curve across all five doses, not five independent yes/no verdicts. That's the structural difference from 6+2 — a 6+2 cohort review never tells you anything about a dose nobody has tried yet, whereas a BLRM, by sharing information across doses through the shared `\(\alpha, \beta\)` parameters, does. Notice too how the credible band fans out at the top dose, where only a handful of patients have been treated: the model stays honest about how little it knows out there instead of reporting a single confident number.
+Running this needs `rstan` and a one-time model compilation, but the payoff is the whole point: the output is a full posterior curve across all five doses, not five independent yes/no verdicts. That's the structural difference from 6+2 — a 6+2 cohort review never tells you anything about a dose nobody has tried yet, whereas a BLRM, by sharing information across doses through the shared $\alpha, \beta$ parameters, does. Notice too how the credible band fans out at the top dose, where only a handful of patients have been treated: the model stays honest about how little it knows out there instead of reporting a single confident number.
 
 This is also the point where, operationally, a BLRM-based trial typically layers an **Escalation with Overdose Control (EWOC)** rule on top — choosing the next dose as the highest one whose posterior probability of excessive toxicity stays under a pre-specified ceiling. I'm leaving that out of the code here to keep the post focused, but it's the natural next step if you build on this.
 
