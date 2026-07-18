@@ -50,3 +50,14 @@ keys: [
 ]
 \```
 
+## Editar las opciones de fuse.js para buscar
+`assets/scripts/pages/search.js`
+\```
+keys: [
+  "title",
+  "contents",
+  "tags",
+  "categories"
+]
+\```
+

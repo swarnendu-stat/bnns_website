@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" /><meta name='description' content="When 6+2 isn't the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA's Project Optimus, with a basic R/Stan implementation.">
+<title>A Biostatistician in Early Phase Trials — Part 3</title>
+
+<link rel='canonical' href='https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-3/'>
+
+<link rel="stylesheet" href="/scss/style.min.b1a5b48e9268da293f0e82d09fd1299e5ecbd5ea47ba1f408b3687d520ce0c2b.css"><meta property='og:title' content="A Biostatistician in Early Phase Trials — Part 3">
+<meta property='og:description' content="When 6+2 isn't the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA's Project Optimus, with a basic R/Stan implementation.">
+<meta property='og:url' content='https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-3/'>
+<meta property='og:site_name' content='SC Perspective'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='clinical trials' /><meta property='article:tag' content='biostatistician' /><meta property='article:tag' content='early phase' /><meta property='article:tag' content='phase 1' /><meta property='article:tag' content='BLRM' /><meta property='article:tag' content='Project Optimus' /><meta property='article:tag' content='R' /><meta property='article:tag' content='Stan' /><meta property='article:published_time' content='2026-07-11T09:00:00&#43;05:30'/><meta property='article:modified_time' content='2026-07-11T09:00:00&#43;05:30'/><meta property='og:image' content='https://x.com/SwarnenduStat/photo' />
+<meta name="twitter:site" content="@https://x.com/SwarnenduStat">
+    <meta name="twitter:creator" content="@https://x.com/SwarnenduStat"><meta name="twitter:title" content="A Biostatistician in Early Phase Trials — Part 3">
+<meta name="twitter:description" content="When 6+2 isn't the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA's Project Optimus, with a basic R/Stan implementation."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://x.com/SwarnenduStat/photo' /><link rel="alternate" type="text/markdown" href="https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-3/index.md">
+    <link rel="shortcut icon" href="/favicon.ico" />
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-3/">
+	<meta property="og:site_name" content="SC Perspective">
+	<meta property="og:title" content="A Biostatistician in Early Phase Trials — Part 3">
+	<meta property="og:description" content="When 6&#43;2 isn&#39;t the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA&#39;s Project Optimus, with a basic R/Stan implementation.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-07-11T09:00:00+05:30">
+		<meta property="article:modified_time" content="2026-07-11T09:00:00+05:30">
+		<meta property="article:tag" content="Clinical Trials">
+		<meta property="article:tag" content="Biostatistician">
+		<meta property="article:tag" content="Early Phase">
+		<meta property="article:tag" content="Phase 1">
+		<meta property="article:tag" content="BLRM">
+		<meta property="article:tag" content="Project Optimus">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="A Biostatistician in Early Phase Trials — Part 3">
+	<meta name="twitter:description" content="When 6&#43;2 isn&#39;t the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA&#39;s Project Optimus, with a basic R/Stan implementation.">
+
+
+	<meta itemprop="name" content="A Biostatistician in Early Phase Trials — Part 3">
+	<meta itemprop="description" content="When 6&#43;2 isn&#39;t the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA&#39;s Project Optimus, with a basic R/Stan implementation.">
+	<meta itemprop="datePublished" content="2026-07-11T09:00:00+05:30">
+	<meta itemprop="dateModified" content="2026-07-11T09:00:00+05:30">
+	<meta itemprop="wordCount" content="1576">
+	<meta itemprop="keywords" content="Clinical Trials,Biostatistician,Early Phase,Phase 1,BLRM,Project Optimus,R,Stan">
+
+<meta name="google-site-verification" content="QLHWz1H9o5x-4F4pUJu_Cy2gHT1O-jJz_xpdEBu69nM" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /><meta property="og:url" content="https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-3/">
+	<meta property="og:site_name" content="SC Perspective">
+	<meta property="og:title" content="A Biostatistician in Early Phase Trials — Part 3">
+	<meta property="og:description" content="When 6&#43;2 isn&#39;t the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA&#39;s Project Optimus, with a basic R/Stan implementation.">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-07-11T09:00:00+05:30">
+		<meta property="article:modified_time" content="2026-07-11T09:00:00+05:30">
+		<meta property="article:tag" content="Clinical Trials">
+		<meta property="article:tag" content="Biostatistician">
+		<meta property="article:tag" content="Early Phase">
+		<meta property="article:tag" content="Phase 1">
+		<meta property="article:tag" content="BLRM">
+		<meta property="article:tag" content="Project Optimus">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="A Biostatistician in Early Phase Trials — Part 3">
+	<meta name="twitter:description" content="When 6&#43;2 isn&#39;t the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA&#39;s Project Optimus, with a basic R/Stan implementation.">
+
+
+	<meta itemprop="name" content="A Biostatistician in Early Phase Trials — Part 3">
+	<meta itemprop="description" content="When 6&#43;2 isn&#39;t the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA&#39;s Project Optimus, with a basic R/Stan implementation.">
+	<meta itemprop="datePublished" content="2026-07-11T09:00:00+05:30">
+	<meta itemprop="dateModified" content="2026-07-11T09:00:00+05:30">
+	<meta itemprop="wordCount" content="1576">
+	<meta itemprop="keywords" content="Clinical Trials,Biostatistician,Early Phase,Phase 1,BLRM,Project Optimus,R,Stan">
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="https://github.com/swarnendu-stat.png" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">📊</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">SC Perspective</a></h1>
+            <h2 class="site-description">Statistician &amp; R Enthusiast. Unlocking the power of data. I also love photography!</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/swarnendu-stat'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.linkedin.com/in/swarnendu-stat/'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="2" />
+  <line x1="8" y1="11" x2="8" y2="16" />
+  <line x1="8" y1="8" x2="8" y2="8.01" />
+  <line x1="12" y1="16" x2="12" y2="11" />
+  <path d="M16 16v-3a2 2 0 0 0 -4 0" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/shutter.and.stats?utm_source=qr&amp;igsh=bWYwdGFyMnp3M2I4'
+                        target="_blank"
+                        title="Instagram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.r-bloggers.com/'
+                        target="_blank"
+                        title="R-bloggers"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-r-bloggers" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+  <path d="M12 2.746c-6.627 0-12 3.599-12 8.037 0 3.897 4.144 7.144 9.64 7.88V16.26c-2.924-.915-4.925-2.755-4.925-4.877 0-3.035 4.084-5.494 9.12-5.494 5.038 0 8.757 1.683 8.757 5.494 0 1.976-.999 3.379-2.662 4.272.09.066.174.128.258.216.169.149.25.363.372.544 2.128-1.45 3.44-3.437 3.44-5.631 0-4.44-5.373-8.038-12-8.038zm-2.111 4.99v13.516l4.093-.002-.002-5.291h1.1c.225 0 .321.066.549.25.272.22.715.982.715.982l2.164 4.063 4.627-.002-2.864-4.826s-.086-.193-.265-.383a2.22 2.22 0 0 0-.582-.416c-.422-.214-1.149-.434-1.149-.434s3.578-.264 3.578-3.826c0-3.562-3.744-3.63-3.744-3.63zm4.127 2.93l2.478.002s1.149-.062 1.149 1.127c0 1.165-1.149 1.17-1.149 1.17h-2.478zm1.754 6.119c-.494.049-1.012.079-1.54.088v1.807a16.622 16.622 0 002.37-.473l-.471-.891s-.108-.183-.248-.394c-.039-.054-.08-.098-.111-.137z"/>
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+        </ol><div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="swarnendu-stat" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://in.linkedin.com/in/swarnendu-stat?trk=profile-badge">swarnendu chatterjee</a></div>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/clinical-trials/" >
+                Clinical Trials
+            </a>
+        
+            <a href="/categories/biostatistics/" >
+                Biostatistics
+            </a>
+        
+            <a href="/categories/bayesian-methods/" >
+                Bayesian Methods
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/biostatistician-early-phase-trials-part-3/">A Biostatistician in Early Phase Trials — Part 3</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            When 6&#43;2 isn&#39;t the right tool: an introduction to Bayesian Logistic Regression Models (BLRM) for dose-toxicity modeling and the dose-optimization thinking behind the FDA&#39;s Project Optimus, with a basic R/Stan implementation.
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 11, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    8 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><a class="link" href="/post/biostatistician-early-phase-trials-part-1/" >Part 1</a> was a 9 PM call built on a 6+2 cohort. <a class="link" href="/post/biostatistician-early-phase-trials-part-2/" >Part 2</a> opened up that design: fixed cohort size, active paired with placebo, a stopping rule pre-specified before anyone had real data to argue about.</p>
+<p>6+2 is a good design for a specific question: <em>is this dose acceptably safe, given what we&rsquo;ve seen so far.</em> It is not built to answer a different, harder question that shows up constantly in oncology: <em>which of several doses is both safe enough and effective enough.</em> That second question needs different tools. This post is a survey of two of them — Bayesian Logistic Regression Models (BLRM) and the dose-optimization thinking behind the FDA&rsquo;s Project Optimus — with a basic implementation so the ideas aren&rsquo;t just abstract.</p>
+<p>This isn&rsquo;t my daily-driver design the way 6+2 is, so treat this as an introduction and a set of pointers, not a field guide.</p>
+<h2 id="why-oncology-asks-a-different-question"><a href="#why-oncology-asks-a-different-question" class="header-anchor"></a>Why oncology asks a different question
+</h2><p>A 6+2 design works well partly because, in a lot of non-oncology, non-vaccine settings, safety and efficacy can be reasoned about somewhat separately in early phase — get the safety profile right, and a later trial can search for the effective dose with more room to spare.</p>
+<p>Oncology often doesn&rsquo;t have that luxury. Many oncology drugs, especially targeted and immune therapies, don&rsquo;t follow a simple &ldquo;more drug, more benefit&rdquo; curve the way classic chemotherapy roughly does. Pushing to the maximum tolerated dose (MTD) can mean pushing past the dose that actually maximizes benefit, trading tolerability and long-term adherence for a higher number on a dose-escalation chart. That&rsquo;s the core critique behind the FDA&rsquo;s Project Optimus, an initiative focused on optimizing dosage to maximize therapeutic benefit while minimizing toxicity.</p>
+<p>Two consequences follow:</p>
+<ul>
+<li>Dose-finding needs a model that treats toxicity as a <em>curve</em> across doses, not a pass/fail threshold per cohort — which is what BLRM is built for.</li>
+<li>Dose-finding needs to ask about efficacy and tolerability together, not safety alone — which is what Project Optimus pushes sponsors toward.</li>
+</ul>
+<h2 id="blrm-modeling-the-dose-toxicity-curve-directly"><a href="#blrm-modeling-the-dose-toxicity-curve-directly" class="header-anchor"></a>BLRM: modeling the dose-toxicity curve directly
+</h2><p>A 6+2 cohort review asks, in effect, &ldquo;did this dose&rsquo;s data cross a pre-specified line.&rdquo; A BLRM asks a continuous version of the same question: &ldquo;given everything we&rsquo;ve seen across all doses so far, what&rsquo;s the probability that <em>this</em> dose causes a dose-limiting toxicity (DLT), and how does that change as dose increases.&rdquo;</p>
+<p>The classic form models the probability of DLT at dose <code>\(d\)</code> using a two-parameter logistic curve:</p>
+<p>$$
+\text{logit}\big(p(d)\big) = \log\alpha + \beta \log(d / d^*)
+$$</p>
+<p>where <code>\(d^*\)</code> is a reference dose, and <code>\(\alpha, \beta\)</code> have priors informed by preclinical data and clinical judgment. As each cohort&rsquo;s data comes in, the posterior over the whole curve updates — not just the verdict on one dose, but the model&rsquo;s belief about every dose simultaneously, including ones nobody has tried yet.</p>
+<h3 id="a-basic-blrm-in-r-and-stan"><a href="#a-basic-blrm-in-r-and-stan" class="header-anchor"></a>A basic BLRM in R and Stan
+</h3><p>Dummy data first: a handful of doses, a small number of patients per dose, and a DLT count, simulated under a true (but to the model, unknown) dose-toxicity curve.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(dplyr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">30</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>doses <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>, <span style="color:#ae81ff">400</span>, <span style="color:#ae81ff">800</span>)
+</span></span><span style="display:flex;"><span>ref_dose <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>true_alpha <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">0.3</span>
+</span></span><span style="display:flex;"><span>true_beta <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">1.1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>true_p_dlt <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(d) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">plogis</span>(<span style="color:#a6e22e">log</span>(true_alpha) <span style="color:#f92672">+</span> true_beta <span style="color:#f92672">*</span> <span style="color:#a6e22e">log</span>(d <span style="color:#f92672">/</span> ref_dose))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>n_per_dose <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dlt_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(
+</span></span><span style="display:flex;"><span>  dose <span style="color:#f92672">=</span> doses,
+</span></span><span style="display:flex;"><span>  n <span style="color:#f92672">=</span> n_per_dose,
+</span></span><span style="display:flex;"><span>  true_p <span style="color:#f92672">=</span> <span style="color:#a6e22e">true_p_dlt</span>(doses)
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">rowwise</span>() <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(dlt <span style="color:#f92672">=</span> <span style="color:#a6e22e">rbinom</span>(<span style="color:#ae81ff">1</span>, n, true_p)) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dlt_data
+</span></span></code></pre></div><pre tabindex="0"><code>## # A tibble: 5 × 4
+##    dose     n true_p   dlt
+##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;
+## 1    50     3 0.0613     0
+## 2   100     3 0.123      0
+## 3   200     6 0.231      1
+## 4   400     6 0.391      2
+## 5   800     3 0.580      2
+</code></pre><p>Now the Stan model itself. This mirrors the standard two-parameter BLRM, with weakly informative priors on <code>\(\log\alpha\)</code> and <code>\(\log\beta\)</code>. Writing the slope as <code>\(\beta = \exp(\log\beta)\)</code> keeps it positive, which forces the toxicity curve to rise monotonically with dose.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>blrm_code <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">data {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  int&lt;lower=1&gt; N;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  vector[N] dose;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  array[N] int&lt;lower=0&gt; n;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  array[N] int&lt;lower=0&gt; dlt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  real ref_dose;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">parameters {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  real log_alpha;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  real log_beta;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">model {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  log_alpha ~ normal(log(0.5), 1);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  log_beta  ~ normal(0, 1);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  for (i in 1:N) {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    real logit_p = log_alpha + exp(log_beta) * log(dose[i] / ref_dose);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    dlt[i] ~ binomial_logit(n[i], logit_p);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">generated quantities {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  vector[N] p_dlt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  for (i in 1:N) {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    p_dlt[i] = inv_logit(log_alpha + exp(log_beta) * log(dose[i] / ref_dose));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(rstan)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">rstan_options</span>(auto_write <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>stan_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>  N <span style="color:#f92672">=</span> <span style="color:#a6e22e">nrow</span>(dlt_data),
+</span></span><span style="display:flex;"><span>  dose <span style="color:#f92672">=</span> dlt_data<span style="color:#f92672">$</span>dose,
+</span></span><span style="display:flex;"><span>  n <span style="color:#f92672">=</span> dlt_data<span style="color:#f92672">$</span>n,
+</span></span><span style="display:flex;"><span>  dlt <span style="color:#f92672">=</span> dlt_data<span style="color:#f92672">$</span>dlt,
+</span></span><span style="display:flex;"><span>  ref_dose <span style="color:#f92672">=</span> ref_dose
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>blrm_fit <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">stan</span>(
+</span></span><span style="display:flex;"><span>  model_code <span style="color:#f92672">=</span> blrm_code,
+</span></span><span style="display:flex;"><span>  data <span style="color:#f92672">=</span> stan_data,
+</span></span><span style="display:flex;"><span>  iter <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>,
+</span></span><span style="display:flex;"><span>  warmup <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>,
+</span></span><span style="display:flex;"><span>  chains <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>  cores <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>  seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(blrm_fit, pars <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;log_alpha&#34;</span>, <span style="color:#e6db74">&#34;log_beta&#34;</span>))
+</span></span></code></pre></div><pre tabindex="0"><code>## Inference for Stan model: anon_model.
+## 4 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=4000.
+## 
+##            mean se_mean   sd  2.5%  25%   50%   75% 97.5% n_eff Rhat
+## log_alpha -1.44    0.01 0.54 -2.55 -1.8 -1.42 -1.07 -0.42  1445    1
+## log_beta   0.12    0.02 0.62 -1.40 -0.2  0.22  0.55  1.05  1254    1
+## 
+## Samples were drawn using NUTS(diag_e) at Sat Jun 27 17:53:19 2026.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggplot2)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p_dlt_summary <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">summary</span>(blrm_fit, pars <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;p_dlt&#34;</span>)<span style="color:#f92672">$</span>summary <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">as_tibble</span>() <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(dose <span style="color:#f92672">=</span> doses)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(p_dlt_summary, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> dose, y <span style="color:#f92672">=</span> mean)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_ribbon</span>(<span style="color:#a6e22e">aes</span>(ymin <span style="color:#f92672">=</span> `2.5%`, ymax <span style="color:#f92672">=</span> `97.5%`), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_line</span>(linewidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(data <span style="color:#f92672">=</span> dlt_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> dose, y <span style="color:#f92672">=</span> dlt <span style="color:#f92672">/</span> n), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;firebrick&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_x_log10</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Posterior dose-toxicity curve (BLRM)&#34;</span>,
+</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Shaded band: 95% credible interval. Red points: observed DLT rate by dose.&#34;</span>,
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Dose (log scale)&#34;</span>,
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;P(DLT)&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>()
+</span></span></code></pre></div><img src="https://swarnendu-stat.netlify.app/post/biostatistician-early-phase-trials-part-3/index_files/figure-html/blrm-summary-plot-1.png" alt="Posterior dose-toxicity curve from the BLRM, with a 95% credible band and observed DLT rates by dose" width="672" />
+<p>Running this needs <code>rstan</code> and a one-time model compilation, but the payoff is the whole point: the output is a full posterior curve across all five doses, not five independent yes/no verdicts. That&rsquo;s the structural difference from 6+2 — a 6+2 cohort review never tells you anything about a dose nobody has tried yet, whereas a BLRM, by sharing information across doses through the shared <code>\(\alpha, \beta\)</code> parameters, does. Notice too how the credible band fans out at the top dose, where only a handful of patients have been treated: the model stays honest about how little it knows out there instead of reporting a single confident number.</p>
+<p>This is also the point where, operationally, a BLRM-based trial typically layers an <strong>Escalation with Overdose Control (EWOC)</strong> rule on top — choosing the next dose as the highest one whose posterior probability of excessive toxicity stays under a pre-specified ceiling. I&rsquo;m leaving that out of the code here to keep the post focused, but it&rsquo;s the natural next step if you build on this.</p>
+<h2 id="project-optimus-asking-the-other-half-of-the-question"><a href="#project-optimus-asking-the-other-half-of-the-question" class="header-anchor"></a>Project Optimus: asking the other half of the question
+</h2><p>A BLRM, on its own, still only answers a safety question — a more flexible one than 6+2, but a safety question. Project Optimus represents a shift in the FDA&rsquo;s approach to dose selection in oncology, moving away from the maximum tolerated dose toward an optimal biological dose — the dose that delivers benefit with acceptable toxicity, not just the highest dose patients can tolerate.</p>
+<p>Practically, the resulting guidance generally points sponsors toward carrying two doses — the MTD and a dose below it — into a later randomized comparison to see which one actually performs better once both safety and efficacy are considered together, rather than assuming the higher dose automatically wins.</p>
+<p>That has a few downstream effects worth knowing even outside oncology:</p>
+<ul>
+<li>Dose-finding stops being a single escalating ladder and starts looking like a small randomized comparison between candidate doses.</li>
+<li>Sponsors are expected to support dose decisions with mechanistic and clinical evidence, not toxicity data alone.</li>
+<li>Trial timelines and sample sizes grow, since you&rsquo;re no longer stopping the moment you find a tolerable ceiling.</li>
+</ul>
+<p>None of this replaces 6+2-style designs where the dose-response question is simpler and the safety question really is closer to the only question. It&rsquo;s a reminder that the right early-phase design depends on what kind of curve you actually expect the drug to have — flat-ish efficacy past some dose plus rising toxicity calls for something like BLRM-with-randomized-comparison; a more conventional dose-response relationship can be served well by something as direct as 6+2.</p>
+<h2 id="closing-the-series"><a href="#closing-the-series" class="header-anchor"></a>Closing the series
+</h2><p>Across these three posts: a 9 PM call built on incomplete information, the 6+2 structure that made that call possible to have at all, and now a look at what changes when the question gets harder. The common thread is the one from Part 1 — the statistical work that matters most in early-phase trials isn&rsquo;t the test run after the data arrives, it&rsquo;s the design decided weeks before, built to hold up under exactly the kind of pressure a real cohort eventually brings.</p>
+<p>That&rsquo;s where I&rsquo;ll leave the series for now. If you&rsquo;d want me to go deeper on any of it — EWOC in practice, fitting a BLRM end to end, or how Project Optimus is playing out in real submissions — let me know and I&rsquo;ll pick it back up.</p>
+<p>💬 Found this series useful? I&rsquo;d be glad to hear your take on <a class="link" href="https://www.linkedin.com/in/swarnendu-stat/"  target="_blank" rel="noopener"
+    >LinkedIn</a> and tag <a class="link" href="https://www.linkedin.com/in/swarnendu-stat/"  target="_blank" rel="noopener"
+    >me</a>.</p>
+<p><em>This post uses entirely simulated data and references publicly available regulatory guidance. No real trial, patient, or molecule is represented.</em></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/clinical-trials/">Clinical Trials</a>
+        
+            <a href="/tags/biostatistician/">Biostatistician</a>
+        
+            <a href="/tags/early-phase/">Early Phase</a>
+        
+            <a href="/tags/phase-1/">Phase 1</a>
+        
+            <a href="/tags/blrm/">BLRM</a>
+        
+            <a href="/tags/project-optimus/">Project Optimus</a>
+        
+            <a href="/tags/r/">R</a>
+        
+            <a href="/tags/stan/">Stan</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/post/biostatistician-early-phase-trials-part-2/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">A Biostatistician in Early Phase Trials — Part 2</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/post/biostatistician-early-phase-trials-part-1/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">A Biostatistician in Early Phase Trials — Part 1</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/post/bnns-cran-release/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">bnns 1.0.0 is now on CRAN</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/post/tidy-superlearner/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Tidy SuperLearner</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/post/bnns-binary-classification/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Predicting Diabetes with Bayesian Neural Networks: More Than Just a Probability</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Swarnendu Chatterjee. All rights reserved.
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://www.r-bloggers.com/" target="_blank">R Bloggers</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
